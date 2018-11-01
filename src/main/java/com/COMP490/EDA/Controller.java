@@ -4,12 +4,17 @@ import javafx.application.Platform;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.ArcType;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Controller {
     @FXML
@@ -17,41 +22,27 @@ public class Controller {
     @FXML
     private ScrollPane mainArea;
 
-    private Canvas canvas = new Canvas(500, 500);
+
+    private Canvas canvas;
 
     public void initialize() {
-        addListeners();
-        mainArea.setContent(canvas);
+
     }
 
-    private void drawShape(double x, double y, double w, double h) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.fillOval(x, y, w, h);
-    }
-
-    // Add all listener initializer
-    public void addListeners() {
-        addBottomRightCoordinateListener();
-        addClickListener();
-    }
-
-    private void addClickListener() {
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                drawShape(event.getX(), event.getY(), 30, 30);
-            }
-        });
-    }
-
-    // Set up listener for coordinates at the bottom right
-    public void addBottomRightCoordinateListener() {
-        canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
-            }
-        });
+    @FXML
+    public void newCanvas() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
+            loader.setController(new NewController(canvas));
+            Stage stage = new Stage();
+            Parent page = loader.load();
+            stage.setTitle("New");
+            stage.setScene(new Scene(page, 450, 450));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
