@@ -1,19 +1,21 @@
 package com.COMP490.EDA;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class App extends Application {
     @Override
-    public void start(Stage stage) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(l, 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage primaryStage) throws Exception{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main.fxml"));
+        loader.setController(new Controller());
+        Parent page = loader.load();
+        Scene scene = new Scene(page);
+        primaryStage.setTitle("Awesome title");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
