@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -59,9 +60,12 @@
     <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane />
-        <ScrollPane fx:id="mainArea" prefHeight="-1.0" prefWidth="-1.0">
+        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                <content>
-                  <AnchorPane prefHeight="548.0" prefWidth="669.0" />
+                  <AnchorPane prefHeight="548.0" prefWidth="669.0">
+                     <children>
+                        <StackPane fx:id="mainArea" prefHeight="548.0" prefWidth="669.0" />
+                     </children></AnchorPane>
                </content>
         </ScrollPane>
       </items>

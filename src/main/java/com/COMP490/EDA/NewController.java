@@ -1,25 +1,29 @@
 package com.COMP490.EDA;
 
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class NewController {
-    private Canvas canvas;
+    private StackPane mainArea;
+    private Label mouseCoordinates;
+    private Pane pane;
 
     @FXML
     private TextField width;
     @FXML
     private TextField height;
 
-    public NewController(Canvas canvas) {
-        this.canvas = canvas;
+    public NewController(StackPane mainArea, Label mouseCoordinates) {
+        this.mainArea = mainArea;
+        this.mouseCoordinates = mouseCoordinates;
     }
 
     public void initialize() {
@@ -44,13 +48,13 @@ public class NewController {
     }
 
     // Add canvas listeners
-    public void addCanvasListeners() {
+    public void addMainAreaListeners() {
         addBottomRightCoordinateListener();
         addClickListener();
     }
 
     private void addClickListener() {
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 drawShape(event.getX(), event.getY(), 30, 30);
@@ -60,25 +64,27 @@ public class NewController {
 
     // Set up listener for coordinates at the bottom right
     public void addBottomRightCoordinateListener() {
-        canvas.setOnMouseMoved(new EventHandler<MouseEvent>() {
+        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
             }
         });
     }
 
     private void drawShape(double x, double y, double w, double h) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.fillOval(x, y, w, h);
+        System.out.println(x + "  " + y);
+        pane.getChildren().addAll(new Rectangle(x, y, 10, 10));
     }
 
     @FXML
     public void handleOK() {
         if(!width.getText().equals("") && !height.getText().equals("")) {
-            canvas = new Canvas(Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-            //mainArea.setContent(canvas);
-            //addCanvasListeners();
+            pane = new Pane();
+            pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
+            pane.setStyle("-fx-background-color: white");
+            mainArea.getChildren().add(pane);
+            addMainAreaListeners();
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }
