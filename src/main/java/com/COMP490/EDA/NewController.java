@@ -48,7 +48,7 @@ public class NewController {
     }
 
     // Add canvas listeners
-    public void addMainAreaListeners() {
+    private void addMainAreaListeners() {
         addBottomRightCoordinateListener();
         addClickListener();
     }
@@ -63,7 +63,7 @@ public class NewController {
     }
 
     // Set up listener for coordinates at the bottom right
-    public void addBottomRightCoordinateListener() {
+    private void addBottomRightCoordinateListener() {
         pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -91,7 +91,7 @@ public class NewController {
     }
 
     @FXML
-    public  void handleCancel() {
+    public void handleCancel() {
         Stage stage = (Stage) width.getScene().getWindow();
         stage.close();
     }

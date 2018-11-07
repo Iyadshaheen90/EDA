@@ -1,44 +1,37 @@
 package com.COMP490.EDA;
 
-import javafx.application.Platform;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class Controller {
     @FXML
+    private VBox root;
+    @FXML
     private Label mouseCoordinates;
     @FXML
     private StackPane mainArea;
 
-    public void initialize() {}
-
-    @FXML
-    public void newCanvas() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
-        loader.setController(new NewController(mainArea, mouseCoordinates));
-        Stage stage = new Stage();
+    public void initialize() {
+        // Create menu bar
+        FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/MenuBar.fxml"));
+        menuBarLoader.setController(new MenuController(mainArea, mouseCoordinates));
+        // Create toolbar
+        FXMLLoader toolBarLoader = new FXMLLoader(getClass().getResource("/ToolBar.fxml"));
+        toolBarLoader.setController(new ToolBarController(mainArea));
         try {
-            Parent page = loader.load();
-            stage.setTitle("New");
-            stage.setScene(new Scene(page, 450, 450));
-            stage.show();
+            MenuBar menuBar = menuBarLoader.load();
+            ToolBar toolBar = toolBarLoader.load();
+            root.getChildren().addAll(menuBar, toolBar);
         }
-        catch (IOException e) {
+        catch(IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    public void exit() {
-        Platform.exit();
     }
 }
