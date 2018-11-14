@@ -5,9 +5,9 @@
 
 <ToolBar prefHeight="40.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <Button fx:id="selectButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="Select" />
-      <Button fx:id="lineButton" mnemonicParsing="false" text="Line" />
-      <Button fx:id="rectangleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="Recatngle" />
-      <Button fx:id="circleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="Circle" />
+      <Button fx:id="selectButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="selectButton" />
+      <Button fx:id="lineButton" mnemonicParsing="false" styleClass="lineButton" />
+      <Button fx:id="rectangleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="rectangleButton" />
+      <Button fx:id="circleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="circleButton" />
    </items>
 </ToolBar>

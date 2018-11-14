@@ -1,0 +1,15 @@
+.selectButton {
+    -fx-graphic: url("/img/Mouse-pointer.png");
+}
+
+.lineButton {
+    -fx-graphic: url("/img/Slash.png");
+}
+
+.rectangleButton {
+    -fx-graphic: url("/img/Square.png");
+}
+
+.circleButton {
+    -fx-graphic: url("/img/Circle.png");
+}

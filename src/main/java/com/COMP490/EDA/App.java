@@ -13,6 +13,7 @@ public class App extends Application {
         loader.setController(new Controller());
         Parent page = loader.load();
         Scene scene = new Scene(page);
+        scene.getStylesheets().addAll(getClass().getResource("/Toolbar.css").toExternalForm());
         primaryStage.setTitle("Awesome title");
         primaryStage.setScene(scene);
         primaryStage.show();
