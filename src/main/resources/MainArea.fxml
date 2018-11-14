@@ -1,34 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 
-<SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
       <AnchorPane>
          <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false">
-               <font>
-                  <Font size="18.0" fx:id="x1" />
-               </font>
-               <textFill>
-                  <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
-               </textFill>
-            </Label>
+            <VBox maxHeight="1.7976931348623157E308" />
          </children>
       </AnchorPane>
-      <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
-         <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
-               <children>
-                  <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="View" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-               </children>
-            </AnchorPane>
-         </content>
-      </ScrollPane>
+      <TabPane fx:id="tabArea" tabClosingPolicy="UNAVAILABLE" />
    </items>
 </SplitPane>

@@ -36,9 +36,27 @@ public class MenuController {
         }
     }
 
-
+    // Exits the program
+    // Bound to File>Exit
     @FXML
     public void exit() {
         Platform.exit();
+    }
+
+    // Opens about window
+    // Bound to Help>About
+    @FXML
+    public void about() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/About.fxml"));
+        Stage stage = new Stage();
+        try {
+            Parent page = loader.load();
+            stage.setTitle("About");
+            stage.setScene(new Scene(page));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
