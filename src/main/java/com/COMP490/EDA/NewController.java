@@ -3,26 +3,26 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class NewController {
-    private StackPane mainArea;
-    private Label mouseCoordinates;
-    private Pane pane;
-
     @FXML
     private TextField width;
     @FXML
     private TextField height;
 
-    public NewController(StackPane mainArea, Label mouseCoordinates) {
-        this.mainArea = mainArea;
+    private TabPane tabArea;
+    private Label mouseCoordinates;
+
+    public NewController(TabPane tabArea, Label mouseCoordinates) {
+        this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
     }
 
@@ -48,12 +48,15 @@ public class NewController {
     }
 
     // Add canvas listeners
-    private void addMainAreaListeners() {
-        addBottomRightCoordinateListener();
-        addClickListener();
-    }
-
-    private void addClickListener() {
+    private void addPaneListeners(Pane pane) {
+        // Coordinate listener
+        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                //mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+            }
+        });
+        // Draw listener
         pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -62,29 +65,20 @@ public class NewController {
         });
     }
 
-    // Set up listener for coordinates at the bottom right
-    private void addBottomRightCoordinateListener() {
-        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
-            }
-        });
-    }
-
     private void drawShape(double x, double y, double w, double h) {
         System.out.println(x + "  " + y);
-        pane.getChildren().addAll(new Rectangle(x, y, 10, 10));
+        //pane.getChildren().addAll(new Rectangle(x, y, 10, 10));
     }
 
     @FXML
     public void handleOK() {
         if(!width.getText().equals("") && !height.getText().equals("")) {
-            pane = new Pane();
+            Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
-            mainArea.getChildren().add(pane);
-            addMainAreaListeners();
+            Tab tab = new Tab("Tab 1", pane);
+            tabArea.getTabs().add(tab);
+            addPaneListeners(pane);
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }
