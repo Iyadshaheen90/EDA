@@ -12,6 +12,6 @@
             <VBox maxHeight="1.7976931348623157E308" />
          </children>
       </AnchorPane>
-      <TabPane fx:id="tabArea" tabClosingPolicy="UNAVAILABLE" />
+      <TabPane fx:id="tabArea" />
    </items>
 </SplitPane>
