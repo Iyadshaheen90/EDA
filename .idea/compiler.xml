@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="EDA" target="1.7" />
+      <module name="EDA" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

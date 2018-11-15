@@ -32,7 +32,7 @@ public class NewController {
             @Override
             public void handle(KeyEvent event) {
                 if(!width.getText().matches("\\d*")) {
-                    width.setText(width.getText().replaceAll("[^\\d]", ""));
+                    //width.setText(width.getText().replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -53,7 +53,7 @@ public class NewController {
         pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
             }
         });
         // Draw listener
@@ -76,7 +76,7 @@ public class NewController {
             Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
-            Tab tab = new Tab("Tab 1", pane);
+            Tab tab = new Tab("New Tab" , pane);
             tabArea.getTabs().add(tab);
             addPaneListeners(pane);
             Stage stage = (Stage) width.getScene().getWindow();
