@@ -3,7 +3,6 @@ package com.COMP490.EDA;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ public class Controller {
     private MenuController menuController;
     private ToolBarController toolBarController;
     private  MainAreaController mainAreaController;
-    private  BottomBarController bottomBarController;
 
     /*
     Initializes the main components of the program.  MainArea needs to be filly loaded first in order
@@ -29,13 +27,7 @@ public class Controller {
             FXMLLoader mainAreaLoader = new FXMLLoader(getClass().getResource("/MainArea.fxml"));
             mainAreaController = new MainAreaController();
             mainAreaLoader.setController(mainAreaController);
-            SplitPane mainArea = mainAreaLoader.load();
-
-            // Create menu bar
-            FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/MenuBar.fxml"));
-            menuController = new MenuController(mainAreaController.getTabArea(), null);
-            menuBarLoader.setController(menuController);
-            MenuBar menuBar = menuBarLoader.load();
+            VBox mainArea = mainAreaLoader.load();
 
             // Create toolbar
             FXMLLoader toolBarLoader = new FXMLLoader(getClass().getResource("/ToolBar.fxml"));
@@ -43,12 +35,13 @@ public class Controller {
             toolBarLoader.setController(toolBarController);
             ToolBar toolBar = toolBarLoader.load();
 
-            //Create bottom bar
-            FXMLLoader bottomBarLoader = new FXMLLoader(getClass().getResource("/BottomBar.fxml"));
-            bottomBarController = new BottomBarController();
-            bottomBarLoader.setController(bottomBarController);
-            HBox bottomBar = bottomBarLoader.load();
-            root.getChildren().addAll(menuBar, toolBar, mainArea, bottomBar);
+            // Create menu bar
+            FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/MenuBar.fxml"));
+            menuController = new MenuController(mainAreaController.getTabArea(), mainAreaController.getRightStatus());
+            menuBarLoader.setController(menuController);
+            MenuBar menuBar = menuBarLoader.load();
+
+            root.getChildren().addAll(menuBar, toolBar, mainArea);
         }
         catch(IOException e) {
             e.printStackTrace();

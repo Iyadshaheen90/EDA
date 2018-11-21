@@ -1,10 +1,6 @@
 package com.COMP490.EDA;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -14,8 +10,6 @@ import java.util.ArrayList;
 
 public class File {
     private Pane pane;
-    private int width;
-    private int height;
     private double lineStartX;
     private double lineStartY;
     private double lineEndX;
@@ -26,8 +20,6 @@ public class File {
 
     public File(Pane pane, int width, int height){
         this.pane = pane;
-        this.width = width;
-        this.height = height;
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
             Line l = new Line();
