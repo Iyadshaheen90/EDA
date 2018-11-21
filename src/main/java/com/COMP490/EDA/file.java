@@ -64,6 +64,7 @@ public class file {
         l.setStartY(lineStartY);
         l.setEndX(lineEndX);
         l.setEndY(lineEndY);
+        l.setStrokeWidth(5);
         pane.getChildren().add(l);
     }
 
