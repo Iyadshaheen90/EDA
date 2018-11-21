@@ -14,7 +14,7 @@ public class Controller {
     // Instances of all component controllers
     private MenuController menuController;
     private ToolBarController toolBarController;
-    private  MainAreaController mainAreaController;
+    private MainAreaController mainAreaController;
 
     /*
     Initializes the main components of the program.  MainArea needs to be filly loaded first in order

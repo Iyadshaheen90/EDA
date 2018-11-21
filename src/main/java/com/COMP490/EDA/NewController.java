@@ -21,11 +21,9 @@ public class NewController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private ArrayList<File> files;
     public NewController(TabPane tabArea, Label mouseCoordinates) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
-        files = new ArrayList<>(10);
     }
 
     public void initialize() {
@@ -58,18 +56,6 @@ public class NewController {
                 mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
             }
         });
-        // Draw listener
-        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                drawShape(event.getX(), event.getY(), 30, 30);
-            }
-        });
-    }
-
-    private void drawShape(double x, double y, double w, double h) {
-        System.out.println(x + "  " + y);
-        //pane.getChildren().addAll(new Rectangle(x, y, 10, 10));
     }
 
     @FXML
@@ -80,7 +66,7 @@ public class NewController {
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
             File f=new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
-            files.add(f);
+            Global.addToArrayList(f);
             tabArea.getTabs().add(tab);
             addPaneListeners(pane);
             Stage stage = (Stage) width.getScene().getWindow();
