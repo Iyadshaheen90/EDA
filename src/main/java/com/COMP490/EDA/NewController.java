@@ -9,14 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 
@@ -28,7 +21,7 @@ public class NewController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private ArrayList<file> files;
+    private ArrayList<File> files;
     public NewController(TabPane tabArea, Label mouseCoordinates) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
@@ -86,7 +79,7 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            file f=new file(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+            File f=new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
             files.add(f);
             tabArea.getTabs().add(tab);
             addPaneListeners(pane);
