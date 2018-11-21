@@ -17,6 +17,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+
+import java.util.ArrayList;
+
 public class NewController {
     @FXML
     private TextField width;
@@ -25,11 +28,11 @@ public class NewController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private file [] files = new file[10];
-
+    private ArrayList<file> files;
     public NewController(TabPane tabArea, Label mouseCoordinates) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
+        files = new ArrayList<>(10);
     }
 
     public void initialize() {
@@ -83,8 +86,8 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            file f=new file(pane);
-            files[0]=f;
+            file f=new file(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+            files.add(f);
             tabArea.getTabs().add(tab);
             addPaneListeners(pane);
             Stage stage = (Stage) width.getScene().getWindow();
