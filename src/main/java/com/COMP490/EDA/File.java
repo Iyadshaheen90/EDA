@@ -7,11 +7,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 
-public class file {
+public class File {
     private Pane pane;
     private int width;
     private int height;
@@ -23,7 +24,7 @@ public class file {
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
 
-    public file(Pane pane, int width, int height){
+    public File(Pane pane, int width, int height){
         this.pane = pane;
         this.width = width;
         this.height = height;
@@ -34,7 +35,7 @@ public class file {
             l.setEndX(width);
             l.setStartY(i);
             l.setEndY(i);
-            l.setStrokeWidth(0.5);
+            l.setStrokeWidth(0.2);
             pane.getChildren().add(l);
 
         }
@@ -45,7 +46,7 @@ public class file {
             l.setEndX(i);
             l.setStartY(0);
             l.setEndY(height);
-            l.setStrokeWidth(0.5);
+            l.setStrokeWidth(0.2);
             pane.getChildren().add(l);
 
         }
@@ -64,7 +65,32 @@ public class file {
         l.setStartY(lineStartY);
         l.setEndX(lineEndX);
         l.setEndY(lineEndY);
+        l.setStrokeWidth(2);
         pane.getChildren().add(l);
     }
+    public void addRectangle(double x, double y){
+        Rectangle rect = new Rectangle();
+        //Change these when fully implemented
+        rect.setHeight(25);
+        rect.setWidth(25);
+        /////////////////////////////////////
+        rect.setX(x);
+        rect.setY(y);
+        rect.setStrokeWidth(2);
+        shapes.add(rect);
+        pane.getChildren().add(rect);
+    }
+    public void addCircle(double x, double y){
+        Circle c = new Circle();
+        c.setCenterX(x);
+        c.setCenterY(y);
+        //Change this when fully implemented
+        c.setRadius(2);
+        ////////////////////////////////////
+        c.setStrokeWidth(5);
+        shapes.add(c);
+        pane.getChildren().add(c);
+    }
+
 
 }
