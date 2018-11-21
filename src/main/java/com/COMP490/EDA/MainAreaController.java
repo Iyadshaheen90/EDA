@@ -10,4 +10,6 @@ public class MainAreaController {
     public TabPane getTabArea() {
         return tabArea;
     }
+
+
 }

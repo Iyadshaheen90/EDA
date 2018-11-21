@@ -1,5 +1,5 @@
 .selectButton {
-    -fx-graphic: url("/img/Mouse-pointer.png");
+    -fx-graphic: url("/img/mouse-pointer.png");
 }
 
 .lineButton {
