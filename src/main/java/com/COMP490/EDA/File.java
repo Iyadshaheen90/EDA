@@ -86,6 +86,8 @@ public class File {
         rect.setStrokeWidth(2);
         shapes.add(rect);
         pane.getChildren().add(rect);
+        TreeItem item = new TreeItem("rectangle");
+        tree.getRoot().getChildren().addAll(item);
     }
     public void addCircle(double x, double y){
         Circle c = new Circle();
@@ -97,6 +99,8 @@ public class File {
         c.setStrokeWidth(5);
         shapes.add(c);
         pane.getChildren().add(c);
+        TreeItem item = new TreeItem("circle");
+        tree.getRoot().getChildren().addAll(item);
     }
 
 
