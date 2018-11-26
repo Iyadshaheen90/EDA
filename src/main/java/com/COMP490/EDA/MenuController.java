@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,16 +16,19 @@ import java.io.IOException;
 public class MenuController {
     private TabPane tabArea;
     private Label mouseCoordinates;
+    private VBox sidepanel;
+    private TreeView tree;
 
-    public MenuController(TabPane tabArea, Label mouseCoordinates) {
+    public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
+        this.tree=tree;
     }
 
     @FXML
     public void newCanvas() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
-        loader.setController(new NewController(tabArea, mouseCoordinates));
+        loader.setController(new NewController(tabArea, mouseCoordinates,tree));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();

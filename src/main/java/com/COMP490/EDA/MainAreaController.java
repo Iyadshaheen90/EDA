@@ -2,11 +2,18 @@ package com.COMP490.EDA;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 
 public class MainAreaController {
     @FXML
     private TabPane tabArea;
+    @FXML
+    private VBox sidepanel;
+    @FXML
+    private TreeView treeview;
     @FXML
     private Label leftStatus;
     @FXML
@@ -15,6 +22,10 @@ public class MainAreaController {
     public TabPane getTabArea() {
         return tabArea;
     }
+
+    public VBox getSidepanel(){return sidepanel;}
+
+    public TreeView gettree(){return treeview;}
 
     public Label getLeftStatus() {
         return leftStatus;

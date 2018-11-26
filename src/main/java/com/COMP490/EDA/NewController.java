@@ -2,13 +2,11 @@ package com.COMP490.EDA;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -21,9 +19,13 @@ public class NewController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    public NewController(TabPane tabArea, Label mouseCoordinates) {
+    private VBox sidepanel;
+    private TreeView tree;
+    public NewController(TabPane tabArea, Label mouseCoordinates, TreeView tree) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
+        this.sidepanel=sidepanel;
+        this.tree = tree;
     }
 
     public void initialize() {
@@ -65,7 +67,7 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            File f=new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
+            File f=new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),tree);
             Global.addToArrayList(f);
             tabArea.getTabs().add(tab);
             addPaneListeners(pane);
