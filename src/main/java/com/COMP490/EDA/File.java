@@ -10,6 +10,9 @@ import javafx.scene.shape.*;
 import java.util.ArrayList;
 
 public class File {
+    private int width;
+    private int height;
+
     private Pane pane;
     private double lineStartX;
     private double lineStartY;
@@ -23,6 +26,24 @@ public class File {
     public File(Pane pane, int width, int height, TreeView tree){
         this.pane = pane;
         this.sidepanel=sidepanel;
+        this.width = width;
+        this.height = height;
+        drawBackground();
+        //Develop TreeView of objects
+        //TreeView treeView = new TreeView();
+        TreeItem rootItem = new TreeItem("Root");
+        TreeItem test = new TreeItem("test");
+        rootItem.getChildren().addAll(
+                test
+        );
+
+        //treeView.setRoot(rootItem);
+        tree.setRoot(rootItem);
+    }
+
+    //draw function for the background
+    private void drawBackground()
+    {
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
             Line l = new Line();
@@ -45,19 +66,9 @@ public class File {
             pane.getChildren().add(l);
 
         }
-        //Develop TreeView of objects
-        //TreeView treeView = new TreeView();
-        TreeItem rootItem = new TreeItem("Root");
-        TreeItem test = new TreeItem("test");
-        rootItem.getChildren().addAll(
-                test
-        );
-
-        //treeView.setRoot(rootItem);
-        tree.setRoot(rootItem);
-
-
     }
+    
+
     //Drawing a line (wire) will have one click at start location and one click at ending location. Call addLineStart on
     //first click, call addLineEnd on last click to designate line.
     public void addLineStart(double x, double y){

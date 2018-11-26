@@ -34,7 +34,7 @@ public class NewController {
             @Override
             public void handle(KeyEvent event) {
                 if(!width.getText().matches("\\d*")) {
-                    //width.setText(width.getText().replaceAll("[^\\d]", ""));
+                    width.setText(width.getText().replaceAll("[^\\d]", ""));
                 }
             }
         });
