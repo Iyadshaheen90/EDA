@@ -37,7 +37,7 @@ public class Controller {
 
             // Create menu bar
             FXMLLoader menuBarLoader = new FXMLLoader(getClass().getResource("/MenuBar.fxml"));
-            menuController = new MenuController(mainAreaController.getTabArea(), mainAreaController.getRightStatus());
+            menuController = new MenuController(mainAreaController.getTabArea(), mainAreaController.getRightStatus(), mainAreaController.gettree());
             menuBarLoader.setController(menuController);
             MenuBar menuBar = menuBarLoader.load();
 

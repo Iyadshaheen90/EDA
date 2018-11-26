@@ -1,3 +1,4 @@
+/**Global methods and variables that all pieces of the program would need access to**/
 package com.COMP490.EDA;
 
 import java.util.ArrayList;
