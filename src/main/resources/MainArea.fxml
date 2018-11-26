@@ -18,8 +18,7 @@
          <items>
             <AnchorPane prefHeight="1078.0" prefWidth="274.0">
                <children>
-                  <VBox fx:id="tree" maxHeight="1.7976931348623157E308" />
-                  <TreeView fx:id="treeview" prefHeight="1078.0" prefWidth="286.0" />
+                  <TreeView fx:id="treeview" prefHeight="1078.0" prefWidth="545.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <TabPane fx:id="tabArea" prefHeight="1078.0" prefWidth="1558.0" />
