@@ -1,10 +1,7 @@
 package com.COMP490.EDA;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.*;
 
 import java.util.ArrayList;
@@ -17,12 +14,10 @@ public class File {
     private double lineEndY;
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
-    private VBox sidepanel;
     private TreeView tree;
 
     public File(Pane pane, int width, int height, TreeView tree){
         this.pane = pane;
-        this.sidepanel=sidepanel;
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
             Line l = new Line();
@@ -58,12 +53,23 @@ public class File {
 
 
     }
+
+    public void addShape(Shape shape) {
+        shapes.add(shape);
+    }
+
+    // Might change depending on how we want to use
+    public Shape getShape(Shape shape) {
+        return shapes.get(shapes.indexOf(shape));
+    }
+
+    public void removeShape(Shape shape) {
+        shapes.remove(shape);
+    }
+
     //Drawing a line (wire) will have one click at start location and one click at ending location. Call addLineStart on
     //first click, call addLineEnd on last click to designate line.
-    public void addLineStart(double x, double y){
-        lineStartX=x;
-        lineStartY=y;
-    }
+
     public void addLineEnd(double x, double y){
         lineEndX=x;
         lineEndY=y;

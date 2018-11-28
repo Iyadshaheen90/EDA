@@ -19,13 +19,14 @@ public class NewController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private VBox sidepanel;
     private TreeView tree;
-    public NewController(TabPane tabArea, Label mouseCoordinates, TreeView tree) {
+    private String tool;
+
+    public NewController(TabPane tabArea, Label mouseCoordinates, TreeView tree, String tool) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
-        this.sidepanel=sidepanel;
         this.tree = tree;
+        this.tool = tool;
     }
 
     public void initialize() {
@@ -50,7 +51,7 @@ public class NewController {
     }
 
     // Add canvas listeners
-    private void addPaneListeners(Pane pane) {
+    private void addPaneListeners(File file, Pane pane) {
         // Coordinate listener
         pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
@@ -58,6 +59,8 @@ public class NewController {
                 mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
             }
         });
+        Drawable draw = new Drawable(file, pane, tool);
+        draw.addListeners();
     }
 
     @FXML
@@ -67,10 +70,10 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            File f=new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),tree);
+            File f = new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),tree);
             Global.addToArrayList(f);
             tabArea.getTabs().add(tab);
-            addPaneListeners(pane);
+            addPaneListeners(f, pane);
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }

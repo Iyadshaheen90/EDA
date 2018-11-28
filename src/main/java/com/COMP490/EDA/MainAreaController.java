@@ -11,8 +11,6 @@ public class MainAreaController {
     @FXML
     private TabPane tabArea;
     @FXML
-    private VBox sidepanel;
-    @FXML
     private TreeView treeview;
     @FXML
     private Label leftStatus;
@@ -23,9 +21,7 @@ public class MainAreaController {
         return tabArea;
     }
 
-    public VBox getSidepanel(){return sidepanel;}
-
-    public TreeView gettree(){return treeview;}
+    public TreeView getTree(){return treeview;}
 
     public Label getLeftStatus() {
         return leftStatus;
