@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import javafx.scene.control.Button?>
-        <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
 
 <ToolBar prefHeight="40.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
 <items>
-   <Button fx:id="selectButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="selectButton" />
-   <Button fx:id="lineButton" mnemonicParsing="false" styleClass="lineButton" />
-   <Button fx:id="rectangleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="rectangleButton" />
-   <Button fx:id="circleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" styleClass="circleButton" />
+   <Button fx:id="selectButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setSelect" styleClass="selectButton" />
+   <Button fx:id="lineButton" mnemonicParsing="false" onAction="#setLine" styleClass="lineButton" />
+   <Button fx:id="rectangleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setRectangle" styleClass="rectangleButton" />
+   <Button fx:id="circleButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setCircle" styleClass="circleButton" />
 </items>
 </ToolBar>
