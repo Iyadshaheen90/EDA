@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -18,7 +20,16 @@
          <items>
             <AnchorPane prefHeight="1078.0" prefWidth="274.0">
                <children>
-                  <TreeView fx:id="treeview" prefHeight="1078.0" prefWidth="545.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Accordion>
+                    <panes>
+                      <TitledPane animated="false" text="Properties" />
+                      <TitledPane animated="false" text="Objects">
+                           <content>
+                              <TreeView fx:id="treeview" prefHeight="1078.0" prefWidth="545.0" />
+                           </content>
+                        </TitledPane>
+                    </panes>
+                  </Accordion>
                </children>
             </AnchorPane>
             <TabPane fx:id="tabArea" prefHeight="1078.0" prefWidth="1558.0" />

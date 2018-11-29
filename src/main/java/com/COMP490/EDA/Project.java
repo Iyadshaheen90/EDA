@@ -55,11 +55,16 @@ public class Project {
             // Adjust the zoom factor as per your requirement
             double zoomFactor = 1.05;
             double deltaY = event.getDeltaY();
+            System.out.println(deltaY);
             if (deltaY < 0){
-                zoomFactor = 2.0 - zoomFactor;
+                zoomFactor = 2-zoomFactor;
+                node.setScaleX(node.getScaleX() * zoomFactor);
+                node.setScaleY(node.getScaleY() * zoomFactor);
             }
-            node.setScaleX(node.getScaleX() * zoomFactor);
-            node.setScaleY(node.getScaleY() * zoomFactor);
+            if (deltaY > 0){
+                node.setScaleX(node.getScaleX() * zoomFactor);
+                node.setScaleY(node.getScaleY() * zoomFactor);
+            }
         });
     }
 
