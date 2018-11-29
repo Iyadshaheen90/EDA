@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public final class Global {
 
     private static String usernameText;
-    private static ArrayList<File> files= new ArrayList<File>(20);
+    private static ArrayList<Project> files= new ArrayList<Project>(20);
 
     private Global(){}  // Private constructor to prevent instantiation
-    public static void addToArrayList(File f){
+    public static void addToArrayList(Project f){
         files.add(f);
     }
 

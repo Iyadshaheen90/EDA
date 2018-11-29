@@ -6,15 +6,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
 public class Drawable {
-    private File file;
+    private Project project;
     private Pane drawArea;
     private String tool;
     private double startX;
     private double startY;
     private boolean clicked;
 
-    public Drawable(File file, Pane drawArea, String tool) {
-        this.file = file;
+    public Drawable(Project project, Pane drawArea, String tool) {
+        this.project = project;
         this.drawArea = drawArea;
         this.tool = tool;
         this.clicked = false;

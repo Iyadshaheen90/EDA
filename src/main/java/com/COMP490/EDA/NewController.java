@@ -51,7 +51,7 @@ public class NewController {
     }
 
     // Add canvas listeners
-    private void addPaneListeners(File file, Pane pane) {
+    private void addPaneListeners(Project file, Pane pane) {
         // Coordinate listener
         pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
@@ -70,7 +70,7 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            File f = new File(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),tree);
+            Project f = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),tree);
             Global.addToArrayList(f);
             tabArea.getTabs().add(tab);
             addPaneListeners(f, pane);

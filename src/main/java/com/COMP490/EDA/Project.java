@@ -13,7 +13,7 @@ import javafx.scene.shape.*;
 
 import java.util.ArrayList;
 
-public class File {
+public class Project {
     private int width;
     private int height;
     private double initialX;
@@ -27,9 +27,8 @@ public class File {
     private ArrayList<Shape> shapes;
     private TreeView tree;
 
-    public File(Pane pane, int width, int height, TreeView tree){
+    public Project(Pane pane, int width, int height, TreeView tree){
         this.pane = pane;
-        this.sidepanel=sidepanel;
         this.width = width;
         this.height = height;
 
