@@ -1,12 +1,23 @@
 package com.COMP490.EDA;
 
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.*;
 
 import java.util.ArrayList;
 
 public class File {
+    private int width;
+    private int height;
+    private double initialX;
+    private double initialY;
     private Pane pane;
     private double lineStartX;
     private double lineStartY;
@@ -18,6 +29,76 @@ public class File {
 
     public File(Pane pane, int width, int height, TreeView tree){
         this.pane = pane;
+        this.sidepanel=sidepanel;
+        this.width = width;
+        this.height = height;
+
+        drawBackground();
+        addMouseScrolling(pane);
+        addDragListeners(pane);
+
+        //Develop TreeView of objects
+        //TreeView treeView = new TreeView();
+        TreeItem rootItem = new TreeItem("Root");
+        TreeItem test = new TreeItem("test");
+        rootItem.getChildren().addAll(
+                test
+        );
+
+        //treeView.setRoot(rootItem);
+        tree.setRoot(rootItem);
+    }
+
+    //function for scrolling and scaling of the pane
+    public void addMouseScrolling(Node node)
+    {
+        node.setOnScroll((ScrollEvent event) -> {
+            // Adjust the zoom factor as per your requirement
+            double zoomFactor = 1.05;
+            double deltaY = event.getDeltaY();
+            if (deltaY < 0){
+                zoomFactor = 2.0 - zoomFactor;
+            }
+            node.setScaleX(node.getScaleX() * zoomFactor);
+            node.setScaleY(node.getScaleY() * zoomFactor);
+        });
+    }
+
+    //function to allow dragging in the editable area
+    private void addDragListeners(final Node n){
+        n.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if(me.getButton()!=MouseButton.MIDDLE)
+                {
+                    initialX = me.getSceneX();
+                    initialY = me.getSceneY();
+                }
+                else
+                {
+                    n.getScene().getWindow().centerOnScreen();
+                    initialX = n.getScene().getWindow().getX();
+                    initialY = n.getScene().getWindow().getY();
+                }
+
+            }
+        });
+
+        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if(me.getButton()!=MouseButton.MIDDLE)
+                {
+                    n.setTranslateX(me.getScreenX() - initialX);
+                    n.setTranslateY(me.getScreenY() - initialY);
+                }
+            }
+        });
+    }
+
+    //draw function for the background
+    private void drawBackground()
+    {
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
             Line l = new Line();
@@ -40,18 +121,6 @@ public class File {
             pane.getChildren().add(l);
 
         }
-        //Develop TreeView of objects
-        //TreeView treeView = new TreeView();
-        TreeItem rootItem = new TreeItem("Root");
-        TreeItem test = new TreeItem("test");
-        rootItem.getChildren().addAll(
-                test
-        );
-
-        //treeView.setRoot(rootItem);
-        tree.setRoot(rootItem);
-
-
     }
 
     public void addShape(Shape shape) {
