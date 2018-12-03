@@ -9,31 +9,31 @@ public class ToolBarController {
         this.shape = "select";
     }
 
-    public String getShape() {
+    public String getTool() {
         return shape;
     }
 
     @FXML
     public void setSelect() {
         shape = "select";
-        System.out.println(getShape());
+        System.out.println(getTool());
     }
 
     @FXML
     public void setLine() {
         shape = "line";
-        System.out.println(getShape());
+        System.out.println(getTool());
     }
 
     @FXML
     public void setRectangle() {
         shape = "rectangle";
-        System.out.println(getShape());
+        System.out.println(getTool());
     }
 
     @FXML
     public void setCircle() {
         shape = "circle";
-        System.out.println(getShape());
+        System.out.println(getTool());
     }
 }

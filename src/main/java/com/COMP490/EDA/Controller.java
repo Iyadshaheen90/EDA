@@ -41,7 +41,7 @@ public class Controller {
                     mainAreaController.getTabArea(),
                     mainAreaController.getRightStatus(),
                     mainAreaController.getTree(),
-                    toolBarController.getShape());
+                    toolBarController);
             menuBarLoader.setController(menuController);
             MenuBar menuBar = menuBarLoader.load();
 

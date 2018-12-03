@@ -1,15 +1,15 @@
 package com.COMP490.EDA;
 
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 
@@ -18,23 +18,30 @@ public class Project {
     private int height;
     private double initialX;
     private double initialY;
-    private Pane pane;
-    private double lineStartX;
-    private double lineStartY;
-    private double lineEndX;
-    private double lineEndY;
+    private Pane drawArea;
+    private ToolBarController toolBar;
+    boolean clicked = false;
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
+    private Drawable draw;
     private TreeView tree;
 
-    public Project(Pane pane, int width, int height, TreeView tree){
-        this.pane = pane;
+    public Project(Pane drawArea, int width, int height, TreeView tree, ToolBarController toolBar) {
+        this.drawArea = drawArea;
         this.width = width;
         this.height = height;
+        this.tree = tree;
+        this.toolBar = toolBar;
+        shapes = new ArrayList<>();
+        draw = new Drawable(drawArea, toolBar.getTool(), tree);
+        initialize();
+    }
 
+    public void initialize() {
         drawBackground();
-        addMouseScrolling(pane);
-        addDragListeners(pane);
+        addMouseScrolling(drawArea);
+        addDragListeners(drawArea);
+        addDrawListeners();
 
         //Develop TreeView of objects
         //TreeView treeView = new TreeView();
@@ -48,9 +55,34 @@ public class Project {
         tree.setRoot(rootItem);
     }
 
-    //function for scrolling and scaling of the pane
-    public void addMouseScrolling(Node node)
-    {
+    // draw function for the background
+    private void drawBackground() {
+        //Draw background rows
+        for(int i=0; i<= height ; i=i+20){
+            Line l = new Line();
+            l.setStartX(0);
+            l.setEndX(width);
+            l.setStartY(i);
+            l.setEndY(i);
+            l.setStrokeWidth(0.2);
+            drawArea.getChildren().add(l);
+
+        }
+        //draw background columns
+        for(int i=0; i<= width ; i=i+20){
+            Line l = new Line();
+            l.setStartX(i);
+            l.setEndX(i);
+            l.setStartY(0);
+            l.setEndY(height);
+            l.setStrokeWidth(0.2);
+            drawArea.getChildren().add(l);
+
+        }
+    }
+
+    // function for scrolling and scaling of the pane
+    public void addMouseScrolling(Node node) {
         node.setOnScroll((ScrollEvent event) -> {
             // Adjust the zoom factor as per your requirement
             double zoomFactor = 1.05;
@@ -63,8 +95,8 @@ public class Project {
         });
     }
 
-    //function to allow dragging in the editable area
-    private void addDragListeners(final Node n){
+    // function to allow dragging in the editable area
+    private void addDragListeners(final Node n) {
         n.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -95,33 +127,35 @@ public class Project {
         });
     }
 
-    //draw function for the background
-    private void drawBackground()
-    {
-        //Draw background rows
-        for(int i=0; i<= height ; i=i+20){
-            Line l = new Line();
-            l.setStartX(0);
-            l.setEndX(width);
-            l.setStartY(i);
-            l.setEndY(i);
-            l.setStrokeWidth(0.2);
-            pane.getChildren().add(l);
+    public void addDrawListeners() {
+        drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                draw.updateTool(toolBar.getTool());
+                if(clicked) {
+                    // add shape
+                    draw.drawShape(event.getX(), event.getY());
+                    //remove onMouseMove handler
+                    clicked = false;
+                }
 
-        }
-        //draw background columns
-        for(int i=0; i<= width ; i=i+20){
-            Line l = new Line();
-            l.setStartX(i);
-            l.setEndX(i);
-            l.setStartY(0);
-            l.setEndY(height);
-            l.setStrokeWidth(0.2);
-            pane.getChildren().add(l);
-
-        }
+                else {
+                    //set shape start point
+                    draw.setStartPoint(event.getX(), event.getY());
+                    //add onMouseMove handler
+//                    drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
+//                        @Override
+//                        public void handle(MouseEvent event) {
+//                            drawShape(event.getX(), event.getY());
+//                        }
+//                    });
+                    clicked = true;
+                }
+            }
+        });
     }
 
+    // Shape arraylist controls
     public void addShape(Shape shape) {
         shapes.add(shape);
     }
@@ -134,48 +168,4 @@ public class Project {
     public void removeShape(Shape shape) {
         shapes.remove(shape);
     }
-
-    //Drawing a line (wire) will have one click at start location and one click at ending location. Call addLineStart on
-    //first click, call addLineEnd on last click to designate line.
-
-    public void addLineEnd(double x, double y){
-        lineEndX=x;
-        lineEndY=y;
-        Line l = new Line();
-        l.setStartX(lineStartX);
-        l.setStartY(lineStartY);
-        l.setEndX(lineEndX);
-        l.setEndY(lineEndY);
-        l.setStrokeWidth(2);
-        pane.getChildren().add(l);
-    }
-    public void addRectangle(double x, double y){
-        Rectangle rect = new Rectangle();
-        //Change these when fully implemented
-        rect.setHeight(25);
-        rect.setWidth(25);
-        /////////////////////////////////////
-        rect.setX(x);
-        rect.setY(y);
-        rect.setStrokeWidth(2);
-        shapes.add(rect);
-        pane.getChildren().add(rect);
-        TreeItem item = new TreeItem("rectangle");
-        tree.getRoot().getChildren().addAll(item);
-    }
-    public void addCircle(double x, double y){
-        Circle c = new Circle();
-        c.setCenterX(x);
-        c.setCenterY(y);
-        //Change this when fully implemented
-        c.setRadius(2);
-        ////////////////////////////////////
-        c.setStrokeWidth(5);
-        shapes.add(c);
-        pane.getChildren().add(c);
-        TreeItem item = new TreeItem("circle");
-        tree.getRoot().getChildren().addAll(item);
-    }
-
-
 }

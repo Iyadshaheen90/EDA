@@ -16,19 +16,19 @@ public class MenuController {
     private TabPane tabArea;
     private Label mouseCoordinates;
     private TreeView tree;
-    private String tool;
+    private ToolBarController toolBar;
 
-    public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, String tool) {
+    public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.tree=tree;
-        this.tool = tool;
+        this.toolBar = toolBar;
     }
 
     @FXML
     public void newCanvas() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
-        loader.setController(new NewController(tabArea, mouseCoordinates, tree, tool));
+        loader.setController(new NewController(tabArea, mouseCoordinates, tree, toolBar));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();
