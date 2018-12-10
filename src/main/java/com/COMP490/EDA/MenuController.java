@@ -31,20 +31,24 @@ public class MenuController {
         //be the default "rootDir" value. On first startup, this will be blank.
         //2.Make items clickable to open that project. this is more complicated and
         //in order to do this we need to get saving and loading down.
-        //NOTE: this directory works for me, if you want it to work change to your own
-        //directory
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
-        Global.setSymbolLoc("/home/mrconfus3d/Desktop");
-        File f = new File("/home/mrconfus3d/Desktop");
+        Global.setSymbolLoc("/");
         this.tool = tool;
         this.tree = (TreeView) sidepanel.getPanes().get(2).getContent();
-        symbols = new TreeView<>();
-        symbols.setRoot(fillExplorer(f));
-        this.sidepanel.getPanes().get(0).setContent(symbols);
-        //This automatically sets the file explorer open by default
-        this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
+        if (Global.getSymbolLoc().equals("/")){
+
+        }
+        else{
+            File f = new File(Global.getSymbolLoc());
+            symbols = new TreeView<>();
+            symbols.setRoot(fillExplorer(f));
+            this.sidepanel.getPanes().get(0).setContent(symbols);
+            //This automatically sets the file explorer open by default
+            this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
 //        showFiles(rootDir);
+
+        }
 
     }
     public static void showFiles(File[] files) {
