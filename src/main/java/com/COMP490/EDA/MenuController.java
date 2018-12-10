@@ -9,24 +9,25 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
 public class MenuController {
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private TreeView tree;
     private ToolBarController toolBar;
     private Accordion sidePanel;
+    FileChooser fileChooser = new FileChooser();
+    private Desktop desktop = Desktop.getDesktop();
     private HostServices hs;
 //    private File rootDir;
     private TreeView<String> symbols;
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
-        this.tree=tree;
         this.sidePanel=sidePanel;
         this.hs=hs;
         //TODO
@@ -38,7 +39,6 @@ public class MenuController {
 //        System.out.println(rootDir.getAbsolutePath());
         Global.setSymbolLoc("/");
         this.toolBar = toolBar;
-        this.tree = (TreeView) sidePanel.getPanes().get(2).getContent();
         if (Global.getSymbolLoc().equals("/")){
 
         }
@@ -102,6 +102,34 @@ public class MenuController {
     @FXML
     public void exit() {
         Platform.exit();
+    }
+
+    // Opens an existing file
+    // Bound to File>Open
+    @FXML
+    public void open()
+    {
+        Stage stage = new Stage();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(stage);
+        if(file!=null)
+        {
+            openFile(file);
+            //logging the path to test if it is correct
+            System.out.println(file.getAbsolutePath());
+
+        }
+
+    }
+
+    //helper function that opens the file that was chosen
+    private void openFile(File file) {
+        //
+        try {
+            desktop.open(file);//place holder for now, it opens the file but not with in the program
+        } catch (IOException ex) {
+
+        }
     }
 
     @FXML
