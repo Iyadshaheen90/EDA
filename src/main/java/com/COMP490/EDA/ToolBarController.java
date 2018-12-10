@@ -20,6 +20,12 @@ public class ToolBarController {
     }
 
     @FXML
+    public void moveShape() {
+        shape = "move";
+        System.out.println(getTool());
+    }
+
+    @FXML
     public void setLine() {
         shape = "line";
         System.out.println(getTool());
