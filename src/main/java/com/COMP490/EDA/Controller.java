@@ -16,6 +16,7 @@ public class Controller {
     private ToolBarController toolBarController;
     private MainAreaController mainAreaController;
 
+
     /*
     Initializes the main components of the program.  MainArea needs to be filly loaded first in order
     for the SplitPane to be initialized for the reset of the controllers.  This includes calling load()
@@ -41,7 +42,8 @@ public class Controller {
                     mainAreaController.getTabArea(),
                     mainAreaController.getRightStatus(),
                     mainAreaController.getTree(),
-                    toolBarController.getShape());
+                    toolBarController.getShape(),
+                    mainAreaController.getSidepanel());
             menuBarLoader.setController(menuController);
             MenuBar menuBar = menuBarLoader.load();
 

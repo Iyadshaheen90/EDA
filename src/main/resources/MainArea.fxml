@@ -20,8 +20,9 @@
          <items>
             <AnchorPane prefHeight="1078.0" prefWidth="274.0">
                <children>
-                  <Accordion>
+                  <Accordion fx:id="sidepanel">
                     <panes>
+                        <TitledPane animated="false" text="Symbol Explorer" />
                       <TitledPane animated="false" text="Properties" />
                       <TitledPane animated="false" text="Objects">
                            <content>

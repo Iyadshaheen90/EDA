@@ -26,15 +26,17 @@ public class Project {
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private TreeView tree;
+    private Accordion sidepanel;
 
-    public Project(Pane pane, int width, int height, TreeView tree){
+    public Project(Pane pane, int width, int height ,Accordion sidepanel){
         this.pane = pane;
         this.width = width;
         this.height = height;
-
+        this.sidepanel = sidepanel;
         drawBackground();
         addMouseScrolling(pane);
         addDragListeners(pane);
+        this.tree= (TreeView) sidepanel.getPanes().get(2).getContent();
 
         //Develop TreeView of objects
         //TreeView treeView = new TreeView();
