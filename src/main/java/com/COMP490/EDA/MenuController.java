@@ -19,7 +19,7 @@ public class MenuController {
     private TreeView tree;
     private String tool;
     private Accordion sidepanel;
-    private File rootDir;
+//    private File rootDir;
     private TreeView<String> symbols;
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, String tool, Accordion sidepanel) {
         this.tabArea = tabArea;
@@ -33,12 +33,14 @@ public class MenuController {
         //in order to do this we need to get saving and loading down.
         //NOTE: this directory works for me, if you want it to work change to your own
         //directory
-        rootDir =new File("/home/mrconfus3d/Desktop");
+//        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
+        Global.setSymbolLoc("/home/mrconfus3d/Desktop");
+        File f = new File("/home/mrconfus3d/Desktop");
         this.tool = tool;
         this.tree = (TreeView) sidepanel.getPanes().get(2).getContent();
         symbols = new TreeView<>();
-        symbols.setRoot(fillExplorer(rootDir));
+        symbols.setRoot(fillExplorer(f));
         this.sidepanel.getPanes().get(0).setContent(symbols);
         //This automatically sets the file explorer open by default
         this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
@@ -92,6 +94,22 @@ public class MenuController {
     @FXML
     public void exit() {
         Platform.exit();
+    }
+
+    @FXML
+    public void openPref() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/preferences.fxml"));
+        loader.setController(new prefController(Global.getSymbolLoc(), sidepanel));
+        Stage stage = new Stage();
+        try{
+            Parent page = loader.load();
+            stage.setTitle("Preferences");
+            stage.setScene(new Scene(page));
+            stage.show();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     // Opens about window
