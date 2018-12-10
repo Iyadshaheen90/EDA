@@ -11,7 +11,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="241.0" layoutY="14.0" text="Preferences">
+            <Label layoutX="241.0" layoutY="14.0" text="Open">
                <font>
                   <Font name="Roboto Regular" size="22.0" />
                </font>

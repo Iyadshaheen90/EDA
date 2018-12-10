@@ -106,40 +106,40 @@ public class MenuController {
 
     // Opens an existing file
     // Bound to File>Open
+//    @FXML
+//    public void open()
+//    {
+//        Stage stage = new Stage();
+//        fileChooser.setTitle("Open Resource File");
+//        File file = fileChooser.showOpenDialog(stage);
+//        if(file!=null)
+//        {
+//            openFile(file);
+//            //logging the path to test if it is correct
+//            System.out.println(file.getAbsolutePath());
+//
+//        }
+//
+//    }
+//
+//    //helper function that opens the file that was chosen
+//    private void openFile(File file) {
+//        //
+//        try {
+//            desktop.open(file);//place holder for now, it opens the file but not with in the program
+//        } catch (IOException ex) {
+//
+//        }
+//    }
+
     @FXML
-    public void open()
-    {
-        Stage stage = new Stage();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(stage);
-        if(file!=null)
-        {
-            openFile(file);
-            //logging the path to test if it is correct
-            System.out.println(file.getAbsolutePath());
-
-        }
-
-    }
-
-    //helper function that opens the file that was chosen
-    private void openFile(File file) {
-        //
-        try {
-            desktop.open(file);//place holder for now, it opens the file but not with in the program
-        } catch (IOException ex) {
-
-        }
-    }
-
-    @FXML
-    public void openPref() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/preferences.fxml"));
+    public void open() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Open.fxml"));
         loader.setController(new prefController(Global.getSymbolLoc(), sidePanel));
         Stage stage = new Stage();
         try{
             Parent page = loader.load();
-            stage.setTitle("Preferences");
+            stage.setTitle("Open");
             stage.setScene(new Scene(page));
             stage.show();
         }
