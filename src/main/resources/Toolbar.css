@@ -2,6 +2,10 @@
     -fx-graphic: url("/img/mouse-pointer.png");
 }
 
+.moveButton {
+    -fx-graphic: url("/img/move-option.png");
+}
+
 .lineButton {
     -fx-graphic: url("/img/Slash.png");
 }
