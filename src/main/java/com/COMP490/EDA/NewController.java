@@ -20,15 +20,15 @@ public class NewController {
     private TabPane tabArea;
     private Label mouseCoordinates;
     private TreeView tree;
-    private Accordion sidepanel;
-    private String tool;
+    private Accordion sidePanel;
+    private ToolBarController toolBar;
 
-    public NewController(TabPane tabArea, Label mouseCoordinates, String tool, Accordion sidepanel) {
+    public NewController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
-        this.tool = tool;
-        this.sidepanel = sidepanel;
-        this.tree = (TreeView) sidepanel.getPanes().get(2).getContent();
+        this.toolBar = toolBar;
+        this.sidePanel = sidePanel;
+        this.tree = (TreeView) sidePanel.getPanes().get(2).getContent();
     }
 
     public void initialize() {
@@ -70,7 +70,7 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()),sidepanel);
+            Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
             Global.addToArrayList(project);
             tabArea.getTabs().add(tab);
             addCoordinateListener(project, pane);

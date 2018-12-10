@@ -2,6 +2,7 @@ package com.COMP490.EDA;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseButton;
@@ -24,28 +25,24 @@ public class Project {
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private Drawable draw;
-    private TreeView tree;
     private Accordion sidepanel;
 
-    public Project(Pane pane, int width, int height ,Accordion sidepanel){
+    public Project(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
-        this.tree = tree;
         this.toolBar = toolBar;
+        this.sidepanel = sidePanel;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), tree);
+        draw = new Drawable(drawArea, toolBar.getTool(), sidePanel);
         initialize();
-        //Develop TreeView of objects
-        //TreeView treeView = new TreeView();
-        TreeItem rootItem = new TreeItem("Root");
-        TreeItem test = new TreeItem("test");
-        rootItem.getChildren().addAll(
-                test
-        );
+    }
 
-        //treeView.setRoot(rootItem);
-        tree.setRoot(rootItem);
+    public void initialize() {
+        drawBackground();
+        addMouseScrolling(drawArea);
+        addDragListeners(drawArea);
+        addDrawListeners();
     }
 
     // draw function for the background

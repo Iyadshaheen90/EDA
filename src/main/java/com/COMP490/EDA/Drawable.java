@@ -1,5 +1,6 @@
 package com.COMP490.EDA;
 
+import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
@@ -10,14 +11,14 @@ import javafx.scene.shape.Rectangle;
 public class Drawable {
     private Pane drawArea;
     private String tool;
-    private TreeView tree;
+    private Accordion sidePanel;
     private double startX;
     private double startY;
 
-    public Drawable(Pane drawArea, String tool, TreeView tree) {
+    public Drawable(Pane drawArea, String tool, Accordion sidePanel) {
         this.drawArea = drawArea;
         this.tool = tool;
-        this.tree = tree;
+        this.sidePanel = sidePanel;
     }
 
     public void setStartPoint(double x, double y) {
@@ -71,6 +72,6 @@ public class Drawable {
 
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
         TreeItem item = new TreeItem(tool);
-        tree.getRoot().getChildren().addAll(item);
+//        tree.getRoot().getChildren().addAll(item);
     }
 }

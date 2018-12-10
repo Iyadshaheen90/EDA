@@ -18,16 +18,16 @@ public class MenuController {
     private TabPane tabArea;
     private Label mouseCoordinates;
     private TreeView tree;
-    private String tool;
-    private Accordion sidepanel;
+    private ToolBarController toolBar;
+    private Accordion sidePanel;
     private HostServices hs;
 //    private File rootDir;
     private TreeView<String> symbols;
-    public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, String tool, Accordion sidepanel) {
+    public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.tree=tree;
-        this.sidepanel=sidepanel;
+        this.sidePanel=sidePanel;
         this.hs=hs;
         //TODO
         //1.Add a menu to input a file directory where symbols will be stored, this will
@@ -37,8 +37,8 @@ public class MenuController {
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
         Global.setSymbolLoc("/");
-        this.tool = tool;
-        this.tree = (TreeView) sidepanel.getPanes().get(2).getContent();
+        this.toolBar = toolBar;
+        this.tree = (TreeView) sidePanel.getPanes().get(2).getContent();
         if (Global.getSymbolLoc().equals("/")){
 
         }
@@ -46,9 +46,9 @@ public class MenuController {
             File f = new File(Global.getSymbolLoc());
             symbols = new TreeView<>();
             symbols.setRoot(fillExplorer(f));
-            this.sidepanel.getPanes().get(0).setContent(symbols);
+            this.sidePanel.getPanes().get(0).setContent(symbols);
             //This automatically sets the file explorer open by default
-            this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
+            this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //        showFiles(rootDir);
 
         }
@@ -84,7 +84,7 @@ public class MenuController {
     @FXML
     public void newCanvas() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
-        loader.setController(new NewController(tabArea, mouseCoordinates, tool, sidepanel));
+        loader.setController(new NewController(tabArea, mouseCoordinates, toolBar, sidePanel));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();
@@ -107,7 +107,7 @@ public class MenuController {
     @FXML
     public void openPref() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/preferences.fxml"));
-        loader.setController(new prefController(Global.getSymbolLoc(), sidepanel));
+        loader.setController(new prefController(Global.getSymbolLoc(), sidePanel));
         Stage stage = new Stage();
         try{
             Parent page = loader.load();
