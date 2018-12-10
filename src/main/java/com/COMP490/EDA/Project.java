@@ -98,7 +98,7 @@ public class Project {
         n.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE)
+                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown())
                 {
                     initialX = me.getSceneX();
                     initialY = me.getSceneY();
@@ -116,7 +116,7 @@ public class Project {
         n.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE)
+                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown())
                 {
                     n.setTranslateX(me.getScreenX() - initialX);
                     n.setTranslateY(me.getScreenY() - initialY);

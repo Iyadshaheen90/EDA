@@ -8,9 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,6 +22,9 @@ public class MenuController {
     private Label mouseCoordinates;
     private TreeView tree;
     private String tool;
+    private String openSourcePath;
+    FileChooser fileChooser = new FileChooser();
+    private Desktop desktop = Desktop.getDesktop();
     private Accordion sidepanel;
     private HostServices hs;
 //    private File rootDir;
@@ -103,6 +109,31 @@ public class MenuController {
     public void exit() {
         Platform.exit();
     }
+
+    // Opens an existing file
+    // Bound to File>Open
+    @FXML
+    public void open()
+    {
+        Stage stage = new Stage();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(stage);
+        if(file!=null)
+        {
+            openFile(file);
+            //logging the path to test if it is correct
+            System.out.println(file.getAbsolutePath());
+
+        }
+
+    }
+
+    //helper function that opens the file that was chosen
+    private void openFile(File file) {
+        //
+        try {
+            desktop.open(file);//place holder for now, it opens the file but not with in the program
+        } catch (IOException ex) {
 
     @FXML
     public void openPref() {
