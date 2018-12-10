@@ -1,5 +1,6 @@
 package com.COMP490.EDA;
 
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -15,6 +16,7 @@ public class Controller {
     private MenuController menuController;
     private ToolBarController toolBarController;
     private MainAreaController mainAreaController;
+
 
     /*
     Initializes the main components of the program.  MainArea needs to be filly loaded first in order
@@ -41,7 +43,8 @@ public class Controller {
                     mainAreaController.getTabArea(),
                     mainAreaController.getRightStatus(),
                     mainAreaController.getTree(),
-                    toolBarController.getShape());
+                    toolBarController.getShape(),
+                    mainAreaController.getSidepanel());
             menuBarLoader.setController(menuController);
             MenuBar menuBar = menuBarLoader.load();
 
