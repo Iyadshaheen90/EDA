@@ -1,5 +1,6 @@
 package com.COMP490.EDA;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ public class MenuController {
     private TreeView tree;
     private String tool;
     private Accordion sidepanel;
+    private HostServices hs;
 //    private File rootDir;
     private TreeView<String> symbols;
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, String tool, Accordion sidepanel) {
@@ -26,6 +28,7 @@ public class MenuController {
         this.mouseCoordinates = mouseCoordinates;
         this.tree=tree;
         this.sidepanel=sidepanel;
+        this.hs=hs;
         //TODO
         //1.Add a menu to input a file directory where symbols will be stored, this will
         //be the default "rootDir" value. On first startup, this will be blank.
@@ -49,6 +52,7 @@ public class MenuController {
 //        showFiles(rootDir);
 
         }
+
 
     }
     public static void showFiles(File[] files) {
