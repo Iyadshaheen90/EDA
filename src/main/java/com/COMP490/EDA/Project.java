@@ -25,8 +25,9 @@ public class Project {
     private ArrayList<Shape> shapes;
     private Drawable draw;
     private TreeView tree;
+    private Accordion sidepanel;
 
-    public Project(Pane drawArea, int width, int height, TreeView tree, ToolBarController toolBar) {
+    public Project(Pane pane, int width, int height ,Accordion sidepanel){
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
@@ -35,14 +36,6 @@ public class Project {
         shapes = new ArrayList<>();
         draw = new Drawable(drawArea, toolBar.getTool(), tree);
         initialize();
-    }
-
-    public void initialize() {
-        drawBackground();
-        addMouseScrolling(drawArea);
-        addDragListeners(drawArea);
-        addDrawListeners();
-
         //Develop TreeView of objects
         //TreeView treeView = new TreeView();
         TreeItem rootItem = new TreeItem("Root");
@@ -87,11 +80,16 @@ public class Project {
             // Adjust the zoom factor as per your requirement
             double zoomFactor = 1.05;
             double deltaY = event.getDeltaY();
+            System.out.println(deltaY);
             if (deltaY < 0){
-                zoomFactor = 2.0 - zoomFactor;
+                zoomFactor = 2-zoomFactor;
+                node.setScaleX(node.getScaleX() * zoomFactor);
+                node.setScaleY(node.getScaleY() * zoomFactor);
             }
-            node.setScaleX(node.getScaleX() * zoomFactor);
-            node.setScaleY(node.getScaleY() * zoomFactor);
+            if (deltaY > 0){
+                node.setScaleX(node.getScaleX() * zoomFactor);
+                node.setScaleY(node.getScaleY() * zoomFactor);
+            }
         });
     }
 
