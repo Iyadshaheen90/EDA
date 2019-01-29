@@ -7,8 +7,9 @@ import java.util.ArrayList;
 public final class Global {
 
     private static String usernameText;
-    private static String symbolLoc = new String("");
-    private static ArrayList<Project> files= new ArrayList<Project>(20);
+    private static String symbolLoc =("");
+    private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
+
 
     private Global(){}  // Private constructor to prevent instantiation
     public static void addToArrayList(Project f){
