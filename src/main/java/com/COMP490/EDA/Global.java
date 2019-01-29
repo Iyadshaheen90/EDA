@@ -7,19 +7,18 @@ import java.util.ArrayList;
 public final class Global {
 
     private static String usernameText;
-    private static String symbolLoc =("");
-    private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
+    private static String symbolLibLoc =("");
+    //private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
 
 
     private Global(){}  // Private constructor to prevent instantiation
-    public static void addToArrayList(Project f){
-        files.add(f);
-    }
+    //public static void addToArrayList(Project f){
+    //    files.add(f);
+    //}
     public static String getSymbolLoc(){
-        return symbolLoc;
+        return symbolLibLoc;
     }
     public static void setSymbolLoc(String text){
-        symbolLoc = text;
+        symbolLibLoc = text;
     }
-
 }

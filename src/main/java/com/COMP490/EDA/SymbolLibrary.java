@@ -1,6 +1,7 @@
 package com.COMP490.EDA;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SymbolLibrary {
     private String parentDir;
@@ -16,5 +17,9 @@ public class SymbolLibrary {
 
     public void removeSymbol(int index){
         symbols.remove(index);
+    }
+
+    public void moveSymbol (int newIndex, int oldIndex) {
+        Collections.swap(symbols,newIndex,oldIndex);
     }
 }
