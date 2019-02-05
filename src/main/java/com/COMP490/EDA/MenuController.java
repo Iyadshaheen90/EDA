@@ -82,7 +82,7 @@ public class MenuController {
     @FXML
     public void newCanvas() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/NewSymbol.fxml"));
-        loader.setController(new NewController(tabArea, mouseCoordinates, toolBar, sidePanel));
+        loader.setController(new NewSymbolController(tabArea, mouseCoordinates, toolBar, sidePanel));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();

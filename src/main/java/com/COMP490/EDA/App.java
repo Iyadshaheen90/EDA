@@ -13,7 +13,6 @@ public class App extends Application {
         loader.setController(new HomeController());
         Parent page = loader.load();
         Scene scene = new Scene(page);
-        scene.getStylesheets().addAll(getClass().getResource("/Toolbar.css").toExternalForm());
         primaryStage.setTitle("Symbol Editor");
         primaryStage.setScene(scene);
         primaryStage.show();

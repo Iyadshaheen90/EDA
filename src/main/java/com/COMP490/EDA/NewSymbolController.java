@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class NewController {
+public class NewSymbolController {
     @FXML
     private TextField width;
     @FXML
@@ -23,7 +23,7 @@ public class NewController {
     private Accordion sidePanel;
     private ToolBarController toolBar;
 
-    public NewController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
+    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;
@@ -70,7 +70,7 @@ public class NewController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
+            Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar);
             //Global.addToArrayList(project);
             tabArea.getTabs().add(tab);
             addCoordinateListener(project, pane);

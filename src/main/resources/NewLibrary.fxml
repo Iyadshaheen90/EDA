@@ -24,7 +24,7 @@
       </HBox>
       <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#open" text="Open" />
+            <Button mnemonicParsing="false" onAction="#create" text="Open" />
             <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#exit" text="Cancel" />
          </children>
       </HBox>
