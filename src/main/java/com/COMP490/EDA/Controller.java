@@ -1,6 +1,5 @@
 package com.COMP490.EDA;
 
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;

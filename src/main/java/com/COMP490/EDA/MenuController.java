@@ -2,10 +2,8 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -83,7 +81,7 @@ public class MenuController {
 
     @FXML
     public void newCanvas() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/NewSymbol.fxml"));
         loader.setController(new NewController(tabArea, mouseCoordinates, toolBar, sidePanel));
         Stage stage = new Stage();
         try {
