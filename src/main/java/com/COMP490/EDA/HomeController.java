@@ -43,7 +43,8 @@ public class HomeController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Open Library");
         File libraryLocation = directoryChooser.showDialog(new Stage());
-        // use folderpath to open library
+        // TODO: load library into memory
+        // TODO: show window
     }
 
     /*
