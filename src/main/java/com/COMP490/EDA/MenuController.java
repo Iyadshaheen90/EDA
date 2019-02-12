@@ -9,9 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.Yaml;
+
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuController {
     private TabPane tabArea;
@@ -161,5 +165,17 @@ public class MenuController {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @FXML
+    public void newSave() {
+        //dimensions of canvas x
+        //array of shapes
+        Yaml yaml = new Yaml();
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("width" , Global.getCurrentProj().getWidth());
+        data.put("height" , Global.getCurrentProj().getHeight());
+        data.put("shapes" , Global.getCurrentProj().getShapes());
+        String output= yaml.dump(data);
+        System.out.println(output);
     }
 }

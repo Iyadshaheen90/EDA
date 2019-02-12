@@ -71,7 +71,8 @@ public class NewController {
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
             Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
-            //Global.addToArrayList(project);
+            //Global.addToArrayList(project)
+            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(project);
             tabArea.getTabs().add(tab);
             addCoordinateListener(project, pane);
             Stage stage = (Stage) width.getScene().getWindow();
