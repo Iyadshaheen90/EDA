@@ -12,7 +12,20 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+/*
+Controller for new library window
+    Textbox for name entry
+    Textbox for path entry
+    Browse button for browsing to path
+    Open button for confirm
+    Cancel button to return to home screen
+
+Last edited by: John Brehm 2/12
+ */
+
 public class NewLibraryController {
+    @FXML
+    TextField fileName;
     @FXML
     TextField filePath;
     @FXML
@@ -28,28 +41,24 @@ public class NewLibraryController {
         if (!file.exists()) {
             errorText.setVisible(true);
         }
-        if(!file.isDirectory()) { // Checks to male sure file is directory
+        if(!file.isDirectory()) { // Checks to make sure file is directory
             file = file.getParentFile(); // Gets parent if it is a file
         }
-        else {
-            /*
-            TODO: Add part which will load it in memory and set up the library in memory
-             */
-            /*
-            TODO:  Move this part to other function which open in HomeController can call
-             */
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Root.fxml"));
-                loader.setController(new Controller());
-                VBox parent = loader.load();
-                Scene scene = new Scene(parent);
-                Stage stage = (Stage) filePath.getScene().getWindow();
-                scene.getStylesheets().addAll(getClass().getResource("/Toolbar.css").toExternalForm());
-                stage.setTitle("Symbol Editor");
-                stage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+//      TODO: Add part which will load it in memory and set up the library in memory
+
+//      TODO: Move this part to other function which open in HomeController can call
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Root.fxml"));
+            loader.setController(new Controller());
+            VBox parent = loader.load();
+            Scene scene = new Scene(parent);
+            Stage stage = (Stage) filePath.getScene().getWindow();
+            scene.getStylesheets().addAll(getClass().getResource("/Toolbar.css").toExternalForm());
+            stage.setTitle("Symbol Editor");
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

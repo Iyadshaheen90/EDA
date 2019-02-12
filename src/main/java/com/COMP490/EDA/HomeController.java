@@ -8,9 +8,17 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
+
+/*
+Controller for the initial home screen.
+    New button to open NewLibrary window
+    Open Button to open filechooser to select library
+    Exit button to exit program
+
+Last edited by: John Brehm 2/12
+ */
 
 public class HomeController {
     @FXML
