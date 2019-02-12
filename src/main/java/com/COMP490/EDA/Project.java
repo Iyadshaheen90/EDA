@@ -28,7 +28,6 @@ public class Project {
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private Drawable draw;
-    private Accordion sidepanel;
 
     public Project(){
         //Empty Project
@@ -39,9 +38,8 @@ public class Project {
         this.width = width;
         this.height = height;
         this.toolBar = toolBar;
-        this.sidepanel = sidePanel;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), sidePanel);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
     }
     public void setWidth(int width) {

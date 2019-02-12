@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class NewController {
+public class NewSymbolController {
     @FXML
     private TextField width;
     @FXML
@@ -23,7 +23,7 @@ public class NewController {
     private Accordion sidePanel;
     private ToolBarController toolBar;
 
-    public NewController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
+    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;

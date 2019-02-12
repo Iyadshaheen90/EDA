@@ -1,24 +1,25 @@
 package com.COMP490.EDA;
 
-import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+
+import java.util.ArrayList;
 
 public class Drawable {
     private Pane drawArea;
     private String tool;
-    private Accordion sidePanel;
+    private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
 
-    public Drawable(Pane drawArea, String tool, Accordion sidePanel) {
+    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
         this.drawArea = drawArea;
         this.tool = tool;
-        this.sidePanel = sidePanel;
+        this.shapes = shapes;
     }
 
     public void setStartPoint(double x, double y) {
@@ -43,6 +44,7 @@ public class Drawable {
                 break;
             case "line":
                 Line line = new Line(startX, startY, x, y);
+                shapes.add(line);
                 drawArea.getChildren().add(line);
                 break;
             case "rectangle":
@@ -59,6 +61,7 @@ public class Drawable {
                 }
                 System.out.println(startX + " " + startY);
                 Rectangle rect = new Rectangle(startX, startY, width, height);
+                shapes.add(rect);
                 drawArea.getChildren().add(rect);
                 break;
             case "circle":
@@ -66,6 +69,7 @@ public class Drawable {
                 circle.setCenterX(startX);
                 circle.setCenterY(startY);
                 circle.setRadius(distance(x, y));
+                shapes.add(circle);
                 drawArea.getChildren().add(circle);
                 break;
         }
