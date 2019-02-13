@@ -1,10 +1,6 @@
 /**Global methods and variables that all pieces of the program would need access to**/
 package com.COMP490.EDA;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public final class Global {
 
     private static String usernameText;
@@ -12,16 +8,16 @@ public final class Global {
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
 
-    private static Project currentProj = new Project();
-    public static void setCurrentProj(Project currentProj) {
+    private static Symbol currentProj = new Symbol();
+    public static void setCurrentProj(Symbol currentProj) {
         Global.currentProj = currentProj;
     }
-    public static Project getCurrentProj(){
+    public static Symbol getCurrentProj(){
         return Global.currentProj;
     }
     //private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
     private Global(){}  // Private constructor to prevent instantiation
-    //public static void addToArrayList(Project f){
+    //public static void addToArrayList(Symbol f){
     //    files.add(f);
     //}
     public static String getSymbolLoc(){

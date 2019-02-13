@@ -6,10 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 public class NewSymbolController {
     @FXML
@@ -53,7 +50,7 @@ public class NewSymbolController {
     }
 
     // Add coordinate listeners
-    private void addCoordinateListener(Project file, Pane pane) {
+    private void addCoordinateListener(Symbol file, Pane pane) {
         // Coordinate listener
         pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
@@ -70,11 +67,11 @@ public class NewSymbolController {
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab("New Tab" , pane);
-            Project project = new Project(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
-            //Global.addToArrayList(project)
-            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(project);
+            Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
+            //Global.addToArrayList(symbol)
+            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             tabArea.getTabs().add(tab);
-            addCoordinateListener(project, pane);
+            addCoordinateListener(symbol, pane);
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }

@@ -15,7 +15,7 @@ import javafx.scene.shape.Shape;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Project {
+public class Symbol {
 
     private int width;
     private int height;
@@ -29,10 +29,10 @@ public class Project {
     private ArrayList<Shape> shapes;
     private Drawable draw;
 
-    public Project(){
-        //Empty Project
+    public Symbol(){
+        //Empty Symbol
     }
-    public Project(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
+    public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
         this.parentDir=Global.getSymbolLoc();
         this.drawArea = drawArea;
         this.width = width;

@@ -6,13 +6,13 @@ import java.util.Collections;
 
 public class SymbolLibrary {
     private String dir;
-    private ArrayList<Project> symbols;
+    private ArrayList<Symbol> symbols;
     public SymbolLibrary (String dir){
         symbols = new ArrayList<>(20);
         this.dir = dir;
     }
 
-    public void addSymbol(Project symbol){
+    public void addSymbol(Symbol symbol){
         symbols.add(symbol);
     }
 
