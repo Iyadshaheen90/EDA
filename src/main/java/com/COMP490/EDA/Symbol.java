@@ -12,32 +12,51 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class Project {
+public class Symbol {
+
     private int width;
     private int height;
     private double initialX;
     private double initialY;
     private Pane drawArea;
     private ToolBarController toolBar;
-    boolean clicked = false;
+    private boolean clicked = false;
+    private String parentDir="";
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private Drawable draw;
-    private Accordion sidepanel;
 
-    public Project(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
+    public Symbol(){
+        //Empty Symbol
+    }
+    public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
+        this.parentDir=Global.getSymbolLoc();
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
         this.toolBar = toolBar;
-        this.sidepanel = sidePanel;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), sidePanel);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
     }
+    public void setWidth(int width) {
+        this.width = width;
+    }
 
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
     public void initialize() {
         drawBackground();
         addMouseScrolling(drawArea);
@@ -158,6 +177,10 @@ public class Project {
     // Might change depending on how we want to use
     public Shape getShape(Shape shape) {
         return shapes.get(shapes.indexOf(shape));
+    }
+
+    public ArrayList<Shape> getShapes(){
+        return shapes;
     }
 
     public void removeShape(Shape shape) {

@@ -2,18 +2,24 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import java.awt.Desktop;
+import org.yaml.snakeyaml.Yaml;
+import javafx.scene.shape.Shape;
+import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuController {
     private TabPane tabArea;
@@ -83,8 +89,8 @@ public class MenuController {
 
     @FXML
     public void newCanvas() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/New.fxml"));
-        loader.setController(new NewController(tabArea, mouseCoordinates, toolBar, sidePanel));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/NewSymbol.fxml"));
+        loader.setController(new NewSymbolController(tabArea, mouseCoordinates, toolBar, sidePanel));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();
@@ -162,6 +168,29 @@ public class MenuController {
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    public void newSave() {
+        //dimensions of canvas x
+        //array of shapes x
+        Yaml yaml = new Yaml();
+        try {
+            FileWriter fw = new FileWriter("symbol.txt");
+            StringWriter writer = new StringWriter();
+            Map<String, Object> data = new HashMap<String, Object>();
+            ArrayList<Shape> shapes = Global.getCurrentProj().getShapes();
+            //System.out.println("The shapes are " + shapes.toString());
+            data.put("width" , Global.getCurrentProj().getWidth());
+            data.put("height" , Global.getCurrentProj().getHeight());
+            data.put("shapes" ,  shapes);
+            yaml.dump(data,writer);
+            fw.write(writer.toString());
+            fw.close();
+            String output= yaml.dump(data);
+            System.out.println(output);
+        }catch(IOException e){
+            System.out.println("Cant create file dude");
         }
     }
 }

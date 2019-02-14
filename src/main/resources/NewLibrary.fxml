@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="8.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="New Library">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </Label>
+      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" prefWidth="200.0" spacing="5.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="27.0" text="Library Name">
+               <HBox.margin>
+                  <Insets right="17.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="fileName" prefHeight="27.0" prefWidth="470.0" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefWidth="564.0" spacing="5.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="27.0" text="Library Location" />
+            <TextField fx:id="filePath" prefHeight="27.0" prefWidth="400.0" />
+            <Button mnemonicParsing="false" onAction="#browse" text="Browse" />
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+      <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="10.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#create" text="Open" />
+            <Button mnemonicParsing="false" onAction="#exit" text="Cancel" />
+         </children>
+      </HBox>
+      <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a vaild path" textAlignment="CENTER" visible="false" />
+   </children>
+</VBox>
