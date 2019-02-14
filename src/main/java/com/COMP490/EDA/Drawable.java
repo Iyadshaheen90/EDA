@@ -65,7 +65,7 @@ public class Drawable {
                 Circle circle = new Circle();
                 circle.setCenterX(startX);
                 circle.setCenterY(startY);
-                circle.setRadius(distance(x, y));
+                circle.setRadius(distance(x, y)/2);
                 drawArea.getChildren().add(circle);
                 break;
         }

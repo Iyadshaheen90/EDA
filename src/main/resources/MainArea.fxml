@@ -16,14 +16,22 @@
 
 <VBox xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane dividerPositions="0.2862356621480709" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0">
+      <SplitPane dividerPositions="0.2872784150156413" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0">
          <items>
             <AnchorPane prefHeight="1078.0" prefWidth="274.0">
                <children>
-                  <Accordion fx:id="sidepanel">
+                  <Accordion fx:id="sidepanel" prefHeight="1078.0" prefWidth="547.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <panes>
-                        <TitledPane animated="false" text="Symbol Explorer" />
-                      <TitledPane animated="false" text="Properties" />
+                        <TitledPane animated="false" text="Symbol Explorer">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Properties">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </TitledPane>
                       <TitledPane animated="false" text="Objects">
                            <content>
                               <TreeView fx:id="treeview" prefHeight="1078.0" prefWidth="545.0" />

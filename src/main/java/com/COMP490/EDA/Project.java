@@ -1,5 +1,6 @@
 package com.COMP490.EDA;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -43,7 +44,9 @@ public class Project {
         addMouseScrolling(drawArea);
         addDragListeners(drawArea);
         addDrawListeners();
+//        dragShapes(drawArea);
     }
+
 
     // draw function for the background
     private void drawBackground() {
@@ -90,33 +93,59 @@ public class Project {
         });
     }
 
+//    private void dragShapes(final Node n){
+//        n.setOnMousePressed(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent me) {
+//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
+//                {
+//                    System.out.println("works");
+//                    initialX = me.getX();
+//                    initialY = me.getY();
+//                }
+//            }
+//        });
+//
+//        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent me)
+//            {
+//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
+//                {
+//
+////                    drawArea.getChildren().get(0).setTranslateX(me.getX() + n.getTranslateX() - initialX);
+////                    drawArea.getChildren().get(0).setTranslateY(me.getY() + n.getTranslateY() - initialY);
+////                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
+////                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
+//                }
+//            }
+//        });
+//    }
+
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
+
         n.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown())
+                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
+                        && toolBar.getTool()=="select")
                 {
-                    initialX = me.getSceneX();
-                    initialY = me.getSceneY();
+                    initialX = me.getX();
+                    initialY = me.getY();
                 }
-                else
-                {
-                    n.getScene().getWindow().centerOnScreen();
-                    initialX = n.getScene().getWindow().getX();
-                    initialY = n.getScene().getWindow().getY();
-                }
-
             }
         });
 
         n.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown())
+            public void handle(MouseEvent me)
+            {
+                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
+                        && toolBar.getTool()=="select")
                 {
-                    n.setTranslateX(me.getScreenX() - initialX);
-                    n.setTranslateY(me.getScreenY() - initialY);
+                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
+                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
                 }
             }
         });

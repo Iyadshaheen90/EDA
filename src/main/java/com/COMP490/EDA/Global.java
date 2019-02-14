@@ -8,13 +8,13 @@ public final class Global {
 
     private static String usernameText;
     private static String symbolLoc =("");
-    private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
+//    private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
 
 
     private Global(){}  // Private constructor to prevent instantiation
-    public static void addToArrayList(Project f){
-        files.add(f);
-    }
+//    public static void addToArrayList(Project f){
+//        files.add(f);
+//    }
     public static String getSymbolLoc(){
         return symbolLoc;
     }
