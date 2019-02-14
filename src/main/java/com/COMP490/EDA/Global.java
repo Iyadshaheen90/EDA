@@ -4,6 +4,7 @@ package com.COMP490.EDA;
 public final class Global {
 
     private static String usernameText;
+<<<<<<< HEAD
 //    private static HashMap<String, SymbolLibrary> symbolLibs= new HashMap<String,SymbolLibrary>();
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
@@ -20,6 +21,16 @@ public final class Global {
     //public static void addToArrayList(Symbol f){
     //    files.add(f);
     //}
+=======
+    private static String symbolLoc =("");
+//    private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
+
+
+    private Global(){}  // Private constructor to prevent instantiation
+//    public static void addToArrayList(Project f){
+//        files.add(f);
+//    }
+>>>>>>> DragB
     public static String getSymbolLoc(){
         return symbolLibLoc;
     }
