@@ -70,6 +70,7 @@ public class NewSymbolController {
             Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
+            Global.setCurrentProj(symbol);
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
             Stage stage = (Stage) width.getScene().getWindow();

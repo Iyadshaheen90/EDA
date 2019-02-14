@@ -7,13 +7,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
-
-import java.awt.Desktop;
+import javafx.scene.shape.Shape;
+import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -169,13 +173,24 @@ public class MenuController {
     @FXML
     public void newSave() {
         //dimensions of canvas x
-        //array of shapes
+        //array of shapes x
         Yaml yaml = new Yaml();
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put("width" , Global.getCurrentProj().getWidth());
-        data.put("height" , Global.getCurrentProj().getHeight());
-        data.put("shapes" , Global.getCurrentProj().getShapes());
-        String output= yaml.dump(data);
-        System.out.println(output);
+        try {
+            FileWriter fw = new FileWriter("symbol.txt");
+            StringWriter writer = new StringWriter();
+            Map<String, Object> data = new HashMap<String, Object>();
+            ArrayList<Shape> shapes = Global.getCurrentProj().getShapes();
+            //System.out.println("The shapes are " + shapes.toString());
+            data.put("width" , Global.getCurrentProj().getWidth());
+            data.put("height" , Global.getCurrentProj().getHeight());
+            data.put("shapes" ,  shapes);
+            yaml.dump(data,writer);
+            fw.write(writer.toString());
+            fw.close();
+            String output= yaml.dump(data);
+            System.out.println(output);
+        }catch(IOException e){
+            System.out.println("Cant create file dude");
+        }
     }
 }
