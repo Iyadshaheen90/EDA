@@ -68,12 +68,8 @@ public class Drawable {
                 Circle circle = new Circle();
                 circle.setCenterX(startX);
                 circle.setCenterY(startY);
-<<<<<<< HEAD
-                circle.setRadius(distance(x, y));
-                shapes.add(circle);
-=======
                 circle.setRadius(distance(x, y)/2);
->>>>>>> DragB
+                shapes.add(circle);
                 drawArea.getChildren().add(circle);
                 break;
         }
