@@ -51,8 +51,23 @@ public class HomeController {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Open Library");
         File libraryLocation = directoryChooser.showDialog(new Stage());
-        // TODO: load library into memory
-        // TODO: show window
+
+        if(libraryLocation != null) {
+//      TODO: Move this part to other function duplicated in NewLibraryController
+            Global.setLibraryLoc(libraryLocation.getAbsolutePath());
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Root.fxml"));
+                loader.setController(new Controller());
+                VBox parent = loader.load();
+                Scene scene = new Scene(parent);
+                Stage stage = (Stage) newButton.getScene().getWindow();
+                scene.getStylesheets().addAll(getClass().getResource("/Toolbar.css").toExternalForm());
+                stage.setTitle("Symbol Editor");
+                stage.setScene(scene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*

@@ -8,12 +8,12 @@ public final class Global {
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
 
-    private static Symbol currentProj = new Symbol();
-    public static void setCurrentProj(Symbol currentProj) {
-        Global.currentProj = currentProj;
+    private static Symbol currentSymbol = new Symbol();
+    public static void setCurrentSymbol(Symbol currentSymbol) {
+        Global.currentSymbol = currentSymbol;
     }
-    public static Symbol getCurrentProj(){
-        return Global.currentProj;
+    public static Symbol getCurrentSymbol(){
+        return Global.currentSymbol;
     }
     //private static ArrayList<SymbolLibrary> files= new ArrayList<>(20);
     private Global(){}  // Private constructor to prevent instantiation
@@ -21,10 +21,11 @@ public final class Global {
     //    files.add(f);
     //}
 
-    public static String getSymbolLoc(){
+    public static String getLibraryLoc(){
         return symbolLibLoc;
     }
-    public static void setSymbolLoc(String text){
+    public static void setLibraryLoc(String text){
+        System.out.println("Setting " + text + " as current library location.");
         symbolLibLoc = text;
     }
 //    public static void addSymbolLib(String addr, SymbolLibrary sl) {

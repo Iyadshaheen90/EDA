@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class Symbol {
 
+    private String name;
     private int width;
     private int height;
     private double initialX;
@@ -34,7 +35,7 @@ public class Symbol {
         //Empty Symbol
     }
     public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
-        this.parentDir=Global.getSymbolLoc();
+        this.parentDir=Global.getLibraryLoc();
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
@@ -43,6 +44,15 @@ public class Symbol {
         draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setWidth(int width) {
         this.width = width;
     }

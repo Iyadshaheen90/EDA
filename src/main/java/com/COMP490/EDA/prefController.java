@@ -49,8 +49,8 @@ public class prefController {
             alert.showAndWait();
         } else {
             symboldir=choice.getAbsolutePath();
-            Global.setSymbolLoc(symboldir);
-            symbolpath.setText(Global.getSymbolLoc());
+            Global.setLibraryLoc(symboldir);
+            symbolpath.setText(Global.getLibraryLoc());
         }
     }
 
@@ -66,7 +66,7 @@ public class prefController {
     }
     @FXML
     public void close(){
-        File f = new File(Global.getSymbolLoc());
+        File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
         symbols.setEditable(true);

@@ -43,13 +43,13 @@ public class MenuController {
         //in order to do this we need to get saving and loading down.
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
-        Global.setSymbolLoc("/");
+        Global.setLibraryLoc("/");
         this.toolBar = toolBar;
-        if (Global.getSymbolLoc().equals("/")){
+        if (Global.getLibraryLoc().equals("/")){
 
         }
         else{
-            File f = new File(Global.getSymbolLoc());
+            File f = new File(Global.getLibraryLoc());
             symbols = new TreeView<>();
             symbols.setRoot(fillExplorer(f));
             this.sidePanel.getPanes().get(0).setContent(symbols);
@@ -141,7 +141,7 @@ public class MenuController {
     @FXML
     public void open() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Open.fxml"));
-        loader.setController(new prefController(Global.getSymbolLoc(), sidePanel));
+        loader.setController(new prefController(Global.getLibraryLoc(), sidePanel));
         Stage stage = new Stage();
         try{
             Parent page = loader.load();
@@ -170,19 +170,21 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+
+    // Bound to File>Save As
     @FXML
     public void newSave() {
         //dimensions of canvas x
         //array of shapes x
         Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter("symbol.txt");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "symbol.txt");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
-            ArrayList<Shape> shapes = Global.getCurrentProj().getShapes();
+            ArrayList<Shape> shapes = Global.getCurrentSymbol().getShapes();
             //System.out.println("The shapes are " + shapes.toString());
-            data.put("width" , Global.getCurrentProj().getWidth());
-            data.put("height" , Global.getCurrentProj().getHeight());
+            data.put("width" , Global.getCurrentSymbol().getWidth());
+            data.put("height" , Global.getCurrentSymbol().getHeight());
             data.put("shapes" ,  shapes);
             yaml.dump(data,writer);
             fw.write(writer.toString());
@@ -191,6 +193,7 @@ public class MenuController {
             System.out.println(output);
         }catch(IOException e){
             System.out.println("Cant create file dude");
+            e.printStackTrace();
         }
     }
 }
