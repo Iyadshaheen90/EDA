@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="194.0" layoutY="14.0" text="EDA Symbol Editor">
@@ -13,8 +12,8 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="275.0" layoutY="134.0" mnemonicParsing="false" onAction="#open" text="Open" />
-      <Button layoutX="275.0" layoutY="173.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="51.0" text="Exit" />
-      <Button fx:id="newButton" layoutX="275.0" layoutY="94.0" mnemonicParsing="false" onAction="#newLibrary" prefHeight="27.0" prefWidth="51.0" text="New" />
+      <Button layoutX="199.0" layoutY="134.0" mnemonicParsing="false" onAction="#open" prefHeight="27.0" prefWidth="201.0" text="Open Symbol Library" />
+      <Button layoutX="200.0" layoutY="173.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="201.0" text="Exit" />
+      <Button fx:id="newButton" layoutX="199.0" layoutY="94.0" mnemonicParsing="false" onAction="#newLibrary" prefHeight="27.0" prefWidth="201.0" text="New Symbol Library" />
    </children>
 </Pane>
