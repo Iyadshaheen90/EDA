@@ -26,16 +26,12 @@ public class MenuController {
     private Label mouseCoordinates;
     private ToolBarController toolBar;
     private Accordion sidePanel;
-    FileChooser fileChooser = new FileChooser();
-    private Desktop desktop = Desktop.getDesktop();
-    private HostServices hs;
-//    private File rootDir;
     private TreeView<String> symbols;
+
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.sidePanel=sidePanel;
-        this.hs=hs;
         //TODO
         //1.Add a menu to input a file directory where symbols will be stored, this will
         //be the default "rootDir" value. On first startup, this will be blank.
@@ -43,25 +39,19 @@ public class MenuController {
         //in order to do this we need to get saving and loading down.
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
-        Global.setLibraryLoc("/");
         this.toolBar = toolBar;
-        if (Global.getLibraryLoc().equals("/")){
 
-        }
-        else{
-            File f = new File(Global.getLibraryLoc());
-            symbols = new TreeView<>();
-            symbols.setRoot(fillExplorer(f));
-            this.sidePanel.getPanes().get(0).setContent(symbols);
-            //This automatically sets the file explorer open by default
-            this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
-//        showFiles(rootDir);
-
-        }
-
+        File f = new File(Global.getLibraryLoc());
+        symbols = new TreeView<>();
+        symbols.setRoot(fillExplorer(f));
+        this.sidePanel.getPanes().get(0).setContent(symbols);
+        //This automatically sets the file explorer open by default
+        this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
+//      showFiles(rootDir);
 
     }
-    public static void showFiles(File[] files) {
+
+    private static void showFiles(File[] files) {
         for (File file : files) {
             if (file.isDirectory()) {
                 System.out.println("Directory: " + file.getName());
@@ -72,7 +62,7 @@ public class MenuController {
         }
     }
 
-    public TreeItem<String> fillExplorer(File dir){
+    private TreeItem<String> fillExplorer(File dir){
         TreeItem<String> root = new TreeItem<>(dir.getName());
         for (File f : dir.listFiles()){
             if (f.isDirectory()){

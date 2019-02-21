@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 public class NewSymbolController {
     @FXML
+    private TextField name;
+    @FXML
     private TextField width;
     @FXML
     private TextField height;
@@ -66,7 +68,7 @@ public class NewSymbolController {
             Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
-            Tab tab = new Tab("New Tab" , pane);
+            Tab tab = new Tab(name.getText() , pane);
             Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);

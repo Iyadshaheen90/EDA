@@ -1,11 +1,8 @@
 package com.COMP490.EDA;
 
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -13,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Symbol {
@@ -88,7 +84,6 @@ public class Symbol {
             l.setEndY(i);
             l.setStrokeWidth(0.2);
             drawArea.getChildren().add(l);
-
         }
         //draw background columns
         for(int i=0; i<= width ; i=i+20){
@@ -99,7 +94,6 @@ public class Symbol {
             l.setEndY(height);
             l.setStrokeWidth(0.2);
             drawArea.getChildren().add(l);
-
         }
     }
 
