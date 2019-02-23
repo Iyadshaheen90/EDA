@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -32,7 +33,7 @@ public class HomeController {
         try {
             FXMLLoader newLibraryController = new FXMLLoader(getClass().getResource("/NewLibrary.fxml"));
             newLibraryController.setController(new NewLibraryController());
-            VBox newLibrary = newLibraryController.load();
+            AnchorPane newLibrary = newLibraryController.load();
             Scene scene = new Scene(newLibrary);
             Stage newLibraryWindow = (Stage) newButton.getScene().getWindow();
             newLibraryWindow.setTitle("New");
