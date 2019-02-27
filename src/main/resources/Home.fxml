@@ -12,7 +12,7 @@
    <children>
       <ImageView id="HomePageBackground" fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@img/HomeBackground2.jpg" />
+            <Image url="@img/HomeBackground.jpg" />
          </image>
          <rotationAxis>
             <Point3D />

@@ -20,13 +20,13 @@
          <children>
             <ImageView fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/HomeBackground2.jpg" />
+                  <Image url="@img/HomeBackground.jpg" />
                </image>
                <rotationAxis>
                   <Point3D />
                </rotationAxis>
             </ImageView>
-            <Label layoutX="86.0" prefHeight="39.0" prefWidth="251.0" text="New Library" textFill="#f8f5f5">
+            <Label layoutX="104.0" prefHeight="39.0" prefWidth="251.0" text="New Library" textFill="#f8f5f5">
                <font>
                   <Font size="36.0" />
                </font>

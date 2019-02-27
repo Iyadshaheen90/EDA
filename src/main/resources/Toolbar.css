@@ -17,3 +17,14 @@
 .circleButton {
     -fx-graphic: url("/img/Circle.png");
 }
+
+.colorPicker{
+
+    -fx-graphic: url("/img/color.png");
+}
+
+.picker-color {
+    -fx-border-color: black;
+}
+
+

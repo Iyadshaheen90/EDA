@@ -7,6 +7,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 public class Drawable {
@@ -38,12 +39,15 @@ public class Drawable {
         return Math.sqrt(xDistance + yDistance);
     }
 
-    public void drawShape(double x, double y) {
+    public void drawShape(double x, double y, Color color) {
         switch (tool) {
             case "select":
                 break;
             case "line":
                 Line line = new Line(startX, startY, x, y);
+                line.setStroke(color);
+                System.out.println("color: "+color);
+                System.out.println("line color: "+line.getFill());
                 shapes.add(line);
                 drawArea.getChildren().add(line);
                 break;
@@ -61,6 +65,7 @@ public class Drawable {
                 }
                 System.out.println(startX + " " + startY);
                 Rectangle rect = new Rectangle(startX, startY, width, height);
+                rect.setFill(color);
                 shapes.add(rect);
                 drawArea.getChildren().add(rect);
                 break;
@@ -69,6 +74,7 @@ public class Drawable {
                 circle.setCenterX(startX);
                 circle.setCenterY(startY);
                 circle.setRadius(distance(x, y)/2);
+                circle.setFill(color);
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
                 break;

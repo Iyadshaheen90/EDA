@@ -15,7 +15,7 @@ public class App extends Application {
         Parent page = loader.load();
         Scene scene = new Scene(page);
 
-        primaryStage.getIcons().add(new Image("/img/HomeBackground2.jpg"));
+        primaryStage.getIcons().add(new Image("/img/HomeBackground.jpg"));
         primaryStage.setTitle("Symbol Editor");
         primaryStage.setScene(scene);
         primaryStage.show();

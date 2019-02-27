@@ -64,12 +64,12 @@ public class Symbol {
     public int getHeight() {
         return height;
     }
+
     public void initialize() {
         drawBackground();
         addMouseScrolling(drawArea);
         addDragListeners(drawArea);
         addDrawListeners();
-//        dragShapes(drawArea);
     }
 
 
@@ -116,35 +116,6 @@ public class Symbol {
         });
     }
 
-//    private void dragShapes(final Node n){
-//        n.setOnMousePressed(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent me) {
-//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-//                {
-//                    System.out.println("works");
-//                    initialX = me.getX();
-//                    initialY = me.getY();
-//                }
-//            }
-//        });
-//
-//        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent me)
-//            {
-//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-//                {
-//
-////                    drawArea.getChildren().get(0).setTranslateX(me.getX() + n.getTranslateX() - initialX);
-////                    drawArea.getChildren().get(0).setTranslateY(me.getY() + n.getTranslateY() - initialY);
-////                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
-////                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
-//                }
-//            }
-//        });
-//    }
-
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
 
@@ -154,6 +125,14 @@ public class Symbol {
                 if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
                         && toolBar.getTool()=="select")
                 {
+                    initialX = me.getX();
+                    initialY = me.getY();
+                }
+
+                //shapes dragging
+                else if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
+                {
+                    System.out.println("works");
                     initialX = me.getX();
                     initialY = me.getY();
                 }
@@ -170,6 +149,13 @@ public class Symbol {
                     n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
                     n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
                 }
+
+                //shapes dragging
+                else if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
+                {
+                    drawArea.getChildren().get(52).setTranslateX(me.getX() + n.getTranslateX() - initialX);
+                    drawArea.getChildren().get(52).setTranslateY(me.getY() + n.getTranslateY() - initialY);
+                }
             }
         });
     }
@@ -181,7 +167,7 @@ public class Symbol {
                 draw.updateTool(toolBar.getTool());
                 if(clicked) {
                     // add shape
-                    draw.drawShape(event.getX(), event.getY());
+                    draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
                     //remove onMouseMove handler
                     clicked = false;
                 }
