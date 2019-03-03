@@ -19,6 +19,7 @@ public class Symbol {
     private int height;
     private double initialX;
     private double initialY;
+
     private Pane drawArea;
     private ToolBarController toolBar;
     private boolean clicked = false;
@@ -129,13 +130,6 @@ public class Symbol {
                     initialY = me.getY();
                 }
 
-                //shapes dragging
-                else if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-                {
-                    System.out.println("works");
-                    initialX = me.getX();
-                    initialY = me.getY();
-                }
             }
         });
 
@@ -149,21 +143,16 @@ public class Symbol {
                     n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
                     n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
                 }
-
-                //shapes dragging
-                else if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-                {
-                    drawArea.getChildren().get(52).setTranslateX(me.getX() + n.getTranslateX() - initialX);
-                    drawArea.getChildren().get(52).setTranslateY(me.getY() + n.getTranslateY() - initialY);
-                }
             }
         });
     }
+
 
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 draw.updateTool(toolBar.getTool());
                 if(clicked) {
                     // add shape
@@ -172,7 +161,9 @@ public class Symbol {
                     clicked = false;
                 }
 
-                else {
+                else if(!clicked && toolBar.getTool() == "circle"||toolBar.getTool() == "line"
+                        ||toolBar.getTool() == "rectangle")
+                {
                     //set shape start point
                     draw.setStartPoint(event.getX(), event.getY());
                     //add onMouseMove handler
