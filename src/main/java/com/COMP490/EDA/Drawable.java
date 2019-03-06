@@ -190,8 +190,8 @@ public class Drawable {
                 break;
             case "circle":
                 Circle circle = new Circle();
-                circle.setCenterX(startX);
-                circle.setCenterY(startY);
+                circle.setCenterX(Math.abs(startX+x)/2);
+                circle.setCenterY(Math.abs(startY+y)/2);
                 circle.setRadius(distance(x, y)/2);
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
