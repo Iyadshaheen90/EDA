@@ -161,7 +161,7 @@ public class Symbol {
                     clicked = false;
                 }
 
-                else if(!clicked && toolBar.getTool() == "circle"||toolBar.getTool() == "line"
+                else if(toolBar.getTool() == "circle"||toolBar.getTool() == "line"
                         ||toolBar.getTool() == "rectangle")
                 {
                     //set shape start point
@@ -175,6 +175,15 @@ public class Symbol {
 //                    });
                     clicked = true;
                 }
+                drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if(clicked)
+                        {
+                            draw.shapePreview(mouseEvent, toolBar.getColor());
+                        }
+                    }
+                });
             }
         });
     }

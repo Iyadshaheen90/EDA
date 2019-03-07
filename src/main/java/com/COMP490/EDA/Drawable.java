@@ -23,7 +23,10 @@ public class Drawable {
     private double orgTranslateX;
     private double orgTranslateY;
     private boolean draggable;
-
+    //the shapes
+    private Line line;
+    private Rectangle rectangle;
+    private Circle circle;
 
     public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
         this.drawArea = drawArea;
@@ -35,6 +38,26 @@ public class Drawable {
         System.out.println("STart point set to X: " + x + " Y: " + y);
         startX = x;
         startY = y;
+        switch (tool)
+        {
+            case "line":
+                line = new Line(startX,startY,startX,startY);
+                drawArea.getChildren().add(line);
+                break;
+                
+            case "rectangle":
+                rectangle = new Rectangle();
+                drawArea.getChildren().add(rectangle);
+                break;
+
+            case "circle":
+                circle = new Circle();
+                circle.setCenterX(Math.abs(startX+x)/2);
+                circle.setCenterY(Math.abs(startY+y)/2);
+                circle.setRadius(distance(x, y)/2);
+                drawArea.getChildren().add(circle);
+                break;
+        }
     }
 
     public void updateTool(String tool){
@@ -159,6 +182,8 @@ public class Drawable {
             case "select":
                 break;
             case "line":
+                //remove the preview line when the second click of the mouse happens and then draw the actual line
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
                 Line line = new Line(startX, startY, x, y);
                 line.setStroke(color);
                 System.out.println("color: "+color);
@@ -169,6 +194,8 @@ public class Drawable {
                 drawArea.getChildren().add(line);
                 break;
             case "rectangle":
+                //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
                 double width = x - startX;
                 double height = y - startY;
                 // If end point is less than start swap points and make width/height positive
@@ -189,6 +216,8 @@ public class Drawable {
                 drawArea.getChildren().add(rect);
                 break;
             case "circle":
+                //remove the preview circle when the second click of the mouse happens and then draw the actual line
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
                 Circle circle = new Circle();
                 circle.setCenterX(Math.abs(startX+x)/2);
                 circle.setCenterY(Math.abs(startY+y)/2);
@@ -206,5 +235,52 @@ public class Drawable {
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
         TreeItem item = new TreeItem(tool);
 //        tree.getRoot().getChildren().addAll(item);
+    }
+
+    public void shapePreview(MouseEvent me, Color color) {
+        //System.out.println("accessed");
+        switch (tool)
+        {
+            case "line":
+                line.setStroke(color);
+                line.setStartX(startX);
+                line.setEndX(me.getX());
+                line.setStartY(startY);
+                line.setEndY(me.getY());
+                break;
+
+            case "rectangle":
+                rectangle.setFill(color);
+                double width = me.getX() - startX;
+                double height = me.getY() - startY;
+                // If end point is less than start swap points and make width/height positive
+                if(width < 0) {
+                    rectangle.setX(me.getX());
+                    rectangle.setTranslateX(width);
+                    //width = Math.abs(width);
+                    rectangle.setWidth(Math.abs(width));
+
+                }
+                if(height < 0) {
+                    rectangle.setY(me.getY());
+                    rectangle.setTranslateY(height);
+                    rectangle.setHeight(Math.abs(height));
+                }
+                System.out.println(startX + " " + startY);
+                if(height>0&&width>0) {
+                    rectangle.setX(startX);
+                    rectangle.setY(startY);
+                    rectangle.setWidth(width);
+                    rectangle.setHeight(height);
+                }
+                break;
+
+            case "circle":
+                circle.setFill(color);
+                circle.setCenterX(Math.abs(startX+me.getX())/2);
+                circle.setCenterY(Math.abs(startY+me.getY())/2);
+                circle.setRadius(distance(me.getX(), me.getY())/2);
+                break;
+        }
     }
 }
