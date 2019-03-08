@@ -262,11 +262,11 @@ public class Drawable {
                 {
                     rectangle.setTranslateY(height);
                 }
-                    rectangle.setX(startX);
-                    rectangle.setY(startY);
-                    rectangle.setWidth(Math.abs(width));
-                    rectangle.setHeight(Math.abs(height));
-                //}
+
+                rectangle.setX(startX);
+                rectangle.setY(startY);
+                rectangle.setWidth(Math.abs(width));
+                rectangle.setHeight(Math.abs(height));
                 break;
 
             case "circle":
