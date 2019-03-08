@@ -3,6 +3,8 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -175,6 +177,7 @@ public class Symbol {
 //                    });
                     clicked = true;
                 }
+
                 drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
@@ -186,6 +189,17 @@ public class Symbol {
                 });
             }
         });
+
+//        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent keyEvent) {
+//                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
+//                {
+//                    //clicked=false;
+//                    //draw.exitDrawing();
+//                }
+//            }
+//        });
     }
 
     // Shape arraylist controls

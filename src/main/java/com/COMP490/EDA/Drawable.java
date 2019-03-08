@@ -253,26 +253,20 @@ public class Drawable {
                 rectangle.setFill(color);
                 double width = me.getX() - startX;
                 double height = me.getY() - startY;
-                // If end point is less than start swap points and make width/height positive
-                if(width < 0) {
-                    rectangle.setX(me.getX());
-                    rectangle.setTranslateX(width);
-                    //width = Math.abs(width);
-                    rectangle.setWidth(Math.abs(width));
 
+                if(width<0)
+                {
+                    rectangle.setTranslateX(width);
                 }
-                if(height < 0) {
-                    rectangle.setY(me.getY());
+                if(height<0)
+                {
                     rectangle.setTranslateY(height);
-                    rectangle.setHeight(Math.abs(height));
                 }
-                System.out.println(startX + " " + startY);
-                if(height>0&&width>0) {
                     rectangle.setX(startX);
                     rectangle.setY(startY);
-                    rectangle.setWidth(width);
-                    rectangle.setHeight(height);
-                }
+                    rectangle.setWidth(Math.abs(width));
+                    rectangle.setHeight(Math.abs(height));
+                //}
                 break;
 
             case "circle":
@@ -283,4 +277,20 @@ public class Drawable {
                 break;
         }
     }
+
+//    public void exitDrawing() {
+//        System.out.println("exit drawing");
+//        switch (tool){
+//            case "line":
+//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
+//                break;
+//            case "rectangle":
+//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
+//                break;
+//
+//            case "circle":
+//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
+//                break;
+//        }
+//    }
 }
