@@ -3,6 +3,8 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -19,6 +21,7 @@ public class Symbol {
     private int height;
     private double initialX;
     private double initialY;
+
     private Pane drawArea;
     private ToolBarController toolBar;
     private boolean clicked = false;
@@ -64,12 +67,12 @@ public class Symbol {
     public int getHeight() {
         return height;
     }
+
     public void initialize() {
         drawBackground();
         addMouseScrolling(drawArea);
         addDragListeners(drawArea);
         addDrawListeners();
-//        dragShapes(drawArea);
     }
 
 
@@ -116,35 +119,6 @@ public class Symbol {
         });
     }
 
-//    private void dragShapes(final Node n){
-//        n.setOnMousePressed(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent me) {
-//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-//                {
-//                    System.out.println("works");
-//                    initialX = me.getX();
-//                    initialY = me.getY();
-//                }
-//            }
-//        });
-//
-//        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent me)
-//            {
-//                if(me.getButton()!=MouseButton.MIDDLE && toolBar.getTool()=="move")
-//                {
-//
-////                    drawArea.getChildren().get(0).setTranslateX(me.getX() + n.getTranslateX() - initialX);
-////                    drawArea.getChildren().get(0).setTranslateY(me.getY() + n.getTranslateY() - initialY);
-////                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
-////                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
-//                }
-//            }
-//        });
-//    }
-
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
 
@@ -157,6 +131,7 @@ public class Symbol {
                     initialX = me.getX();
                     initialY = me.getY();
                 }
+
             }
         });
 
@@ -174,19 +149,23 @@ public class Symbol {
         });
     }
 
+
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
                 draw.updateTool(toolBar.getTool());
                 if(clicked) {
                     // add shape
-                    draw.drawShape(event.getX(), event.getY());
+                    draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
                     //remove onMouseMove handler
                     clicked = false;
                 }
 
-                else {
+                else if(toolBar.getTool() == "circle"||toolBar.getTool() == "line"
+                        ||toolBar.getTool() == "rectangle")
+                {
                     //set shape start point
                     draw.setStartPoint(event.getX(), event.getY());
                     //add onMouseMove handler
@@ -198,8 +177,29 @@ public class Symbol {
 //                    });
                     clicked = true;
                 }
+
+                drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        if(clicked)
+                        {
+                            draw.shapePreview(mouseEvent, toolBar.getColor());
+                        }
+                    }
+                });
             }
         });
+
+//        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent keyEvent) {
+//                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
+//                {
+//                    //clicked=false;
+//                    //draw.exitDrawing();
+//                }
+//            }
+//        });
     }
 
     // Shape arraylist controls

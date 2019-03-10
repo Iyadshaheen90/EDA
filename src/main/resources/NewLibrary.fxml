@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="8.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="New Library">
-         <font>
-            <Font size="24.0" />
-         </font>
-         <padding>
-            <Insets top="10.0" />
-         </padding>
-      </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="44.0" prefWidth="200.0" spacing="5.0">
+      <Pane prefHeight="400.0" prefWidth="401.0">
          <children>
-            <Label alignment="CENTER" prefHeight="27.0" text="Library Name">
-               <HBox.margin>
-                  <Insets right="17.0" />
-               </HBox.margin>
+            <ImageView fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/HomeBackground.jpg" />
+               </image>
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </ImageView>
+            <Label layoutX="104.0" prefHeight="39.0" prefWidth="251.0" text="New Library" textFill="#f8f5f5">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </Label>
-            <TextField fx:id="fileName" prefHeight="27.0" prefWidth="470.0" />
+            <Label alignment="CENTER" layoutY="65.0" prefHeight="27.0" prefWidth="90.0" text="Library Name" textFill="#fcfcfc" />
+            <TextField fx:id="fileName" layoutX="104.0" layoutY="65.0" prefHeight="27.0" prefWidth="278.0" />
+            <Label alignment="CENTER" layoutY="102.0" prefHeight="27.0" prefWidth="107.0" text="Library Location" textFill="#fffefe" />
+            <TextField fx:id="filePath" layoutX="104.0" layoutY="102.0" prefHeight="27.0" prefWidth="208.0" />
+            <Button layoutX="318.0" layoutY="102.0" mnemonicParsing="false" onAction="#browse" text="Browse" />
+            <Button layoutX="104.0" layoutY="137.0" mnemonicParsing="false" onAction="#create" prefHeight="27.0" prefWidth="63.0" text="Open" />
+            <Button layoutX="180.0" layoutY="137.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="63.0" text="Cancel" />
+            <Text fx:id="errorText" layoutX="263.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Location" visible="false" wrappingWidth="97.10986328125">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#d70f0c" />
+                        <Stop color="#bf7978" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
          </children>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="CENTER_LEFT" prefWidth="564.0" spacing="5.0">
-         <children>
-            <Label alignment="CENTER" prefHeight="27.0" text="Library Location" />
-            <TextField fx:id="filePath" prefHeight="27.0" prefWidth="400.0" />
-            <Button mnemonicParsing="false" onAction="#browse" text="Browse" />
-         </children>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
-      <HBox alignment="TOP_CENTER" prefWidth="200.0" spacing="10.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#create" text="Open" />
-            <Button mnemonicParsing="false" onAction="#exit" text="Cancel" />
-         </children>
-      </HBox>
-      <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter a vaild path" textAlignment="CENTER" visible="false" />
+      </Pane>
    </children>
-</VBox>
+</AnchorPane>

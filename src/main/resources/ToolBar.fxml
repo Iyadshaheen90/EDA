@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.paint.Color?>
 
 <ToolBar prefHeight="40.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
 <items>
@@ -10,5 +12,10 @@
    <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setLine" styleClass="lineButton" />
    <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setRectangle" styleClass="rectangleButton" />
       <Button layoutX="76.0" layoutY="11.0" mnemonicParsing="false" onAction="#setCircle" styleClass="circleButton" />
+      <ColorPicker fx:id="colorPicker" layoutX="76.0" layoutY="11.0" onAction="#changeColor" prefHeight="27.0" prefWidth="110.0">
+         <value>
+            <Color blue="0" green="0" red="0"/>
+         </value>
+      </ColorPicker>
 </items>
 </ToolBar>

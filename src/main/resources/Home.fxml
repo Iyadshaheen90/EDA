@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="194.0" layoutY="14.0" text="EDA Symbol Editor">
+      <ImageView id="HomePageBackground" fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/HomeBackground.jpg" />
+         </image>
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis>
+      </ImageView>
+      <Label layoutX="84.0" layoutY="7.0" prefHeight="72.0" prefWidth="239.0" text="EDA Symbol Editor" textFill="#f8fcf3">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Button layoutX="199.0" layoutY="134.0" mnemonicParsing="false" onAction="#open" prefHeight="27.0" prefWidth="201.0" text="Open Symbol Library" />
-      <Button layoutX="200.0" layoutY="173.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="201.0" text="Exit" />
-      <Button fx:id="newButton" layoutX="199.0" layoutY="94.0" mnemonicParsing="false" onAction="#newLibrary" prefHeight="27.0" prefWidth="201.0" text="New Symbol Library" />
+      <Button layoutX="100.0" layoutY="173.0" mnemonicParsing="false" onAction="#open" prefHeight="27.0" prefWidth="201.0" text="Open Symbol Library" />
+      <Button layoutX="100.0" layoutY="219.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="201.0" text="Exit" />
+      <Button fx:id="newButton" layoutX="100.0" layoutY="121.0" mnemonicParsing="false" onAction="#newLibrary" prefHeight="27.0" prefWidth="201.0" text="New Symbol Library" />
    </children>
 </Pane>
