@@ -2,6 +2,8 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -54,35 +56,45 @@ public class prefController {
         }
     }
 
-    private void addTreeListeners(TreeView<String> symbols) {
-        // Coordinate listener
-        symbols.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //TODO
-                //Help
-            }
-        });
-    }
     @FXML
     public void close(){
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
-        symbols.setEditable(true);
-        symbols.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-            @Override
-            public TreeCell<String> call(TreeView<String> stringTreeView) {
-                return new TextFieldTreeCellImpl();
+        symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && newValue != oldValue){
+                System.out.println("Hello World");
             }
         });
-        addTreeListeners(symbols);
+//        symbols.setEditable(true);
+//        symbols.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+//            @Override
+//            public TreeCell<String> call(TreeView<String> stringTreeView) {
+//                return new TextFieldTreeCellImpl();
+//            }
+//        });
         this.sidepanel.getPanes().get(0).setContent(symbols);
+//        symbols.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+//
+//            @Override
+//            public void changed(ObservableValue observable, Object oldValue,
+//                                Object newValue) {
+//
+//                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+//                System.out.println("Selected Text : " + selectedItem.getValue());
+//                // do what ever you want
+//            }
+//
+//        });
+//        symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handle(newValue));
         //This automatically sets the file explorer open by default
         this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
         Stage stage = (Stage) symbolpath.getScene().getWindow();
         stage.close();
     }
+//    private void handle(Object newValue) {
+//        System.out.println(newValue);
+//    }
     public TreeItem<String> fillExplorer(File dir){
         TreeItem<String> root = new TreeItem<>(dir.getName());
         for (File f : dir.listFiles()){

@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +41,15 @@ public class MenuController {
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
+        symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && newValue != oldValue && newValue.isLeaf()){
+                System.out.println("Hello World");
+                File h = new File(Global.getLibraryLoc() + "/" + newValue.toString());
+                System.out.println("loading " + h.getAbsolutePath());
+                loadSymbol(h);
+
+            }
+        });
         this.sidePanel.getPanes().get(0).setContent(symbols);
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
@@ -168,7 +174,7 @@ public class MenuController {
         //array of shapes x
         Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "symbol.txt");
+            FileWriter fw = new FileWriter("symbol.txt");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
             ArrayList<Shape> shapes = Global.getCurrentSymbol().getShapes();
@@ -181,6 +187,16 @@ public class MenuController {
             fw.close();
             String output= yaml.dump(data);
             System.out.println(output);
+        }catch(IOException e){
+            System.out.println("Cant create file dude");
+        }
+    }
+    public void loadSymbol(File h) {
+        Yaml yaml = new Yaml();
+        try {
+            InputStream input = new FileInputStream(h);
+            Map<String, Object> data = yaml.load(input);
+            System.out.println(data);
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
