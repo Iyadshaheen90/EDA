@@ -16,6 +16,9 @@ public class MainAreaController {
     @FXML
     private Label rightStatus;
 
+    @FXML
+    private Label shapeLabel;
+
     public TabPane getTabArea() {
         return tabArea;
     }

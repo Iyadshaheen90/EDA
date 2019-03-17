@@ -29,7 +29,10 @@
                         </TitledPane>
                         <TitledPane animated="false" text="Properties">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Label fx:id="shapeLabel" layoutX="14.0" layoutY="22.0" prefHeight="27.0" prefWidth="110.0" text="Shape:" visible="false" />
+                                 </children></AnchorPane>
                           </content>
                         </TitledPane>
                       <TitledPane animated="false" text="Objects">
