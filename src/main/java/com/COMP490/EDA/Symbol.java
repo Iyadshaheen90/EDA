@@ -154,7 +154,7 @@ public class Symbol {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-
+                drawArea.requestFocus();
                 draw.updateTool(toolBar.getTool());
                 if(clicked) {
                     // add shape
@@ -190,16 +190,17 @@ public class Symbol {
             }
         });
 
-//        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
-//            @Override
-//            public void handle(KeyEvent keyEvent) {
-//                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
-//                {
-//                    //clicked=false;
-//                    //draw.exitDrawing();
-//                }
-//            }
-//        });
+        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
+                {
+                    System.out.println("pressed");
+                    clicked=false;
+                    draw.exitDrawing();
+                }
+            }
+        });
     }
 
     // Shape arraylist controls

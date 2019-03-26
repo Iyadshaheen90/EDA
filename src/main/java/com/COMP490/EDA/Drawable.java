@@ -278,19 +278,19 @@ public class Drawable {
         }
     }
 
-//    public void exitDrawing() {
-//        System.out.println("exit drawing");
-//        switch (tool){
-//            case "line":
-//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
-//                break;
-//            case "rectangle":
-//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
-//                break;
-//
-//            case "circle":
-//                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
-//                break;
-//        }
-//    }
+    public void exitDrawing() {
+        System.out.println("exit drawing");
+        switch (tool){
+            case "line":
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
+                break;
+            case "rectangle":
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
+                break;
+
+            case "circle":
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
+                break;
+        }
+    }
 }
