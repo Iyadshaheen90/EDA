@@ -27,11 +27,13 @@ public class Drawable {
     private Line line;
     private Rectangle rectangle;
     private Circle circle;
+    private Magnetize mag;
 
     public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
         this.drawArea = drawArea;
         this.tool = tool;
         this.shapes = shapes;
+        mag = new Magnetize(shapes);
     }
 
     public void setStartPoint(double x, double y) {
@@ -178,6 +180,7 @@ public class Drawable {
 
 
     public void drawShape(double x, double y, Color color) {
+        System.out.print(mag.getEdges());
         switch (tool) {
             case "select":
                 break;
