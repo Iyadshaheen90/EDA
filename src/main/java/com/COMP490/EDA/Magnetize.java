@@ -4,67 +4,139 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
 public class Magnetize {
-    private ArrayList<Shape> shapes;
-    public Magnetize(ArrayList<Shape> shapes) {
-        this.shapes = shapes;
+    private final double PIXEL_SENSITIVITY = 2;
+
+    private ArrayList<Double> edgesX;
+    private ArrayList<Double> edgesY;
+
+    public Magnetize() {
+        this.edgesX = new ArrayList<>();
+        this.edgesY = new ArrayList<>();
     }
 
-    public ArrayList<Double> getEdges() {
-        ArrayList<Double> edges = new ArrayList<>();
-        getEdgesX(edges);
-        getEdgesY(edges);
-        return edges;
+    public ArrayList<Double> getXValues() {
+        return edgesX;
     }
 
-    private void getEdgesX(ArrayList<Double> edges) {
-        for(Shape s : shapes) {
-            if(s instanceof Line) {
-                // since start and end X are the same it is straight line on X axis
-                if(((Line) s).getStartX() == ((Line) s).getEndX()) {
-                    edges.add(((Line) s).getStartX());
-                }
-            }
-            // add each of the X edges
-            else if (s instanceof Rectangle) {
-                edges.add(((Rectangle) s).getX());
-                edges.add(((Rectangle) s).getX() + ((Rectangle) s).getWidth());
-            }
+    public ArrayList<Double> getYValues() {
+        return edgesY;
+    }
 
-            else if(s instanceof Circle) {
-                edges.add(((Circle) s).getCenterX() + ((Circle) s).getRadius());
-                edges.add(((Circle) s).getCenterX() - ((Circle) s).getRadius());
+    public boolean checkXValue(double d) {
+        for(Double edge : edgesX) {
+            if(Math.abs(d - edge) <= PIXEL_SENSITIVITY) {
+                return true;
             }
-            else {
-                System.out.println("Not a symbol");
+        }
+        return false;
+    }
+
+    public boolean checkYValue(double d) {
+        for(Double edge : edgesY) {
+            if(Math.abs(d - edge) <= PIXEL_SENSITIVITY) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    public void add(Shape s) {
+        if(s instanceof Line) {
+            handleAddLine(s);
+        }
+
+        else if (s instanceof Rectangle) {
+            handleAddRectangle(s);
+        }
+
+        else if(s instanceof Circle) {
+//            System.out.println("Adding circle");
+            handleAddCircle(s);
+        }
+        else {
+            System.out.println("Not a symbol");
         }
     }
 
-    private void getEdgesY(ArrayList<Double> edges) {
-        for(Shape s : shapes) {
-            if(s instanceof Line) {
-                // since start and end Y are the same it is straight line on Y axis
-                if(((Line) s).getStartY() == ((Line) s).getEndY()) {
-                    edges.add(((Line) s).getStartY());
-                }
-            }
-            // add each of the Y edges
-            else if (s instanceof Rectangle) {
-                edges.add(((Rectangle) s).getY());
-                edges.add(((Rectangle) s).getY() + ((Rectangle) s).getWidth());
-            }
-
-            else if(s instanceof Circle) {
-                edges.add(((Circle) s).getCenterY() + ((Circle) s).getRadius());
-                edges.add(((Circle) s).getCenterY() - ((Circle) s).getRadius());
-            }
-            else {
-                System.out.println("Not a symbol");
-            }
+    public void remove(Shape s) {
+        if(s instanceof Line) {
+            handleRemoveLine(s);
         }
+
+        else if (s instanceof Rectangle) {
+            handleRemoveRectangle(s);
+        }
+
+        else if(s instanceof Circle) {
+            handleRemoveCircle(s);
+        }
+        else {
+            System.out.println("Not a symbol");
+        }
+    }
+
+    private void handleAddLine(Shape s) {
+        // since start and end X are the same it is straight line on X axis
+        if(((Line) s).getStartX() == ((Line) s).getEndX()) {
+            edgesX.add(((Line) s).getStartX());
+        }
+        else if(((Line) s).getStartY() == ((Line) s).getEndY()) {
+            edgesY.add(((Line) s).getStartY());
+        }
+    }
+
+    private void handleAddRectangle(Shape s) {
+        // add each of the X edges
+        edgesX.add(((Rectangle) s).getX());
+        edgesX.add(((Rectangle) s).getX() + ((Rectangle) s).getWidth());
+        // add each of the Y edges
+        edgesY.add(((Rectangle) s).getY());
+        edgesY.add(((Rectangle) s).getY() + ((Rectangle) s).getHeight());
+        // add center X and Y
+        edgesX.add(((Rectangle) s).getX() + (((Rectangle) s).getWidth()/2));
+        edgesY.add(((Rectangle) s).getY() + (((Rectangle) s).getHeight()/2));
+    }
+
+    private void handleAddCircle(Shape s) {
+        edgesX.add(((Circle) s).getCenterX() + ((Circle) s).getRadius());
+        edgesX.add(((Circle) s).getCenterX() - ((Circle) s).getRadius());
+        edgesX.add(((Circle) s).getCenterX());
+        edgesY.add(((Circle) s).getCenterY() + ((Circle) s).getRadius());
+        edgesY.add(((Circle) s).getCenterY() - ((Circle) s).getRadius());
+        edgesY.add(((Circle) s).getCenterY());
+    }
+
+    private void handleRemoveLine(Shape s) {
+        // since start and end X are the same it is straight line on X axis
+        if(((Line) s).getStartX() == ((Line) s).getEndX()) {
+            edgesX.remove(((Line) s).getStartX());
+        }
+        else if(((Line) s).getStartY() == ((Line) s).getEndY()) {
+            edgesY.remove(((Line) s).getStartY());
+        }
+    }
+
+    private void handleRemoveRectangle(Shape s) {
+        // add each of the X edges
+        edgesX.remove(((Rectangle) s).getX());
+        edgesX.remove(((Rectangle) s).getX() + ((Rectangle) s).getWidth());
+        // add each of the Y edges
+        edgesY.remove(((Rectangle) s).getY());
+        edgesY.remove(((Rectangle) s).getY() + ((Rectangle) s).getHeight());
+        // add center X and Y
+        edgesX.remove(((Rectangle) s).getX() + (((Rectangle) s).getWidth()/2));
+        edgesY.remove(((Rectangle) s).getY() + (((Rectangle) s).getHeight()/2));
+    }
+
+    private void handleRemoveCircle(Shape s) {
+        edgesX.remove(((Circle) s).getCenterX() + ((Circle) s).getRadius());
+        edgesX.remove(((Circle) s).getCenterX() - ((Circle) s).getRadius());
+        edgesY.remove(((Circle) s).getCenterY() + ((Circle) s).getRadius());
+        edgesY.remove(((Circle) s).getCenterY() - ((Circle) s).getRadius());
     }
 }

@@ -33,7 +33,7 @@ public class Drawable {
         this.drawArea = drawArea;
         this.tool = tool;
         this.shapes = shapes;
-        mag = new Magnetize(shapes);
+        this.mag = new Magnetize();
     }
 
     public void setStartPoint(double x, double y) {
@@ -73,9 +73,8 @@ public class Drawable {
     }
 
 
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler =
+    private EventHandler<MouseEvent> circleOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent me) {
                     if(tool=="move") {
@@ -90,9 +89,8 @@ public class Drawable {
                 }
             };
 
-    EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
+    private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent me) {
                     if(draggable) {
@@ -108,9 +106,8 @@ public class Drawable {
                 }
             };
 
-    EventHandler<MouseEvent> rectOnMousePressedEventHandler =
+    private EventHandler<MouseEvent> rectOnMousePressedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent me) {
                     if(tool=="move") {
@@ -125,13 +122,11 @@ public class Drawable {
                 }
             };
 
-    EventHandler<MouseEvent> rectOnMouseDraggedEventHandler =
+    private EventHandler<MouseEvent> rectOnMouseDraggedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent me) {
                     if(draggable) {
-
                         double offsetX = me.getSceneX() - orgSceneX;
                         double offsetY = me.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -143,26 +138,24 @@ public class Drawable {
                 }
             };
 
-        EventHandler<MouseEvent> lineOnMousePressedEventHandler =
-            new EventHandler<MouseEvent>() {
-
-                @Override
-                public void handle(MouseEvent me) {
-                    if(tool=="move") {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Line) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Line) (me.getSource())).getTranslateY();
-                        draggable = true;
-                    }
-                    else
-                        draggable =false;
+    private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
+        new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if(tool=="move") {
+                    orgSceneX = me.getSceneX();
+                    orgSceneY = me.getSceneY();
+                    orgTranslateX = ((Line) (me.getSource())).getTranslateX();
+                    orgTranslateY = ((Line) (me.getSource())).getTranslateY();
+                    draggable = true;
                 }
-            };
+                else
+                    draggable =false;
+            }
+        };
 
-    EventHandler<MouseEvent> lineOnMouseDraggedEventHandler =
+    private EventHandler<MouseEvent> lineOnMouseDraggedEventHandler =
             new EventHandler<MouseEvent>() {
-
                 @Override
                 public void handle(MouseEvent me) {
                     if(draggable) {
@@ -180,7 +173,6 @@ public class Drawable {
 
 
     public void drawShape(double x, double y, Color color) {
-        System.out.print(mag.getEdges());
         switch (tool) {
             case "select":
                 break;
@@ -194,6 +186,7 @@ public class Drawable {
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 shapes.add(line);
+                mag.add(line);
                 drawArea.getChildren().add(line);
                 break;
             case "rectangle":
@@ -210,12 +203,12 @@ public class Drawable {
                     startY = y;
                     height = Math.abs(height);
                 }
-                System.out.println(startX + " " + startY);
                 Rectangle rect = new Rectangle(startX, startY, width, height);
                 rect.setFill(color);
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 shapes.add(rect);
+                mag.add(rect);
                 drawArea.getChildren().add(rect);
                 break;
             case "circle":
@@ -229,13 +222,17 @@ public class Drawable {
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 shapes.add(circle);
+                mag.add(circle);
                 drawArea.getChildren().add(circle);
                 break;
         }
 
-
-
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
+//        System.out.print("X Values: ");
+//        for(double d : mag.getXValues()) {System.out.print(d + " ");}
+//        System.out.print("\nY Values: ");
+//        for(double d : mag.getYValues()) {System.out.print(d + " ");}
+//        System.out.print("\n");
         TreeItem item = new TreeItem(tool);
 //        tree.getRoot().getChildren().addAll(item);
     }
