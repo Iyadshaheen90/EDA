@@ -1,6 +1,7 @@
 package com.COMP490.EDA;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class Drawable {
     private Pane drawArea;
+    private Accordion sidePanel;
     private String tool;
     private ArrayList<Shape> shapes;
     private double startX;
@@ -29,8 +31,11 @@ public class Drawable {
     private Circle circle;
     private Magnetize mag;
 
-    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
+//    private MainAreaController mac = new MainAreaController();
+
+    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes, Accordion sidePanel) {
         this.drawArea = drawArea;
+        this.sidePanel = sidePanel;
         this.tool = tool;
         this.shapes = shapes;
         this.mag = new Magnetize();
@@ -83,7 +88,13 @@ public class Drawable {
                         orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
                         orgTranslateY = ((Circle) (me.getSource())).getTranslateY();
                         draggable = true;
+//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
                     }
+//                    else if(tool=="select")
+//                    {
+//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
+//                        draggable=false;
+//                    }
                     else
                         draggable =false;
                 }
@@ -277,7 +288,7 @@ public class Drawable {
                 break;
         }
     }
-
+    //a function to delete the shape being drawn while user is drawing it when the user hits escape
     public void exitDrawing() {
         System.out.println("exit drawing");
         switch (tool){

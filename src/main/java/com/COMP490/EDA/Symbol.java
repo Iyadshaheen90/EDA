@@ -40,7 +40,7 @@ public class Symbol {
         this.height = height;
         this.toolBar = toolBar;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
         initialize();
     }
 
@@ -154,7 +154,8 @@ public class Symbol {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                drawArea.requestFocus();
+                drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
+//                System.out.println(shapes.size());//testing if the shape is getting deleted when escape is pressed
                 draw.updateTool(toolBar.getTool());
                 if(clicked) {
                     // add shape
