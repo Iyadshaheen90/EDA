@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
@@ -17,6 +19,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+
 
 public class MenuController {
     private TabPane tabArea;
@@ -174,14 +180,66 @@ public class MenuController {
         //array of shapes x
         Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter("symbol.txt");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/symbol.txt");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
-            ArrayList<Shape> shapes = Global.getCurrentSymbol().getShapes();
-            //System.out.println("The shapes are " + shapes.toString());
+
+            ArrayList<Shape> fileShapes = Global.getCurrentSymbol().getShapes();
+            ArrayList<Shape> shapes = new ArrayList<>();
+//            ArrayList<Shape> shapes = new ArrayList<Shape>();
+//            ArrayList<Shape> shapes = (ArrayList<Shape>)Global.getCurrentSymbol().getShapes().clone();
+            for ( int i = 0; i < fileShapes.size() ; i++){
+                if (fileShapes.get(i) instanceof Rectangle){
+                    //X,Y,ScaleX,ScaleY,Width,Height,Fill
+                    Rectangle r = new Rectangle();
+                    Rectangle s = (Rectangle) fileShapes.get(i);
+                    r.setX(s.getX());
+                    r.setY(s.getY());
+                    r.setScaleX(s.getScaleX());
+                    r.setScaleY(s.getScaleY());
+                    r.setWidth(s.getWidth());
+                    r.setHeight(s.getHeight());
+                    r.setFill(s.getFill());
+                    shapes.add(r);
+                }
+                else if (fileShapes.get(i) instanceof Circle){
+                    //centerx,centery, radius
+                    Circle s = (Circle) fileShapes.get(i);
+                    Circle r = new Circle();
+                    r.setCenterX(s.getCenterX());
+                    r.setCenterY(s.getCenterY());
+                    r.setRadius(s.getRadius());
+                    r.setFill(s.getFill());
+                    shapes.add(r);
+                }
+                else if (fileShapes.get(i) instanceof Line){
+                    //startX,startY,endX,endY
+                    Line s = (Line) fileShapes.get(i);
+                    Line r = new Line();
+                    r.setStartX(s.getStartX());
+                    r.setStartY(s.getStartY());
+                    r.setEndX(s.getEndX());
+                    r.setEndY(s.getEndY());
+                    r.setFill(s.getFill());
+                    shapes.add(r);
+                }
+                else{
+                    System.out.println("This should not have happened what did you do");
+                }
+            }
+//            Rectangle rectangle= new Rectangle();
+//            rectangle.setX(50);
+//            rectangle.setY(91);
+//            rectangle.setWidth(113);
+//            rectangle.setHeight(110);
+//            rectangle.setFill(Color.rgb(1,0,0));
+//
+//            shapes.add(rectangle);
+            System.out.println("The shapes are " + shapes.toString());
             data.put("width" , Global.getCurrentSymbol().getWidth());
             data.put("height" , Global.getCurrentSymbol().getHeight());
             data.put("shapes" ,  shapes);
+            System.out.println(data.toString());
             yaml.dump(data,writer);
             fw.write(writer.toString());
             fw.close();
