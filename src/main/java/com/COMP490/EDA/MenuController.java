@@ -30,6 +30,8 @@ public class MenuController {
     private ToolBarController toolBar;
     private Accordion sidePanel;
     private TreeView<String> symbols;
+    private Map<String, File> listOfFiles;
+
 
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
@@ -43,14 +45,16 @@ public class MenuController {
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
         this.toolBar = toolBar;
-
+        listOfFiles = new HashMap<>(20);
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
         symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue != null && newValue != oldValue && newValue.isLeaf()){
                 System.out.println("Hello World");
-                File h = new File(Global.getLibraryLoc() + "/" + newValue.toString());
+//                System.out.println(newValue.getValue());
+                System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
+                File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
                 System.out.println("loading " + h.getAbsolutePath());
                 loadSymbol(h);
 
@@ -83,7 +87,7 @@ public class MenuController {
             }
             else{
                 root.getChildren().add(new TreeItem<>(f.getName()));
-
+                listOfFiles.put(f.getName(), f);
             }
         }
         return root;
@@ -180,7 +184,7 @@ public class MenuController {
         //array of shapes x
         Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/symbol.txt");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/symbol.yml");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
 
@@ -199,7 +203,7 @@ public class MenuController {
                     r.setScaleY(s.getScaleY());
                     r.setWidth(s.getWidth());
                     r.setHeight(s.getHeight());
-                    r.setFill(s.getFill());
+//                    r.setFill(s.getFill());
                     shapes.add(r);
                 }
                 else if (fileShapes.get(i) instanceof Circle){
@@ -209,7 +213,7 @@ public class MenuController {
                     r.setCenterX(s.getCenterX());
                     r.setCenterY(s.getCenterY());
                     r.setRadius(s.getRadius());
-                    r.setFill(s.getFill());
+//                    r.setFill(s.getFill());
                     shapes.add(r);
                 }
                 else if (fileShapes.get(i) instanceof Line){
@@ -220,7 +224,7 @@ public class MenuController {
                     r.setStartY(s.getStartY());
                     r.setEndX(s.getEndX());
                     r.setEndY(s.getEndY());
-                    r.setFill(s.getFill());
+//                    r.setFill(s.getFill());
                     shapes.add(r);
                 }
                 else{
