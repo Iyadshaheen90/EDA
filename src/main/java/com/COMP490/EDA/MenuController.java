@@ -295,61 +295,81 @@ public class MenuController {
                         //END OF SHAPE LINE
                     }
                     else if (currentLine.charAt(counter) == 'C'){
+                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
                         //Circle
                     }
                     else if (currentLine.charAt(counter) == 'R'){
+                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
                         //Rectangle
+
                     }
                     else{
-                        System.out.println("Your save file is corrupted");
+                        System.out.println("Your save file is corrupted Err:Menu307");
                     }
                 }
             }
+            System.out.println(shapes.toString());
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
         }
     }
-    public Loadresult ExtractData(int counter, String currentLine,Loadresult a){
+    public Loadresult<Double> ExtractData(int counter, String currentLine){
+        Loadresult<Double> a;
+        Double val;
         int temp = currentLine.indexOf(',',counter);
         String helper= currentLine.substring(counter, temp);
-        a.counter = counter + 2 + helper.length();
+        System.out.println("This is the string value" + helper );
+//        a.counter = counter + 2 + helper.length();
+        counter =counter + 2 + helper.length();
         //Convert string into a Double type
-        if (a.result instanceof Double){
-            a.result=Double.parseDouble(helper);
-        }
-        //Convert string into a Paint type
-        else if (a.result instanceof Paint){
-            a.result=Color.valueOf(helper);
-        }
+        val = Double.parseDouble(helper);
+        a = new Loadresult<>(counter,val);
+        return a;
+    }
+    public Loadresult<Paint> ExtractPaintData(int counter, String currentLine){
+        Loadresult<Paint> a;
+        Paint val;
+        int temp = currentLine.indexOf(',',counter);
+        String helper= currentLine.substring(counter, temp);
+        System.out.println("This is the string value" + helper );
+//        a.counter = counter + 2 + helper.length();
+        counter =counter + 2 + helper.length();
+        //Convert string into a Double type
+        val = Color.valueOf(helper);
+        a = new Loadresult<>(counter,val);
         return a;
     }
     public int LoadLine(int counter, String currentLine,String helper,int temp,
                         List<Shape> shapes){
-        Loadresult<Double> res = new Loadresult<Double>();
+//        Loadresult<Double> res = new Loadresult<Double>();
         counter = counter + 5;
         Line l = new Line();
         counter= counter +7;
-        res =ExtractData(counter,currentLine,res);
+        Loadresult<Double> res =ExtractData(counter,currentLine);
+        System.out.println(res.result + "this is it");
         counter = res.counter;
         l.setStartX(res.result);
-        res = ExtractData(counter=counter+7,currentLine,res);
+        res = ExtractData(counter=counter+7,currentLine);
         counter = res.counter;
         l.setStartY(res.result);
-        res = ExtractData(counter=counter+5,currentLine,res);
+        res = ExtractData(counter=counter+5,currentLine);
         counter = res.counter;
         l.setEndX(res.result);
-        res = ExtractData(counter=counter+5,currentLine,res);
+        res = ExtractData(counter=counter+5,currentLine);
         counter = res.counter;
         l.setEndY(res.result);
         //Stroke
         Loadresult<Paint> Strokeres;
-        Strokeres=ExtractData(counter=counter + 7,currentLine,res);
+        Strokeres=ExtractPaintData(counter=counter + 7,currentLine);
         counter = Strokeres.counter;
         l.setStroke(Strokeres.result);
         //Stroke width
         counter = counter + 12;
         temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp) == ']'){
+            temp--;
+        }
         helper=currentLine.substring(counter,temp);
         counter = counter + 1 + helper.length();
         l.setStrokeWidth(Double.parseDouble(helper));
@@ -373,18 +393,50 @@ public class MenuController {
         c.setRadius(res.result);
         counter = counter + 5;
         temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp) == ']'){
+            temp--;
+        }
         helper = currentLine.substring(counter,temp);
         counter = counter + 1 + helper.length();
         c.setFill(Color.valueOf(helper));
         shapes.add(c);
         return counter;
     }
+    public int LoadRectangle(int counter,String currentLine, String helper, int temp,
+                             List<Shape> shapes){
+        Loadresult<Double> res = new Loadresult<>();
+        counter = counter +10;
+        Rectangle r = new Rectangle();
+        counter = counter + 2;
+        res = ExtractData(counter,currentLine,res);
+        counter =res.counter;
+        r.setX(res.result);
+        res=ExtractData(counter = counter + 2, currentLine,res);
+        counter = res.counter;
+        r.setY(res.result);
+        res = ExtractData(counter = counter + 6, currentLine,res);
+        counter = res.counter;
+        r.setWidth(res.result);
+        res = ExtractData(counter = counter + 7, currentLine,res);
+        counter= res.counter;
+        r.setHeight(res.result);
+        counter = counter + 5;
+        temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp) == ']'){
+            temp--;
+        }
+        helper = currentLine.substring(counter,temp);
+        counter=counter + 1 + helper.length();
+        r.setFill(Color.valueOf(helper));
+        shapes.add(r);
+        return counter;
+    }
     public class Loadresult<A>{
         public int counter;
         public A result;
-        public Loadresult(){
-            counter=0;
-            result=null;
+        public Loadresult(int counter, A result){
+            this.counter=counter;
+            this.result=result;
         }
     }
 }
