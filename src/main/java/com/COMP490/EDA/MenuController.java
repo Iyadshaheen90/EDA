@@ -263,7 +263,6 @@ public class MenuController {
         int counter = 9;
         int temp = 0;
         String helper= null;
-        Loadresult res = new Loadresult();
         try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
             //shapes=[
 //            InputStream input = new FileInputStream(h);
@@ -276,26 +275,28 @@ public class MenuController {
 
             else{
                 if (currentLine.charAt(counter) == 'L'){
+                    Loadresult<Double> res = new Loadresult<Double>();
                     counter = counter + 5;
                     Line l = new Line();
                     counter= counter +7;
-                    res =ExtractData(counter,currentLine);
+                    res =ExtractData(counter,currentLine,res);
                     counter = res.counter;
                     l.setStartX(res.result);
-                    res = ExtractData(counter=counter+7,currentLine);
+                    res = ExtractData(counter=counter+7,currentLine,res);
                     counter = res.counter;
                     l.setStartY(res.result);
-                    res = ExtractData(counter=counter+5,currentLine);
+                    res = ExtractData(counter=counter+5,currentLine,res);
                     counter = res.counter;
                     l.setEndX(res.result);
-                    res = ExtractData(counter=counter+5,currentLine);
+                    res = ExtractData(counter=counter+5,currentLine,res);
                     counter = res.counter;
                     l.setEndY(res.result);
                     counter = counter + 7;
+                    //Stroke
                     temp = currentLine.indexOf(',',counter);
                     helper=currentLine.substring(counter,temp);
                     counter = counter + 2 + helper.length();
-                    //Stroke
+                    //Stroke width
                     counter = counter + 12;
                     temp = currentLine.indexOf(',',counter)-1;
                     helper=currentLine.substring(counter,temp);
@@ -309,20 +310,26 @@ public class MenuController {
             e.printStackTrace();
         }
     }
-    public Loadresult ExtractData(int counter, String currentLine){
-        Loadresult a = new Loadresult();
+    public Loadresult ExtractData(int counter, String currentLine,Loadresult a){
         int temp = currentLine.indexOf(',',counter);
         String helper= currentLine.substring(counter, temp);
         a.counter = counter + 2 + helper.length();
-        a.result=Double.parseDouble(helper);
+        //Convert string into a Double type
+        if (a.result instanceof Double){
+            a.result=Double.parseDouble(helper);
+        }
+        //Convert string into a Paint type
+        else if (a.result instanceof Paint){
+            a.result=Color.valueOf(helper);
+        }
         return a;
     }
-    public class Loadresult{
+    public class Loadresult<A>{
         public int counter;
-        public Double result;
+        public A result;
         public Loadresult(){
             counter=0;
-            result=0.0;
+            result=null;
         }
     }
 }
