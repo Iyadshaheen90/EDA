@@ -8,13 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
-import java.awt.*;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -274,7 +274,7 @@ public class MenuController {
     public void loadSymbol(File h) {
 //        Yaml yaml = new Yaml();
         List<Shape> shapes = new ArrayList<Shape>();
-        int counter = 9;
+        int counter = 7;
         int temp = 0;
         String helper= null;
         try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
@@ -288,35 +288,21 @@ public class MenuController {
             }
 
             else{
-                if (currentLine.charAt(counter) == 'L'){
-                    Loadresult<Double> res = new Loadresult<Double>();
-                    counter = counter + 5;
-                    Line l = new Line();
-                    counter= counter +7;
-                    res =ExtractData(counter,currentLine,res);
-                    counter = res.counter;
-                    l.setStartX(res.result);
-                    res = ExtractData(counter=counter+7,currentLine,res);
-                    counter = res.counter;
-                    l.setStartY(res.result);
-                    res = ExtractData(counter=counter+5,currentLine,res);
-                    counter = res.counter;
-                    l.setEndX(res.result);
-                    res = ExtractData(counter=counter+5,currentLine,res);
-                    counter = res.counter;
-                    l.setEndY(res.result);
-                    counter = counter + 7;
-                    //Stroke
-                    temp = currentLine.indexOf(',',counter);
-                    helper=currentLine.substring(counter,temp);
-                    counter = counter + 2 + helper.length();
-                    //Stroke width
-                    counter = counter + 12;
-                    temp = currentLine.indexOf(',',counter)-1;
-                    helper=currentLine.substring(counter,temp);
-                    counter = counter + 1 + helper.length();
-                    shapes.add(l);
-                    //END OF SHAPE LINE
+                while(currentLine.charAt(counter) != ']'){
+                    counter= counter+2;
+                    if (currentLine.charAt(counter) == 'L'){
+                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
+                        //END OF SHAPE LINE
+                    }
+                    else if (currentLine.charAt(counter) == 'C'){
+                        //Circle
+                    }
+                    else if (currentLine.charAt(counter) == 'R'){
+                        //Rectangle
+                    }
+                    else{
+                        System.out.println("Your save file is corrupted");
+                    }
                 }
             }
         }catch(IOException e){
@@ -337,6 +323,61 @@ public class MenuController {
             a.result=Color.valueOf(helper);
         }
         return a;
+    }
+    public int LoadLine(int counter, String currentLine,String helper,int temp,
+                        List<Shape> shapes){
+        Loadresult<Double> res = new Loadresult<Double>();
+        counter = counter + 5;
+        Line l = new Line();
+        counter= counter +7;
+        res =ExtractData(counter,currentLine,res);
+        counter = res.counter;
+        l.setStartX(res.result);
+        res = ExtractData(counter=counter+7,currentLine,res);
+        counter = res.counter;
+        l.setStartY(res.result);
+        res = ExtractData(counter=counter+5,currentLine,res);
+        counter = res.counter;
+        l.setEndX(res.result);
+        res = ExtractData(counter=counter+5,currentLine,res);
+        counter = res.counter;
+        l.setEndY(res.result);
+        //Stroke
+        Loadresult<Paint> Strokeres;
+        Strokeres=ExtractData(counter=counter + 7,currentLine,res);
+        counter = Strokeres.counter;
+        l.setStroke(Strokeres.result);
+        //Stroke width
+        counter = counter + 12;
+        temp = currentLine.indexOf(',',counter)-1;
+        helper=currentLine.substring(counter,temp);
+        counter = counter + 1 + helper.length();
+        l.setStrokeWidth(Double.parseDouble(helper));
+        shapes.add(l);
+        return counter;
+    }
+    public int LoadCircle(int counter,String currentLine, String helper, int temp,
+                          List<Shape> shapes){
+        Loadresult<Double> res = new Loadresult<Double>();
+        counter = counter +7;
+        Circle c = new Circle();
+        counter = counter + 8;
+        res = ExtractData(counter,currentLine,res);
+        counter = res.counter;
+        c.setCenterX(res.result);
+        res = ExtractData(counter = counter + 8, currentLine,res);
+        counter = res.counter;
+        c.setCenterY(res.result);
+        res = ExtractData(counter=counter + 7,currentLine,res);
+        counter = res.counter;
+        c.setRadius(res.result);
+        counter = counter + 5;
+        temp = currentLine.indexOf(',',counter)-1;
+        helper = currentLine.substring(counter,temp);
+        counter = counter + 1 + helper.length();
+        c.setFill(Color.valueOf(helper));
+        shapes.add(c);
+        return counter;
     }
     public class Loadresult<A>{
         public int counter;
