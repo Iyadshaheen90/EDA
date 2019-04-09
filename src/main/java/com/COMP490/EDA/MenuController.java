@@ -186,7 +186,7 @@ public class MenuController {
         //array of shapes x
 //        Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName());
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".txt");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
 
@@ -232,6 +232,20 @@ public class MenuController {
                 else{
                     System.out.println("This should not have happened what did you do");
                 }
+                File f = new File(Global.getLibraryLoc());
+                symbols.setRoot(fillExplorer(f));
+                symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if(newValue != null && newValue != oldValue && newValue.isLeaf()){
+                        System.out.println("Hello World");
+//                System.out.println(newValue.getValue());
+                        System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
+                        File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
+                        System.out.println("loading " + h.getAbsolutePath());
+                        loadSymbol(h);
+
+                    }
+                });
+                this.sidePanel.getPanes().get(0).setContent(symbols);
             }
 //            Rectangle rectangle= new Rectangle();
 //            rectangle.setX(50);
