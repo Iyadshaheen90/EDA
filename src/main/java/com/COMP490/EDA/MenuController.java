@@ -16,8 +16,10 @@ import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
 import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -182,9 +184,9 @@ public class MenuController {
     public void newSave() {
         //dimensions of canvas x
         //array of shapes x
-        Yaml yaml = new Yaml();
+//        Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/symbol.yml");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName());
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
 
@@ -203,7 +205,7 @@ public class MenuController {
                     r.setScaleY(s.getScaleY());
                     r.setWidth(s.getWidth());
                     r.setHeight(s.getHeight());
-//                    r.setFill(s.getFill());
+                    r.setFill(s.getFill());
                     shapes.add(r);
                 }
                 else if (fileShapes.get(i) instanceof Circle){
@@ -244,24 +246,83 @@ public class MenuController {
             data.put("height" , Global.getCurrentSymbol().getHeight());
             data.put("shapes" ,  shapes);
             System.out.println(data.toString());
-            yaml.dump(data,writer);
-            fw.write(writer.toString());
+
+//            yaml.dump(data,writer);
+//            fw.write(writer.toString());
+            fw.write(data.toString());
             fw.close();
-            String output= yaml.dump(data);
-            System.out.println(output);
+//            String output= yaml.dump(data);
+//            System.out.println(output);
         }catch(IOException e){
             System.out.println("Cant create file dude");
         }
     }
     public void loadSymbol(File h) {
-        Yaml yaml = new Yaml();
-        try {
-            InputStream input = new FileInputStream(h);
-            Map<String, Object> data = yaml.load(input);
-            System.out.println(data);
+//        Yaml yaml = new Yaml();
+        List<Shape> shapes = new ArrayList<Shape>();
+        int counter = 9;
+        int temp = 0;
+        String helper= null;
+        Loadresult res = new Loadresult();
+        try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
+            //shapes=[
+//            InputStream input = new FileInputStream(h);
+//            Map<String, Object> data = yaml.load(input);
+//            System.out.println(data);
+            String currentLine = reader.readLine();
+            if (currentLine.contains("[]")){
+                //no shapes
+            }
+
+            else{
+                if (currentLine.charAt(counter) == 'L'){
+                    counter = counter + 5;
+                    Line l = new Line();
+                    counter= counter +7;
+                    res =ExtractData(counter,currentLine);
+                    counter = res.counter;
+                    l.setStartX(res.result);
+                    res = ExtractData(counter=counter+7,currentLine);
+                    counter = res.counter;
+                    l.setStartY(res.result);
+                    res = ExtractData(counter=counter+5,currentLine);
+                    counter = res.counter;
+                    l.setEndX(res.result);
+                    res = ExtractData(counter=counter+5,currentLine);
+                    counter = res.counter;
+                    l.setEndY(res.result);
+                    counter = counter + 7;
+                    temp = currentLine.indexOf(',',counter);
+                    helper=currentLine.substring(counter,temp);
+                    counter = counter + 2 + helper.length();
+                    //Stroke
+                    counter = counter + 12;
+                    temp = currentLine.indexOf(',',counter)-1;
+                    helper=currentLine.substring(counter,temp);
+                    counter = counter + 1 + helper.length();
+                    shapes.add(l);
+                    //END OF SHAPE LINE
+                }
+            }
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
+        }
+    }
+    public Loadresult ExtractData(int counter, String currentLine){
+        Loadresult a = new Loadresult();
+        int temp = currentLine.indexOf(',',counter);
+        String helper= currentLine.substring(counter, temp);
+        a.counter = counter + 2 + helper.length();
+        a.result=Double.parseDouble(helper);
+        return a;
+    }
+    public class Loadresult{
+        public int counter;
+        public Double result;
+        public Loadresult(){
+            counter=0;
+            result=0.0;
         }
     }
 }

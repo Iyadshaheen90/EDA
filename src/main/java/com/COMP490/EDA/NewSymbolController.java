@@ -73,6 +73,7 @@ public class NewSymbolController {
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             Global.setCurrentSymbol(symbol);
+            Global.getCurrentSymbol().setName(name.getText());
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
             Stage stage = (Stage) width.getScene().getWindow();
