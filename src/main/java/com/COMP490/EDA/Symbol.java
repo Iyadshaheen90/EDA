@@ -157,6 +157,10 @@ public class Symbol {
                 drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
 //                System.out.println(shapes.size());//testing if the shape is getting deleted when escape is pressed
                 draw.updateTool(toolBar.getTool());
+
+                //if select is the tool selected we capture the point where the user clicked and iterate through the
+                //shapes checking if it contains the point. if it does we break out of the loop and when delete is
+                //pressed we remove the shape from the arraylist and from the children of the pane
                 if(toolBar.getTool()=="select")
                 {
                     int x = (int)event.getX();
@@ -212,8 +216,8 @@ public class Symbol {
                     clicked=false;
                     draw.exitDrawing();
                 }
-
-                if(toolBar.getTool()=="select"&&keyEvent.getCode().equals(KeyCode.DELETE));
+                //
+                if(toolBar.getTool()=="select"&&keyEvent.getCode().equals(KeyCode.DELETE)&&shape!=null);
                 {
                     System.out.println("delete pressed");
                     drawArea.getChildren().remove(shape);
