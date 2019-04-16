@@ -2,9 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -31,15 +35,46 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <VBox layoutX="20.4" layoutY="20.4" prefHeight="996.0" prefWidth="545.0" spacing="9.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox id="propertiesItems" fx:id="propertiesItems" prefHeight="996.0" prefWidth="545.0" spacing="9.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="shapeLabel" text="Shape:" />
-                                          <Label fx:id="label" prefHeight="17.0" prefWidth="97.0" text="Label" />
-                                          <Label fx:id="label1" layoutX="10.0" layoutY="37.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
-                                          <Label fx:id="label11" layoutX="10.0" layoutY="54.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
-                                          <Label fx:id="label111" layoutX="10.0" layoutY="71.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
-                                          <Label fx:id="label1111" layoutX="10.0" layoutY="88.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
-                                          <Label fx:id="label11111" layoutX="10.0" layoutY="105.0" prefHeight="17.0" prefWidth="97.0" text="Label" />
+                                          <Label fx:id="shapeLabel" text="Shape:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Label>
+                                          <Separator prefWidth="200.0" />
+                                          <Label fx:id="strokeLabel" prefHeight="17.0" prefWidth="97.0" text="Stroke:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font></Label>
+                                          <Slider blockIncrement="5.0" max="25.0" showTickLabels="true" showTickMarks="true" />
+                                          <Separator prefWidth="200.0" />
+                                          <Label fx:id="colorLabel" text="Color:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <ColorPicker fx:id="colorPicker" />
+                                          <Separator prefWidth="200.0" />
+                                          <Label fx:id="heightLabel" text="Height:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="heightTextfield" promptText="Height" />
+                                          <Separator prefWidth="200.0" />
+                                          <Label text="Width:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="widthTextfield" promptText="Width" />
+                                          <Separator prefWidth="200.0" />
+                                          <Label fx:id="radiusLabel" text="Radius:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="radiusTextfield" promptText="Radius" />
                                        </children>
                                     </VBox>
                                  </children></AnchorPane>

@@ -88,15 +88,20 @@ public class Drawable {
                         orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
                         orgTranslateY = ((Circle) (me.getSource())).getTranslateY();
                         draggable = true;
-//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
                     }
-//                    else if(tool=="select")
+
+//                    if(tool=="select")
 //                    {
-//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
-//                        draggable=false;
+//                        System.out.println("recognized");
+//                        sidePanel.requestFocus();
+//                        sidePanel.getPanes().get(1).getContent().setVisible(false);
+//
+//                        draggable = false;
 //                    }
                     else
                         draggable =false;
+                    System.out.println(me.getSource().getClass());
+
                 }
             };
 
