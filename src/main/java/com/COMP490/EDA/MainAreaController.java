@@ -17,6 +17,9 @@ public class MainAreaController {
     private Label rightStatus;
 
     @FXML
+    public VBox propertiesItems;
+
+    @FXML
     private Label shapeLabel;
 
     public TabPane getTabArea() {

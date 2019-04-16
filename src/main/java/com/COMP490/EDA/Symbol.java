@@ -23,6 +23,7 @@ public class Symbol {
     private double initialY;
 
     private Pane drawArea;
+    private Shape shape;
     private ToolBarController toolBar;
     private boolean clicked = false;
     private String parentDir="";
@@ -149,7 +150,6 @@ public class Symbol {
         });
     }
 
-
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -157,6 +157,18 @@ public class Symbol {
                 drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
 //                System.out.println(shapes.size());//testing if the shape is getting deleted when escape is pressed
                 draw.updateTool(toolBar.getTool());
+                if(toolBar.getTool()=="select")
+                {
+                    int x = (int)event.getX();
+                    int y = (int)event.getY();
+                    for ( int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
+                        shape = shapes.get(i);
+                        if (shape.contains(x,y))
+                        {
+                            break;
+                        }
+                    }
+                }
                 if(clicked) {
                     // add shape
                     draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
@@ -196,10 +208,18 @@ public class Symbol {
             public void handle(KeyEvent keyEvent) {
                 if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
                 {
-                    System.out.println("pressed");
+                    System.out.println("escape pressed");
                     clicked=false;
                     draw.exitDrawing();
                 }
+
+                if(toolBar.getTool()=="select"&&keyEvent.getCode().equals(KeyCode.DELETE));
+                {
+                    System.out.println("delete pressed");
+                    drawArea.getChildren().remove(shape);
+                    shapes.remove(shape);
+                }
+
             }
         });
     }

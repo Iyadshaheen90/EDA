@@ -82,6 +82,7 @@ public class Drawable {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
+                    updateTool(tool);
                     if(tool=="move") {
                         orgSceneX = me.getSceneX();
                         orgSceneY = me.getSceneY();
@@ -100,8 +101,6 @@ public class Drawable {
 //                    }
                     else
                         draggable =false;
-                    System.out.println(me.getSource().getClass());
-
                 }
             };
 
