@@ -46,7 +46,8 @@
                                              <font>
                                                 <Font size="18.0" />
                                              </font></Label>
-                                          <Slider blockIncrement="5.0" max="25.0" showTickLabels="true" showTickMarks="true" />
+                                          <TextField fx:id="strokeTextfield" />
+                                          <Slider fx:id="strokeSlider" blockIncrement="5.0" max="25.0" showTickLabels="true" showTickMarks="true" />
                                           <Separator prefWidth="200.0" />
                                           <Label fx:id="colorLabel" text="Color:">
                                              <font>
@@ -62,7 +63,7 @@
                                           </Label>
                                           <TextField fx:id="heightTextfield" promptText="Height" />
                                           <Separator prefWidth="200.0" />
-                                          <Label text="Width:">
+                                          <Label fx:id="widthLabel" text="Width:">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
