@@ -2,12 +2,15 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -178,6 +181,16 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+    // Add coordinate listeners
+    private void addCoordinateListener(Symbol file, Pane pane) {
+        // Coordinate listener
+        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+            }
+        });
+    }
 
     // Bound to File>Save As
     @FXML
@@ -273,9 +286,11 @@ public class MenuController {
     }
     public void loadSymbol(File h) {
 //        Yaml yaml = new Yaml();
-        List<Shape> shapes = new ArrayList<Shape>();
+        ArrayList<Shape> shapes = new ArrayList<Shape>();
         int counter = 7;
         int temp = 0;
+        String width = null;
+        String height = null;
         String helper= null;
         try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
             //shapes=[
@@ -295,11 +310,11 @@ public class MenuController {
                         //END OF SHAPE LINE
                     }
                     else if (currentLine.charAt(counter) == 'C'){
-                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
+                        counter = LoadCircle(counter,currentLine,helper,temp,shapes);
                         //Circle
                     }
                     else if (currentLine.charAt(counter) == 'R'){
-                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
+                        counter = LoadRectangle(counter,currentLine,helper,temp,shapes);
                         //Rectangle
 
                     }
@@ -308,7 +323,32 @@ public class MenuController {
                     }
                 }
             }
+            counter = counter + 9;
+            temp = currentLine.indexOf(',', counter);
+            helper = currentLine.substring(counter,temp);
+            width=helper;
+            counter = counter + helper.length() + 9;
+            temp = currentLine.indexOf('}', counter);
+            helper = currentLine.substring(counter,temp);
+            height= helper;
+            counter = counter + helper.length() + 2;
             System.out.println(shapes.toString());
+//            Global.setCurrentSymbol(new Symbol(tabArea.));
+            Pane pane = new Pane();
+            pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
+            pane.setStyle("-fx-background-color: white");
+            Tab tab = new Tab(h.getName() , pane);
+            Symbol symbol = new Symbol(pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
+            //Global.addToArrayList(symbol)
+            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
+            Global.setCurrentSymbol(symbol);
+            Global.getCurrentSymbol().setShapes(shapes);
+            Global.getCurrentSymbol().setName(h.getName());
+            tabArea.getTabs().add(tab);
+            addCoordinateListener(symbol, pane);
+            for(Shape s : shapes){
+                symbol.getDrawArea().getChildren().add(s);
+            }
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
@@ -378,24 +418,26 @@ public class MenuController {
     }
     public int LoadCircle(int counter,String currentLine, String helper, int temp,
                           List<Shape> shapes){
-        Loadresult<Double> res = new Loadresult<Double>();
+//        Loadresult<Double> res = ExtractData(counter,currentLine);
         counter = counter +7;
         Circle c = new Circle();
         counter = counter + 8;
-        res = ExtractData(counter,currentLine,res);
+        Loadresult<Double> res =ExtractData(counter,currentLine);
+
+        res = ExtractData(counter,currentLine);
         counter = res.counter;
         c.setCenterX(res.result);
-        res = ExtractData(counter = counter + 8, currentLine,res);
+        res = ExtractData(counter = counter + 8, currentLine);
         counter = res.counter;
         c.setCenterY(res.result);
-        res = ExtractData(counter=counter + 7,currentLine,res);
+        res = ExtractData(counter=counter + 7,currentLine);
         counter = res.counter;
         c.setRadius(res.result);
         counter = counter + 5;
         temp = currentLine.indexOf(',',counter)-1;
-        if (currentLine.charAt(temp) == ']'){
-            temp--;
-        }
+//        if (currentLine.charAt(temp) == ']'){
+//            temp--;
+//        }
         helper = currentLine.substring(counter,temp);
         counter = counter + 1 + helper.length();
         c.setFill(Color.valueOf(helper));
@@ -404,28 +446,31 @@ public class MenuController {
     }
     public int LoadRectangle(int counter,String currentLine, String helper, int temp,
                              List<Shape> shapes){
-        Loadresult<Double> res = new Loadresult<>();
+//        Loadresult<Double> res = ExtractData(counter,currentLine);
         counter = counter +10;
         Rectangle r = new Rectangle();
         counter = counter + 2;
-        res = ExtractData(counter,currentLine,res);
+        Loadresult<Double> res =ExtractData(counter,currentLine);
         counter =res.counter;
         r.setX(res.result);
-        res=ExtractData(counter = counter + 2, currentLine,res);
+        res=ExtractData(counter = counter + 2, currentLine);
+        System.out.println("this is the value" + currentLine.indexOf(counter));
         counter = res.counter;
         r.setY(res.result);
-        res = ExtractData(counter = counter + 6, currentLine,res);
+        res = ExtractData(counter = counter + 6, currentLine);
+        System.out.println("this is the value" + currentLine.indexOf(counter));
         counter = res.counter;
         r.setWidth(res.result);
-        res = ExtractData(counter = counter + 7, currentLine,res);
+        res = ExtractData(counter = counter + 7, currentLine);
         counter= res.counter;
         r.setHeight(res.result);
         counter = counter + 5;
         temp = currentLine.indexOf(',',counter)-1;
-        if (currentLine.charAt(temp) == ']'){
-            temp--;
-        }
+//        if (currentLine.charAt(temp) == ']'){
+//            temp--;
+//        }
         helper = currentLine.substring(counter,temp);
+        System.out.println(helper);
         counter=counter + 1 + helper.length();
         r.setFill(Color.valueOf(helper));
         shapes.add(r);

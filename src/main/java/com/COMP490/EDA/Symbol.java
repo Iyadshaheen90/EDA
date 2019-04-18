@@ -12,7 +12,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Symbol {
 
@@ -55,6 +57,12 @@ public class Symbol {
     public void setWidth(int width) {
         this.width = width;
     }
+
+    public void setShapes(ArrayList<Shape> shapes){
+        this.shapes=shapes;
+    }
+
+    public Pane getDrawArea(){ return this.drawArea; };
 
     public void setHeight(int height) {
         this.height = height;
