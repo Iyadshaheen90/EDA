@@ -55,7 +55,7 @@ public class MenuController {
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
         symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null && newValue != oldValue && newValue.isLeaf()){
+            if(newValue != null && newValue != oldValue && newValue.isLeaf() && newValue.getValue().endsWith(".eda")){
                 System.out.println("Hello World");
 //                System.out.println(newValue.getValue());
                 System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
@@ -121,34 +121,6 @@ public class MenuController {
         Platform.exit();
     }
 
-    // Opens an existing file
-    // Bound to File>Open
-//    @FXML
-//    public void open()
-//    {
-//        Stage stage = new Stage();
-//        fileChooser.setTitle("Open Resource File");
-//        File file = fileChooser.showOpenDialog(stage);
-//        if(file!=null)
-//        {
-//            openFile(file);
-//            //logging the path to test if it is correct
-//            System.out.println(file.getAbsolutePath());
-//
-//        }
-//
-//    }
-//
-//    //helper function that opens the file that was chosen
-//    private void openFile(File file) {
-//        //
-//        try {
-//            desktop.open(file);//place holder for now, it opens the file but not with in the program
-//        } catch (IOException ex) {
-//
-//        }
-//    }
-
     @FXML
     public void open() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Open.fxml"));
@@ -199,7 +171,7 @@ public class MenuController {
         //array of shapes x
 //        Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".txt");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
 
@@ -219,6 +191,7 @@ public class MenuController {
                     r.setWidth(s.getWidth());
                     r.setHeight(s.getHeight());
                     r.setFill(s.getFill());
+                    System.out.println(s.getFill().toString());
                     shapes.add(r);
                 }
                 else if (fileShapes.get(i) instanceof Circle){
@@ -228,7 +201,8 @@ public class MenuController {
                     r.setCenterX(s.getCenterX());
                     r.setCenterY(s.getCenterY());
                     r.setRadius(s.getRadius());
-//                    r.setFill(s.getFill());
+                    r.setFill(s.getFill());
+                    System.out.println(s.getFill());
                     shapes.add(r);
                 }
                 else if (fileShapes.get(i) instanceof Line){
@@ -239,7 +213,8 @@ public class MenuController {
                     r.setStartY(s.getStartY());
                     r.setEndX(s.getEndX());
                     r.setEndY(s.getEndY());
-//                    r.setFill(s.getFill());
+                    System.out.println(s.getStroke());
+                    r.setStroke(s.getStroke());
                     shapes.add(r);
                 }
                 else{
@@ -344,6 +319,7 @@ public class MenuController {
             Global.setCurrentSymbol(symbol);
             Global.getCurrentSymbol().setShapes(shapes);
             Global.getCurrentSymbol().setName(h.getName());
+            System.out.println("I opened");
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
             for(Shape s : shapes){
@@ -407,7 +383,7 @@ public class MenuController {
         //Stroke width
         counter = counter + 12;
         temp = currentLine.indexOf(',',counter)-1;
-        if (currentLine.charAt(temp) == ']'){
+        if (currentLine.charAt(temp-1) == ']'){
             temp--;
         }
         helper=currentLine.substring(counter,temp);
@@ -422,7 +398,7 @@ public class MenuController {
         counter = counter +7;
         Circle c = new Circle();
         counter = counter + 8;
-        Loadresult<Double> res =ExtractData(counter,currentLine);
+        Loadresult<Double> res;
 
         res = ExtractData(counter,currentLine);
         counter = res.counter;
@@ -435,9 +411,9 @@ public class MenuController {
         c.setRadius(res.result);
         counter = counter + 5;
         temp = currentLine.indexOf(',',counter)-1;
-//        if (currentLine.charAt(temp) == ']'){
-//            temp--;
-//        }
+        if (currentLine.charAt(temp-1) == ']'){
+            temp--;
+        }
         helper = currentLine.substring(counter,temp);
         counter = counter + 1 + helper.length();
         c.setFill(Color.valueOf(helper));
@@ -466,9 +442,9 @@ public class MenuController {
         r.setHeight(res.result);
         counter = counter + 5;
         temp = currentLine.indexOf(',',counter)-1;
-//        if (currentLine.charAt(temp) == ']'){
-//            temp--;
-//        }
+        if (currentLine.charAt(temp-1) == ']'){
+            temp--;
+        }
         helper = currentLine.substring(counter,temp);
         System.out.println(helper);
         counter=counter + 1 + helper.length();
