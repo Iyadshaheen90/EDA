@@ -20,17 +20,20 @@ public class Drawable {
     private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
-    private double orgSceneX;
-    private double orgSceneY;
-    private double orgTranslateX;
-    private double orgTranslateY;
+    private double origSceneX;
+    private double origSceneY;
+    private double origTranslateX;
+    private double origTranslateY;
     private boolean draggable;
     //the shapes
     private Line line;
     private Rectangle rectangle;
     private Circle circle;
     private Magnetize mag;
-
+    //moved shapes holder
+    private Line movedLine;
+    private Rectangle movedRectangle;
+    private Circle movedCircle;
 //    private MainAreaController mac = new MainAreaController();
 
     public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes, Accordion sidePanel) {
@@ -84,10 +87,10 @@ public class Drawable {
                 public void handle(MouseEvent me) {
                     updateTool(tool);
                     if(tool=="move") {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Circle) (me.getSource())).getTranslateY();
+                        origSceneX = me.getSceneX();
+                        origSceneY = me.getSceneY();
+                        origTranslateX = ((Circle) (me.getSource())).getTranslateX();
+                        origTranslateY = ((Circle) (me.getSource())).getTranslateY();
                         draggable = true;
                     }
 
@@ -108,16 +111,26 @@ public class Drawable {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if(draggable) {
+                    if(draggable && tool == "move") {
 
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
 
                         ((Circle) (me.getSource())).setTranslateX(newTranslateX);
                         ((Circle) (me.getSource())).setTranslateY(newTranslateY);
                     }
+                }
+            };
+
+    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    System.out.println("drag over");
+//                    movedCircle.setCenterX(o);
+//                    draggable =false;
                 }
             };
 
@@ -126,10 +139,10 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if(tool=="move") {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Rectangle) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Rectangle) (me.getSource())).getTranslateY();
+                        origSceneX = me.getSceneX();
+                        origSceneY = me.getSceneY();
+                        origTranslateX = ((Rectangle) (me.getSource())).getTranslateX();
+                        origTranslateY = ((Rectangle) (me.getSource())).getTranslateY();
                         draggable = true;
                     }
                     else
@@ -141,11 +154,11 @@ public class Drawable {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if(draggable) {
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                    if(draggable && tool=="move") {
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
 
                         ((Rectangle) (me.getSource())).setTranslateX(newTranslateX);
                         ((Rectangle) (me.getSource())).setTranslateY(newTranslateY);
@@ -153,15 +166,26 @@ public class Drawable {
                 }
             };
 
+    private EventHandler<MouseEvent> rectOnMouseDraggedReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    System.out.println("drag over");
+//                    movedCircle.setCenterX(o);
+//                    draggable =false;
+                }
+            };
+
+
     private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
         new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
                 if(tool=="move") {
-                    orgSceneX = me.getSceneX();
-                    orgSceneY = me.getSceneY();
-                    orgTranslateX = ((Line) (me.getSource())).getTranslateX();
-                    orgTranslateY = ((Line) (me.getSource())).getTranslateY();
+                    origSceneX = me.getSceneX();
+                    origSceneY = me.getSceneY();
+                    origTranslateX = ((Line) (me.getSource())).getTranslateX();
+                    origTranslateY = ((Line) (me.getSource())).getTranslateY();
                     draggable = true;
                 }
                 else
@@ -173,19 +197,18 @@ public class Drawable {
             new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if(draggable) {
+                    if(draggable && tool=="move") {
 
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
 
                         ((Line) (me.getSource())).setTranslateX(newTranslateX);
                         ((Line) (me.getSource())).setTranslateY(newTranslateY);
                     }
                 }
             };
-
 
     public void drawShape(double x, double y, Color color) {
         switch (tool) {
@@ -236,6 +259,7 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 shapes.add(circle);
                 mag.add(circle);
                 drawArea.getChildren().add(circle);

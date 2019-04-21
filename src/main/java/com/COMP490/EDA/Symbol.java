@@ -171,6 +171,8 @@ public class Symbol {
                         {
                             break;
                         }
+                        else
+                            shape = null;
                     }
                 }
                 if(clicked) {
