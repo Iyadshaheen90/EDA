@@ -8,7 +8,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -22,6 +24,7 @@ public class Symbol {
     private double initialX;
     private double initialY;
 
+    private Accordion sidePanel;
     private Pane drawArea;
     private Shape shape;
     private ToolBarController toolBar;
@@ -40,6 +43,7 @@ public class Symbol {
         this.width = width;
         this.height = height;
         this.toolBar = toolBar;
+        this.sidePanel = sidePanel;
         shapes = new ArrayList<>();
         draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
         initialize();
@@ -169,6 +173,10 @@ public class Symbol {
                         shape = shapes.get(i);
                         if (shape.contains(x,y))
                         {
+                            sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
+                            AnchorPane temp = (AnchorPane) sidePanel.getExpandedPane().getContent();
+                            temp.getChildren().get(0).setVisible(true);
+                            System.out.println(temp.getChildren());
                             break;
                         }
                         else
