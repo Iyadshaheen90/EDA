@@ -24,6 +24,11 @@ public class Symbol {
     private double initialX;
     private double initialY;
 
+    private MainAreaController mac = new MainAreaController();
+
+    private AnchorPane properties;//this is to access the properties pane inside the sidepanel and be able to set its
+    // content to true. this is used in drawListeners, the select part of the decision statement, for a better
+    // understanding visit that
     private Accordion sidePanel;
     private Pane drawArea;
     private Shape shape;
@@ -154,6 +159,25 @@ public class Symbol {
         });
     }
 
+    private void editShape(Shape shape)
+    {
+        String shapeID = shape.getId();
+        VBox vbox = (VBox) properties.getChildren().get(0);
+        //edit the shape name label to the name of this shape
+        switch (shapeID)
+        {
+            case "Circle":
+                System.out.println(shapeID);
+
+//                mac.setShapeLabel("Circle");
+                break;
+            case "Rectangle":
+                break;
+            case "Line":
+                break;
+        }
+    }
+
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -173,15 +197,26 @@ public class Symbol {
                         shape = shapes.get(i);
                         if (shape.contains(x,y))
                         {
+                            //expanding the pane of properties
                             sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
-                            AnchorPane temp = (AnchorPane) sidePanel.getExpandedPane().getContent();
-                            temp.getChildren().get(0).setVisible(true);
-                            System.out.println(temp.getChildren());
+                            properties = (AnchorPane) sidePanel.getExpandedPane().getContent();
+                            //set the vbox to true which will cause the properties to appear
+                            properties.getChildren().get(0).setVisible(true);
+                            editShape(shape);
+//                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
                             break;
                         }
-                        else
-                            shape = null;
+                        else {
+                            //if we used the select and clicked outside a shape, then the properties are set back to
+                            //invisible
+                            properties.getChildren().get(0).setVisible(false);
+                            shape = null;//if a shape is not selected then we set the shape to null because it is
+                            // currently set to some shape but we did not select a shape. therefore, if we press delete
+                            //then the last shape in the arraylist will be deleted, to dodge that bug, we set the shape
+                            // to null if the coordinates do not lie within any of the shapes
+                        }
                     }
+
                 }
                 if(clicked) {
                     // add shape

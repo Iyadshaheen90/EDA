@@ -223,6 +223,7 @@ public class Drawable {
                 System.out.println("line color: "+line.getFill());
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+                line.setId("Line");
                 shapes.add(line);
                 mag.add(line);
                 drawArea.getChildren().add(line);
@@ -245,6 +246,7 @@ public class Drawable {
                 rect.setFill(color);
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
+                rect.setId("Rectangle");
                 shapes.add(rect);
                 mag.add(rect);
                 drawArea.getChildren().add(rect);
@@ -260,6 +262,7 @@ public class Drawable {
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
+                circle.setId("Circle");
                 shapes.add(circle);
                 mag.add(circle);
                 drawArea.getChildren().add(circle);

@@ -40,35 +40,51 @@
                                           <Label fx:id="shapeLabel" text="Shape:">
                                              <font>
                                                 <Font size="18.0" />
-                                             </font></Label>
+                                             </font>
+                                          </Label>
                                           <Separator prefWidth="200.0" />
                                           <Label fx:id="strokeLabel" prefHeight="17.0" prefWidth="97.0" text="Stroke:">
                                              <font>
                                                 <Font size="18.0" />
-                                             </font></Label>
-                                          <TextField fx:id="strokeTextfield" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="strokeTextfield" promptText="Stroke" />
                                           <Slider fx:id="strokeSlider" blockIncrement="5.0" max="25.0" showTickLabels="true" showTickMarks="true" />
-                                          <Separator prefWidth="200.0" />
                                           <Label fx:id="colorLabel" text="Color:">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <ColorPicker fx:id="colorPicker" />
+                                          <ColorPicker fx:id="colorPicker">
+                                             <value>
+                                                <Color blue="0" green="0" red="0" />
+                                             </value>
+                                          </ColorPicker>
                                           <Separator prefWidth="200.0" />
-                                          <Label fx:id="heightLabel" text="Height:">
+                                          <Label text="StartX">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="heightTextfield" promptText="Height" />
-                                          <Separator prefWidth="200.0" />
-                                          <Label fx:id="widthLabel" text="Width:">
+                                          <TextField promptText="Start X Position" />
+                                          <Label text="EndX">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
                                           </Label>
-                                          <TextField fx:id="widthTextfield" promptText="Width" />
+                                          <TextField promptText="End X Position" />
+                                          <Label text="StartY">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField promptText="Start Y Position" />
+                                          <Label text="EndY">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField promptText="End Y Position" />
                                           <Separator prefWidth="200.0" />
                                           <Label fx:id="radiusLabel" text="Radius:">
                                              <font>
@@ -78,7 +94,8 @@
                                           <TextField fx:id="radiusTextfield" promptText="Radius" />
                                        </children>
                                     </VBox>
-                                 </children></AnchorPane>
+                                 </children>
+                              </AnchorPane>
                           </content>
                         </TitledPane>
                       <TitledPane animated="false" text="Objects">
