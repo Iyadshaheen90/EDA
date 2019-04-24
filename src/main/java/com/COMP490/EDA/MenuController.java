@@ -2,21 +2,35 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
-import java.awt.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+
 
 public class MenuController {
     private TabPane tabArea;
@@ -24,6 +38,8 @@ public class MenuController {
     private ToolBarController toolBar;
     private Accordion sidePanel;
     private TreeView<String> symbols;
+    private Map<String, File> listOfFiles;
+
 
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
@@ -37,25 +53,55 @@ public class MenuController {
 //        rootDir =new File("/home/mrconfus3d/Desktop");
 //        System.out.println(rootDir.getAbsolutePath());
         this.toolBar = toolBar;
-
+        listOfFiles = new HashMap<>(20);
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
         symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null && newValue != oldValue && newValue.isLeaf()){
+            if(newValue != null && newValue != oldValue && newValue.isLeaf() && newValue.getValue().endsWith(".eda")){
                 System.out.println("Hello World");
-                File h = new File(Global.getLibraryLoc() + "/" + newValue.toString());
+//                System.out.println(newValue.getValue());
+                System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
+                File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
                 System.out.println("loading " + h.getAbsolutePath());
                 loadSymbol(h);
 
             }
         });
         this.sidePanel.getPanes().get(0).setContent(symbols);
+        symbols.getRoot().setExpanded(true);
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //      showFiles(rootDir);
+        tabArea.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
+                System.out.println(Global.getCurrentSymbol().getName());
+                System.out.println(oldValue + " " + newValue);
+//                System.out.println(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())).getName());
+//                System.out.println("the symbol shapes are " + Global.getCurrentSymbol().getShapes().toString());
+//                System.out.println("The value is " + observable.getValue().toString());
+//                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
+//                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
+                if ((int)oldValue == -1){
+                    //This is the first tab thats opened, dont do anything.
+                }
+                else{
+                    int index = Integer.parseInt(observable.getValue().toString());
+                    String s = tabArea.getTabs().get(index).getText();
+                    Global.setCurrentSymbol(Global.retriveSymbol(s));
+//                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getName());
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
+
+                }
+            }
+
+        });
 
     }
+
 
     private static void showFiles(File[] files) {
         for (File file : files) {
@@ -77,7 +123,7 @@ public class MenuController {
             }
             else{
                 root.getChildren().add(new TreeItem<>(f.getName()));
-
+                listOfFiles.put(f.getName(), f);
             }
         }
         return root;
@@ -105,34 +151,6 @@ public class MenuController {
     public void exit() {
         Platform.exit();
     }
-
-    // Opens an existing file
-    // Bound to File>Open
-//    @FXML
-//    public void open()
-//    {
-//        Stage stage = new Stage();
-//        fileChooser.setTitle("Open Resource File");
-//        File file = fileChooser.showOpenDialog(stage);
-//        if(file!=null)
-//        {
-//            openFile(file);
-//            //logging the path to test if it is correct
-//            System.out.println(file.getAbsolutePath());
-//
-//        }
-//
-//    }
-//
-//    //helper function that opens the file that was chosen
-//    private void openFile(File file) {
-//        //
-//        try {
-//            desktop.open(file);//place holder for now, it opens the file but not with in the program
-//        } catch (IOException ex) {
-//
-//        }
-//    }
 
     @FXML
     public void open() {
@@ -166,40 +184,314 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+    // Add coordinate listeners
+    private void addCoordinateListener(Symbol file, Pane pane) {
+        // Coordinate listener
+        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+            }
+        });
+    }
 
     // Bound to File>Save As
     @FXML
     public void newSave() {
         //dimensions of canvas x
         //array of shapes x
-        Yaml yaml = new Yaml();
+//        Yaml yaml = new Yaml();
         try {
-            FileWriter fw = new FileWriter("symbol.txt");
+            FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
             StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<String, Object>();
-            ArrayList<Shape> shapes = Global.getCurrentSymbol().getShapes();
-            //System.out.println("The shapes are " + shapes.toString());
+
+            ArrayList<Shape> fileShapes = Global.getCurrentSymbol().getShapes();
+            ArrayList<Shape> shapes = new ArrayList<>();
+//            ArrayList<Shape> shapes = new ArrayList<Shape>();
+//            ArrayList<Shape> shapes = (ArrayList<Shape>)Global.getCurrentSymbol().getShapes().clone();
+            for ( int i = 0; i < fileShapes.size() ; i++){
+                if (fileShapes.get(i) instanceof Rectangle){
+                    //X,Y,ScaleX,ScaleY,Width,Height,Fill
+                    Rectangle r = new Rectangle();
+                    Rectangle s = (Rectangle) fileShapes.get(i);
+                    r.setX(s.getX());
+                    r.setY(s.getY());
+                    r.setScaleX(s.getScaleX());
+                    r.setScaleY(s.getScaleY());
+                    r.setWidth(s.getWidth());
+                    r.setHeight(s.getHeight());
+                    r.setFill(s.getFill());
+                    System.out.println(s.getFill().toString());
+                    shapes.add(r);
+                }
+                else if (fileShapes.get(i) instanceof Circle){
+                    //centerx,centery, radius
+                    Circle s = (Circle) fileShapes.get(i);
+                    Circle r = new Circle();
+                    r.setCenterX(s.getCenterX());
+                    r.setCenterY(s.getCenterY());
+                    r.setRadius(s.getRadius());
+                    r.setFill(s.getFill());
+                    System.out.println(s.getFill());
+                    shapes.add(r);
+                }
+                else if (fileShapes.get(i) instanceof Line){
+                    //startX,startY,endX,endY
+                    Line s = (Line) fileShapes.get(i);
+                    Line r = new Line();
+                    r.setStartX(s.getStartX());
+                    r.setStartY(s.getStartY());
+                    r.setEndX(s.getEndX());
+                    r.setEndY(s.getEndY());
+                    System.out.println(s.getStroke());
+                    r.setStroke(s.getStroke());
+                    shapes.add(r);
+                }
+                else{
+                    System.out.println("This should not have happened what did you do");
+                }
+                File f = new File(Global.getLibraryLoc());
+                symbols.setRoot(fillExplorer(f));
+                symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    if(newValue != null && newValue != oldValue && newValue.isLeaf()){
+                        System.out.println("Hello World");
+//                System.out.println(newValue.getValue());
+                        System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
+                        File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
+                        System.out.println("loading " + h.getAbsolutePath());
+                        loadSymbol(h);
+
+                    }
+                });
+                this.sidePanel.getPanes().get(0).setContent(symbols);
+                symbols.getRoot().setExpanded(true);
+            }
+//            Rectangle rectangle= new Rectangle();
+//            rectangle.setX(50);
+//            rectangle.setY(91);
+//            rectangle.setWidth(113);
+//            rectangle.setHeight(110);
+//            rectangle.setFill(Color.rgb(1,0,0));
+//
+//            shapes.add(rectangle);
+            System.out.println("The shapes are " + shapes.toString());
             data.put("width" , Global.getCurrentSymbol().getWidth());
             data.put("height" , Global.getCurrentSymbol().getHeight());
             data.put("shapes" ,  shapes);
-            yaml.dump(data,writer);
-            fw.write(writer.toString());
+            System.out.println(data.toString());
+
+//            yaml.dump(data,writer);
+//            fw.write(writer.toString());
+            fw.write(data.toString());
             fw.close();
-            String output= yaml.dump(data);
-            System.out.println(output);
+//            String output= yaml.dump(data);
+//            System.out.println(output);
         }catch(IOException e){
             System.out.println("Cant create file dude");
         }
     }
     public void loadSymbol(File h) {
-        Yaml yaml = new Yaml();
-        try {
-            InputStream input = new FileInputStream(h);
-            Map<String, Object> data = yaml.load(input);
-            System.out.println(data);
+//        Yaml yaml = new Yaml();
+        ArrayList<Shape> shapes = new ArrayList<Shape>();
+        int counter = 7;
+        int temp = 0;
+        String width = null;
+        String height = null;
+        String helper= null;
+        try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
+            //shapes=[
+//            InputStream input = new FileInputStream(h);
+//            Map<String, Object> data = yaml.load(input);
+//            System.out.println(data);
+            String currentLine = reader.readLine();
+            if (currentLine.contains("[]")){
+                //no shapes
+            }
+
+            else{
+                while(currentLine.charAt(counter) != ']'){
+                    counter= counter+2;
+                    if (currentLine.charAt(counter) == 'L'){
+                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
+                        //END OF SHAPE LINE
+                    }
+                    else if (currentLine.charAt(counter) == 'C'){
+                        counter = LoadCircle(counter,currentLine,helper,temp,shapes);
+                        //Circle
+                    }
+                    else if (currentLine.charAt(counter) == 'R'){
+                        counter = LoadRectangle(counter,currentLine,helper,temp,shapes);
+                        //Rectangle
+
+                    }
+                    else{
+                        System.out.println("Your save file is corrupted Err:Menu307");
+                    }
+                }
+            }
+            counter = counter + 9;
+            temp = currentLine.indexOf(',', counter);
+            helper = currentLine.substring(counter,temp);
+            width=helper;
+            counter = counter + helper.length() + 9;
+            temp = currentLine.indexOf('}', counter);
+            helper = currentLine.substring(counter,temp);
+            height= helper;
+            counter = counter + helper.length() + 2;
+            System.out.println(shapes.toString());
+//            Global.setCurrentSymbol(new Symbol(tabArea.));
+            Pane pane = new Pane();
+            pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
+            pane.setStyle("-fx-background-color: white");
+            Tab tab = new Tab(h.getName() , pane);
+            Symbol symbol = new Symbol(pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
+            //Global.addToArrayList(symbol)
+            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
+            Global.setCurrentSymbol(symbol);
+            Global.getCurrentSymbol().setShapes(shapes);
+            Global.getCurrentSymbol().setName(h.getName());
+            Global.addToMap(symbol.getName(), symbol);
+            System.out.println("I opened");
+            tabArea.getTabs().add(tab);
+            addCoordinateListener(symbol, pane);
+            for(Shape s : shapes){
+                symbol.getDrawArea().getChildren().add(s);
+            }
+
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
+        }
+    }
+    public Loadresult<Double> ExtractData(int counter, String currentLine){
+        Loadresult<Double> a;
+        Double val;
+        int temp = currentLine.indexOf(',',counter);
+        String helper= currentLine.substring(counter, temp);
+        System.out.println("This is the string value" + helper );
+//        a.counter = counter + 2 + helper.length();
+        counter =counter + 2 + helper.length();
+        //Convert string into a Double type
+        val = Double.parseDouble(helper);
+        a = new Loadresult<>(counter,val);
+        return a;
+    }
+    public Loadresult<Paint> ExtractPaintData(int counter, String currentLine){
+        Loadresult<Paint> a;
+        Paint val;
+        int temp = currentLine.indexOf(',',counter);
+        String helper= currentLine.substring(counter, temp);
+        System.out.println("This is the string value" + helper );
+//        a.counter = counter + 2 + helper.length();
+        counter =counter + 2 + helper.length();
+        //Convert string into a Double type
+        val = Color.valueOf(helper);
+        a = new Loadresult<>(counter,val);
+        return a;
+    }
+    public int LoadLine(int counter, String currentLine,String helper,int temp,
+                        List<Shape> shapes){
+//        Loadresult<Double> res = new Loadresult<Double>();
+        counter = counter + 5;
+        Line l = new Line();
+        counter= counter +7;
+        Loadresult<Double> res =ExtractData(counter,currentLine);
+        System.out.println(res.result + "this is it");
+        counter = res.counter;
+        l.setStartX(res.result);
+        res = ExtractData(counter=counter+7,currentLine);
+        counter = res.counter;
+        l.setStartY(res.result);
+        res = ExtractData(counter=counter+5,currentLine);
+        counter = res.counter;
+        l.setEndX(res.result);
+        res = ExtractData(counter=counter+5,currentLine);
+        counter = res.counter;
+        l.setEndY(res.result);
+        //Stroke
+        Loadresult<Paint> Strokeres;
+        Strokeres=ExtractPaintData(counter=counter + 7,currentLine);
+        counter = Strokeres.counter;
+        l.setStroke(Strokeres.result);
+        //Stroke width
+        counter = counter + 12;
+        temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp-1) == ']'){
+            temp--;
+        }
+        helper=currentLine.substring(counter,temp);
+        counter = counter + 1 + helper.length();
+        l.setStrokeWidth(Double.parseDouble(helper));
+        shapes.add(l);
+        return counter;
+    }
+    public int LoadCircle(int counter,String currentLine, String helper, int temp,
+                          List<Shape> shapes){
+//        Loadresult<Double> res = ExtractData(counter,currentLine);
+        counter = counter +7;
+        Circle c = new Circle();
+        counter = counter + 8;
+        Loadresult<Double> res;
+
+        res = ExtractData(counter,currentLine);
+        counter = res.counter;
+        c.setCenterX(res.result);
+        res = ExtractData(counter = counter + 8, currentLine);
+        counter = res.counter;
+        c.setCenterY(res.result);
+        res = ExtractData(counter=counter + 7,currentLine);
+        counter = res.counter;
+        c.setRadius(res.result);
+        counter = counter + 5;
+        temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp-1) == ']'){
+            temp--;
+        }
+        helper = currentLine.substring(counter,temp);
+        counter = counter + 1 + helper.length();
+        c.setFill(Color.valueOf(helper));
+        shapes.add(c);
+        return counter;
+    }
+    public int LoadRectangle(int counter,String currentLine, String helper, int temp,
+                             List<Shape> shapes){
+//        Loadresult<Double> res = ExtractData(counter,currentLine);
+        counter = counter +10;
+        Rectangle r = new Rectangle();
+        counter = counter + 2;
+        Loadresult<Double> res =ExtractData(counter,currentLine);
+        counter =res.counter;
+        r.setX(res.result);
+        res=ExtractData(counter = counter + 2, currentLine);
+        System.out.println("this is the value" + currentLine.indexOf(counter));
+        counter = res.counter;
+        r.setY(res.result);
+        res = ExtractData(counter = counter + 6, currentLine);
+        System.out.println("this is the value" + currentLine.indexOf(counter));
+        counter = res.counter;
+        r.setWidth(res.result);
+        res = ExtractData(counter = counter + 7, currentLine);
+        counter= res.counter;
+        r.setHeight(res.result);
+        counter = counter + 5;
+        temp = currentLine.indexOf(',',counter)-1;
+        if (currentLine.charAt(temp-1) == ']'){
+            temp--;
+        }
+        helper = currentLine.substring(counter,temp);
+        System.out.println(helper);
+        counter=counter + 1 + helper.length();
+        r.setFill(Color.valueOf(helper));
+        shapes.add(r);
+        return counter;
+    }
+    public class Loadresult<A>{
+        public int counter;
+        public A result;
+        public Loadresult(int counter, A result){
+            this.counter=counter;
+            this.result=result;
         }
     }
 }

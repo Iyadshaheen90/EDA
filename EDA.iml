@@ -37,5 +37,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:11" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:linux:11" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.23" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

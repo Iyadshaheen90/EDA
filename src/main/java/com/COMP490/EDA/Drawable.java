@@ -22,6 +22,111 @@ public class Drawable {
     private double orgSceneY;
     private double orgTranslateX;
     private double orgTranslateY;
+
+    public void setDrawArea(Pane drawArea) {
+        this.drawArea = drawArea;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
+    }
+
+    public void setShapes(ArrayList<Shape> shapes) {
+        this.shapes = shapes;
+    }
+
+    public void setStartX(double startX) {
+        this.startX = startX;
+    }
+
+    public void setStartY(double startY) {
+        this.startY = startY;
+    }
+
+    public void setOrgSceneX(double orgSceneX) {
+        this.orgSceneX = orgSceneX;
+    }
+
+    public void setOrgSceneY(double orgSceneY) {
+        this.orgSceneY = orgSceneY;
+    }
+
+    public void setOrgTranslateX(double orgTranslateX) {
+        this.orgTranslateX = orgTranslateX;
+    }
+
+    public void setOrgTranslateY(double orgTranslateY) {
+        this.orgTranslateY = orgTranslateY;
+    }
+
+    public void setDraggable(boolean draggable) {
+        this.draggable = draggable;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
+    }
+
+    public Pane getDrawArea() {
+        return drawArea;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public ArrayList<Shape> getShapes() {
+        return shapes;
+    }
+
+    public double getStartX() {
+        return startX;
+    }
+
+    public double getStartY() {
+        return startY;
+    }
+
+    public double getOrgSceneX() {
+        return orgSceneX;
+    }
+
+    public double getOrgSceneY() {
+        return orgSceneY;
+    }
+
+    public double getOrgTranslateX() {
+        return orgTranslateX;
+    }
+
+    public double getOrgTranslateY() {
+        return orgTranslateY;
+    }
+
+    public boolean isDraggable() {
+        return draggable;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public Circle getCircle() {
+        return circle;
+    }
+
     private boolean draggable;
     //the shapes
     private Line line;
@@ -32,6 +137,9 @@ public class Drawable {
         this.drawArea = drawArea;
         this.tool = tool;
         this.shapes = shapes;
+    }
+    public Drawable(){
+
     }
 
     public void setStartPoint(double x, double y) {
@@ -192,6 +300,7 @@ public class Drawable {
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 shapes.add(line);
                 drawArea.getChildren().add(line);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
@@ -214,6 +323,8 @@ public class Drawable {
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 shapes.add(rect);
                 drawArea.getChildren().add(rect);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
+
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
@@ -227,6 +338,7 @@ public class Drawable {
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
                 break;
         }
 
