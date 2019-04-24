@@ -1,29 +1,19 @@
 package com.COMP490.EDA;
 
-import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,31 +64,27 @@ public class MenuController {
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //      showFiles(rootDir);
-        tabArea.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        tabArea.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 //                Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
-                System.out.println(Global.getCurrentSymbol().getName());
-                System.out.println(oldValue + " " + newValue);
+            System.out.println(Global.getCurrentSymbol().getName());
+            System.out.println(oldValue + " " + newValue);
 //                System.out.println(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())).getName());
 //                System.out.println("the symbol shapes are " + Global.getCurrentSymbol().getShapes().toString());
 //                System.out.println("The value is " + observable.getValue().toString());
 //                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
 //                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
-                if ((int)oldValue == -1 || (int)newValue == -1){
-                    //This is the first tab thats opened, dont do anything.
-                }
-                else{
-                    int index = Integer.parseInt(observable.getValue().toString());
-                    String s = tabArea.getTabs().get(index).getText();
-                    Global.setCurrentSymbol(Global.retrieveSymbol(s));
-//                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
-                    System.out.println("This is a test " + Global.getCurrentSymbol().getName());
-                    System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
-
-                }
+            if ((int)oldValue == -1 || (int)newValue == -1){
+                //This is the first tab thats opened, dont do anything.
             }
+            else{
+                int index = Integer.parseInt(observable.getValue().toString());
+                String s = tabArea.getTabs().get(index).getText();
+                Global.setCurrentSymbol(Global.retrieveSymbol(s));
+//                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
+                System.out.println("This is a test " + Global.getCurrentSymbol().getName());
+                System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
 
+            }
         });
 
     }
@@ -188,12 +174,7 @@ public class MenuController {
     // Add coordinate listeners
     private void addCoordinateListener(Symbol file, Pane pane) {
         // Coordinate listener
-        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
-            }
-        });
+        pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
     }
 
     // Bound to File>Save As
@@ -205,17 +186,17 @@ public class MenuController {
         try {
             FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
             StringWriter writer = new StringWriter();
-            Map<String, Object> data = new HashMap<String, Object>();
+            Map<String, Object> data = new HashMap<>();
 
             ArrayList<Shape> fileShapes = Global.getCurrentSymbol().getShapes();
             ArrayList<Shape> shapes = new ArrayList<>();
 //            ArrayList<Shape> shapes = new ArrayList<Shape>();
 //            ArrayList<Shape> shapes = (ArrayList<Shape>)Global.getCurrentSymbol().getShapes().clone();
-            for ( int i = 0; i < fileShapes.size() ; i++){
-                if (fileShapes.get(i) instanceof Rectangle){
+            fileShapes.forEach((shape) -> {
+                if (shape instanceof Rectangle){
                     //X,Y,ScaleX,ScaleY,Width,Height,Fill
                     Rectangle r = new Rectangle();
-                    Rectangle s = (Rectangle) fileShapes.get(i);
+                    Rectangle s = (Rectangle) shape;
                     r.setX(s.getX());
                     r.setY(s.getY());
                     r.setScaleX(s.getScaleX());
@@ -226,9 +207,9 @@ public class MenuController {
                     System.out.println(s.getFill().toString());
                     shapes.add(r);
                 }
-                else if (fileShapes.get(i) instanceof Circle){
+                else if (shape instanceof Circle){
                     //centerx,centery, radius
-                    Circle s = (Circle) fileShapes.get(i);
+                    Circle s = (Circle) shape;
                     Circle r = new Circle();
                     r.setCenterX(s.getCenterX());
                     r.setCenterY(s.getCenterY());
@@ -237,9 +218,9 @@ public class MenuController {
                     System.out.println(s.getFill());
                     shapes.add(r);
                 }
-                else if (fileShapes.get(i) instanceof Line){
+                else if (shape instanceof Line){
                     //startX,startY,endX,endY
-                    Line s = (Line) fileShapes.get(i);
+                    Line s = (Line) shape;
                     Line r = new Line();
                     r.setStartX(s.getStartX());
                     r.setStartY(s.getStartY());
@@ -267,7 +248,7 @@ public class MenuController {
                 });
                 this.sidePanel.getPanes().get(0).setContent(symbols);
                 symbols.getRoot().setExpanded(true);
-            }
+            });
 //            Rectangle rectangle= new Rectangle();
 //            rectangle.setX(50);
 //            rectangle.setY(91);
@@ -307,7 +288,7 @@ public class MenuController {
 
     public void loadSymbol(File h) {
 //        Yaml yaml = new Yaml();
-        ArrayList<Shape> shapes = new ArrayList<Shape>();
+        ArrayList<Shape> shapes = new ArrayList<>();
         int counter = 7;
         int temp = 0;
         String width = null;

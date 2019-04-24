@@ -1,23 +1,12 @@
 package com.COMP490.EDA;
 
-import javafx.application.HostServices;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.w3c.dom.Text;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -130,7 +119,7 @@ public class prefController {
         @Override
         public void cancelEdit() {
             super.cancelEdit();
-            setText((String) getItem());
+            setText(getItem());
             setGraphic(getTreeItem().getGraphic());
         }
 
@@ -157,21 +146,17 @@ public class prefController {
 
         private void createTextField() {
             textField = new TextField(getString());
-            textField.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-                @Override
-                public void handle(KeyEvent t) {
-                    if (t.getCode() == KeyCode.ENTER) {
-                        commitEdit(textField.getText());
-                    } else if (t.getCode() == KeyCode.ESCAPE) {
-                        cancelEdit();
-                    }
+            textField.setOnKeyReleased(t -> {
+                if (t.getCode() == KeyCode.ENTER) {
+                    commitEdit(textField.getText());
+                } else if (t.getCode() == KeyCode.ESCAPE) {
+                    cancelEdit();
                 }
             });
         }
 
         private String getString() {
-            return getItem() == null ? "" : getItem().toString();
+            return getItem() == null ? "" : getItem();
         }
 
     }

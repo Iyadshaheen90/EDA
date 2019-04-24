@@ -1,14 +1,13 @@
-/**Global methods and variables that all pieces of the program would need access to**/
+/*Global methods and variables that all pieces of the program would need access to*/
 package com.COMP490.EDA;
 
 import com.COMP490.EDA.Memento.StateHandler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Global {
-    private static Map<String, Symbol> aMap = new HashMap<String, Symbol>();
+    private static Map<String, Symbol> aMap = new HashMap<>();
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
     private static Symbol currentSymbol = new Symbol();

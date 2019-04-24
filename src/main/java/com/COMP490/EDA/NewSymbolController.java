@@ -1,10 +1,7 @@
 package com.COMP490.EDA;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -32,21 +29,15 @@ public class NewSymbolController {
 
     public void initialize() {
         // force the field to be numeric only
-        width.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(!width.getText().matches("\\d*")) {
-                    width.setText(width.getText().replaceAll("[^\\d]", ""));
-                }
+        width.setOnKeyTyped(event -> {
+            if(!width.getText().matches("\\d*")) {
+                width.setText(width.getText().replaceAll("[^\\d]", ""));
             }
         });
         // force the field to be numeric only
-        height.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(!height.getText().matches("\\d*")) {
-                    height.setText(height.getText().replaceAll("[^\\d]", ""));
-                }
+        height.setOnKeyTyped(event -> {
+            if(!height.getText().matches("\\d*")) {
+                height.setText(height.getText().replaceAll("[^\\d]", ""));
             }
         });
     }
@@ -54,12 +45,7 @@ public class NewSymbolController {
     // Add coordinate listeners
     private void addCoordinateListener(Symbol file, Pane pane) {
         // Coordinate listener
-        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
-            }
-        });
+        pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
     }
 
     @FXML
