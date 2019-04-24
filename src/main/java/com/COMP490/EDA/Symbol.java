@@ -3,6 +3,7 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -163,17 +164,23 @@ public class Symbol {
     {
         String shapeID = shape.getId();
         VBox vbox = (VBox) properties.getChildren().get(0);
+        Label shapeLabel = new Label("Shape");
         //edit the shape name label to the name of this shape
         switch (shapeID)
         {
             case "Circle":
-                System.out.println(shapeID);
-
-//                mac.setShapeLabel("Circle");
+                //System.out.println(shapeID);
+                shapeLabel.setText("Shape: Circle");
+                vbox.getChildren().set(0,shapeLabel);
                 break;
             case "Rectangle":
+//                System.out.println(shapeID);
+                shapeLabel.setText("Shape: Rectangle");
+                vbox.getChildren().set(0,shapeLabel);
                 break;
             case "Line":
+                shapeLabel.setText("Shape: Line");
+                vbox.getChildren().set(0,shapeLabel);
                 break;
         }
     }
