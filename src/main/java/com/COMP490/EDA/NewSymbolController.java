@@ -72,10 +72,13 @@ public class NewSymbolController {
             Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
+            //Global.addPair(symbol, pane);
             Global.setCurrentSymbol(symbol);
             Global.getCurrentSymbol().setName(name.getText());
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
+            System.out.println("Index of tab is " + tabArea.getTabs().indexOf(tab));
+            Global.addToMap(symbol.getName(), symbol);
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }

@@ -2,6 +2,9 @@ package com.COMP490.EDA;
 
 import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,8 +72,35 @@ public class MenuController {
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //      showFiles(rootDir);
+        tabArea.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
+                System.out.println(Global.getCurrentSymbol().getName());
+                System.out.println(oldValue + " " + newValue);
+//                System.out.println(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())).getName());
+//                System.out.println("the symbol shapes are " + Global.getCurrentSymbol().getShapes().toString());
+//                System.out.println("The value is " + observable.getValue().toString());
+//                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
+//                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
+                if ((int)oldValue == -1){
+                    //This is the first tab thats opened, dont do anything.
+                }
+                else{
+                    int index = Integer.parseInt(observable.getValue().toString());
+                    String s = tabArea.getTabs().get(index).getText();
+                    Global.setCurrentSymbol(Global.retriveSymbol(s));
+//                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getName());
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
+
+                }
+            }
+
+        });
 
     }
+
 
     private static void showFiles(File[] files) {
         for (File file : files) {

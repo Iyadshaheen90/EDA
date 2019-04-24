@@ -300,6 +300,7 @@ public class Drawable {
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 shapes.add(line);
                 drawArea.getChildren().add(line);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
@@ -322,6 +323,8 @@ public class Drawable {
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 shapes.add(rect);
                 drawArea.getChildren().add(rect);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
+
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
@@ -335,6 +338,7 @@ public class Drawable {
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
+                System.out.println(Global.getCurrentSymbol().getShapes().toString());
                 break;
         }
 
