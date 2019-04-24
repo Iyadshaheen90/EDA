@@ -51,6 +51,7 @@ public class Symbol {
         this.height = height;
         this.toolBar = toolBar;
         this.sidePanel = sidePanel;
+        properties = (AnchorPane) sidePanel.getPanes().get(1).getContent();
         shapes = new ArrayList<>();
         draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
         initialize();
@@ -186,6 +187,8 @@ public class Symbol {
                 shapeLabel.setText("Shape: Line");
                 vbox.getChildren().set(0,shapeLabel);
                 break;
+                default:
+                    break;
         }
     }
 
@@ -210,7 +213,6 @@ public class Symbol {
                         {
                             //expanding the pane of properties
                             sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
-                            properties = (AnchorPane) sidePanel.getExpandedPane().getContent();
                             //set the vbox to true which will cause the properties to appear
                             properties.getChildren().get(0).setVisible(true);
                             editShape(shape);
@@ -218,13 +220,14 @@ public class Symbol {
                             break;
                         }
                         else {
-                            //if we used the select and clicked outside a shape, then the properties are set back to
-                            //invisible
-                            properties.getChildren().get(0).setVisible(false);
-                            shape = null;//if a shape is not selected then we set the shape to null because it is
+                            //if a shape is not selected then we set the shape to null because it is
                             // currently set to some shape but we did not select a shape. therefore, if we press delete
                             //then the last shape in the arraylist will be deleted, to dodge that bug, we set the shape
                             // to null if the coordinates do not lie within any of the shapes
+                            shape = null;
+                            //if we used the select and clicked outside a shape, then the properties are set back to
+                            //invisible
+                            properties.getChildren().get(0).setVisible(false);
                         }
                     }
 
@@ -275,9 +278,11 @@ public class Symbol {
                 //
                 if(toolBar.getTool()=="select"&&keyEvent.getCode().equals(KeyCode.DELETE)&&shape!=null);
                 {
-                    System.out.println("delete pressed");
-                    drawArea.getChildren().remove(shape);
-                    shapes.remove(shape);
+                    if(!keyEvent.getCode().equals(KeyCode.ESCAPE) && !keyEvent.getCode().equals(KeyCode.CONTROL)) {
+                        System.out.println("delete pressed");
+                        drawArea.getChildren().remove(shape);
+                        shapes.remove(shape);
+                    }
                 }
 
             }
