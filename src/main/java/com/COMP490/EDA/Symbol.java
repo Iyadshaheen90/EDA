@@ -35,20 +35,20 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
-    public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
+    public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar) {
+        this.name = name;
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
         this.toolBar = toolBar;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
     }
 
-    public void setDrawArea(Pane pane) {
+    public void setDrawArea(ArrayList<Node> children) {
         this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
-        System.out.println("In setDrawArea " + pane.getChildren());
-        this.drawArea.getChildren().addAll(pane.getChildren());
+        this.drawArea.getChildren().addAll(children);
     }
 
     public String getName() {

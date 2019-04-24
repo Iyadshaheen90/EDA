@@ -1,11 +1,6 @@
 package com.COMP490.EDA;
 
-import com.COMP490.EDA.Memento.CareTaker;
-import com.COMP490.EDA.Memento.Originator;
-import com.COMP490.EDA.Memento.StateHandler;
 import javafx.event.EventHandler;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -18,7 +13,6 @@ import java.util.ArrayList;
 
 public class Drawable {
     private Pane drawArea;
-    private Accordion sidePanel;
     private String tool;
     private ArrayList<Shape> shapes;
     private double startX;
@@ -27,110 +21,6 @@ public class Drawable {
     private double orgSceneY;
     private double orgTranslateX;
     private double orgTranslateY;
-
-    public void setDrawArea(Pane drawArea) {
-        this.drawArea = drawArea;
-    }
-
-    public void setTool(String tool) {
-        this.tool = tool;
-    }
-
-    public void setShapes(ArrayList<Shape> shapes) {
-        this.shapes = shapes;
-    }
-
-    public void setStartX(double startX) {
-        this.startX = startX;
-    }
-
-    public void setStartY(double startY) {
-        this.startY = startY;
-    }
-
-    public void setOrgSceneX(double orgSceneX) {
-        this.orgSceneX = orgSceneX;
-    }
-
-    public void setOrgSceneY(double orgSceneY) {
-        this.orgSceneY = orgSceneY;
-    }
-
-    public void setOrgTranslateX(double orgTranslateX) {
-        this.orgTranslateX = orgTranslateX;
-    }
-
-    public void setOrgTranslateY(double orgTranslateY) {
-        this.orgTranslateY = orgTranslateY;
-    }
-
-    public void setDraggable(boolean draggable) {
-        this.draggable = draggable;
-    }
-
-    public void setLine(Line line) {
-        this.line = line;
-    }
-
-    public void setRectangle(Rectangle rectangle) {
-        this.rectangle = rectangle;
-    }
-
-    public void setCircle(Circle circle) {
-        this.circle = circle;
-    }
-
-    public Pane getDrawArea() {
-        return drawArea;
-    }
-
-    public String getTool() {
-        return tool;
-    }
-
-    public ArrayList<Shape> getShapes() {
-        return shapes;
-    }
-
-    public double getStartX() {
-        return startX;
-    }
-
-    public double getStartY() {
-        return startY;
-    }
-
-    public double getOrgSceneX() {
-        return orgSceneX;
-    }
-
-    public double getOrgSceneY() {
-        return orgSceneY;
-    }
-
-    public double getOrgTranslateX() {
-        return orgTranslateX;
-    }
-
-    public double getOrgTranslateY() {
-        return orgTranslateY;
-    }
-
-    public boolean isDraggable() {
-        return draggable;
-    }
-
-    public Line getLine() {
-        return line;
-    }
-
-    public Rectangle getRectangle() {
-        return rectangle;
-    }
-
-    public Circle getCircle() {
-        return circle;
-    }
 
     private boolean draggable;
 
@@ -141,9 +31,8 @@ public class Drawable {
 
 //    private MainAreaController mac = new MainAreaController();
 
-    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes, Accordion sidePanel) {
+    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
         this.drawArea = drawArea;
-        this.sidePanel = sidePanel;
         this.tool = tool;
         this.shapes = shapes;
     }

@@ -64,12 +64,13 @@ public class NewSymbolController {
 
     @FXML
     public void handleOK() {
-        if(!width.getText().equals("") && !height.getText().equals("")) {
+        if(!name.getText().equals("") && !width.getText().equals("") && !height.getText().equals("")) {
+            name.setText(name.getText() + ".eda");
             Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab(name.getText() , pane);
-            Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
+            Symbol symbol = new Symbol(name.getText(), pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar);
             Global.setCurrentSymbol(symbol);
             Global.getCurrentSymbol().setName(name.getText());
             tabArea.getTabs().add(tab);

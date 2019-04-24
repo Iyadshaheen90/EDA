@@ -40,7 +40,8 @@ public final class Global {
     public static void addToMap(String i , Symbol k){
         aMap.put(i,k);
     }
-    public static Symbol retriveSymbol(String i){
+
+    public static Symbol retrieveSymbol(String i){
         return aMap.get(i);
     }
 }

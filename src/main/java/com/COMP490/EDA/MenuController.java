@@ -295,14 +295,14 @@ public class MenuController {
 
     @FXML
     public void undo() {
-        ArrayList<Node> pane = Global.getCurrentStateHandler().undo();
-        Global.getCurrentSymbol().setDrawArea(pane);
+        ArrayList<Node> children = Global.getCurrentStateHandler().undo();
+        Global.getCurrentSymbol().setDrawArea(children);
     }
 
     @FXML
     public void redo() {
-        ArrayList<Node> pane = Global.getCurrentStateHandler().redo();
-        Global.getCurrentSymbol().setDrawArea(pane);
+        ArrayList<Node> children = Global.getCurrentStateHandler().redo();
+        Global.getCurrentSymbol().setDrawArea(children);
     }
 
     public void loadSymbol(File h) {
@@ -359,7 +359,7 @@ public class MenuController {
             pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab(h.getName() , pane);
-            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
+            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             Global.setCurrentSymbol(symbol);
