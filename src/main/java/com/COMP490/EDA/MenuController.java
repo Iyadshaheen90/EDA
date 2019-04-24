@@ -376,6 +376,7 @@ public class MenuController {
     public void redo() {
         Pane pane = Global.getCurrentStateHandler().redo();
         Global.getCurrentSymbol().setDrawArea(pane);
+    }
 
     public Loadresult<Double> ExtractData(int counter, String currentLine){
         Loadresult<Double> a;
