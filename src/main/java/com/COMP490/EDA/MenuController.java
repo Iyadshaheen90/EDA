@@ -12,8 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -364,6 +364,19 @@ public class MenuController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void undo() {
+        Pane pane = Global.getCurrentStateHandler().undo();
+        System.out.println("In undo " + pane.getChildren());
+        Global.getCurrentSymbol().setDrawArea(pane);
+    }
+
+    @FXML
+    public void redo() {
+        Pane pane = Global.getCurrentStateHandler().redo();
+        Global.getCurrentSymbol().setDrawArea(pane);
+
     public Loadresult<Double> ExtractData(int counter, String currentLine){
         Loadresult<Double> a;
         Double val;
