@@ -69,6 +69,7 @@ public class MenuController {
             }
         });
         this.sidePanel.getPanes().get(0).setContent(symbols);
+        symbols.getRoot().setExpanded(true);
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //      showFiles(rootDir);
@@ -264,6 +265,7 @@ public class MenuController {
                     }
                 });
                 this.sidePanel.getPanes().get(0).setContent(symbols);
+                symbols.getRoot().setExpanded(true);
             }
 //            Rectangle rectangle= new Rectangle();
 //            rectangle.setX(50);
@@ -349,12 +351,14 @@ public class MenuController {
             Global.setCurrentSymbol(symbol);
             Global.getCurrentSymbol().setShapes(shapes);
             Global.getCurrentSymbol().setName(h.getName());
+            Global.addToMap(symbol.getName(), symbol);
             System.out.println("I opened");
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
             for(Shape s : shapes){
                 symbol.getDrawArea().getChildren().add(s);
             }
+
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
