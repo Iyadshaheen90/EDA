@@ -10,18 +10,21 @@ public final class Global {
     private static Map<String, Symbol> aMap = new HashMap<>();
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
-    private static Symbol currentSymbol = new Symbol();
-    private static Map<Symbol, StateHandler> state  = new HashMap<>();
+    private static Symbol currentSymbol;
+    private static Map<String, StateHandler> state  = new HashMap<>();
 
     private Global(){}  // Private constructor to prevent instantiation
 
     public static void setCurrentSymbol(Symbol currentSymbol) {
         Global.currentSymbol = currentSymbol;
-        Global.state.put(currentSymbol,  new StateHandler());
+        // If the name isn't already added add it
+        if(!state.containsKey(currentSymbol.getName())) {
+            state.put(currentSymbol.getName(), new StateHandler(currentSymbol.getDrawArea()));
+        }
     }
 
     public static Symbol getCurrentSymbol(){
-        return Global.currentSymbol;
+        return currentSymbol;
     }
 
     public static String getLibraryLoc(){
@@ -33,7 +36,7 @@ public final class Global {
     }
 
     public static StateHandler getCurrentStateHandler() {
-        return state.get(Global.currentSymbol);
+        return state.get(currentSymbol.getName());
     }
 
     public static void addToMap(String i , Symbol k){

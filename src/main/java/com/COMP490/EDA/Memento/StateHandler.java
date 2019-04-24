@@ -6,14 +6,12 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public class StateHandler {
-    private int stateNum = 0;
+    private int stateNum = -1;
     private static Originator originator = new Originator();
     private static CareTaker careTaker = new CareTaker();
 
-    public StateHandler() {}
-
-    public int getStateNumber() {
-        return stateNum;
+    public StateHandler(Pane pane) {
+        save(pane);
     }
 
     // Saves the state of the Pane
@@ -47,5 +45,11 @@ public class StateHandler {
             System.out.println("Can't redo further");
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String temp = "State number: " + stateNum;
+        return temp;
     }
 }

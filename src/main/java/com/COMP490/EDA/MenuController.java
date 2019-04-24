@@ -63,27 +63,13 @@ public class MenuController {
         symbols.getRoot().setExpanded(true);
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
-//      showFiles(rootDir);
         tabArea.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-//                Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
-            System.out.println(Global.getCurrentSymbol().getName());
-            System.out.println(oldValue + " " + newValue);
-//                System.out.println(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())).getName());
-//                System.out.println("the symbol shapes are " + Global.getCurrentSymbol().getShapes().toString());
-//                System.out.println("The value is " + observable.getValue().toString());
-//                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
-//                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
-            if ((int)oldValue == -1 || (int)newValue == -1){
-                //This is the first tab thats opened, dont do anything.
-            }
-            else{
+            if ((int)oldValue != -1 && (int)newValue != -1){
                 int index = Integer.parseInt(observable.getValue().toString());
                 String s = tabArea.getTabs().get(index).getText();
                 Global.setCurrentSymbol(Global.retrieveSymbol(s));
-//                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
                 System.out.println("This is a test " + Global.getCurrentSymbol().getName());
                 System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
-
             }
         });
 
@@ -277,13 +263,19 @@ public class MenuController {
     @FXML
     public void undo() {
         ArrayList<Node> children = Global.getCurrentStateHandler().undo();
-        Global.getCurrentSymbol().setDrawArea(children);
+        System.out.println(Global.getCurrentStateHandler());
+        if(children != null) {
+            Global.getCurrentSymbol().setDrawArea(children);
+        }
     }
 
     @FXML
     public void redo() {
         ArrayList<Node> children = Global.getCurrentStateHandler().redo();
-        Global.getCurrentSymbol().setDrawArea(children);
+        System.out.println(Global.getCurrentStateHandler());
+        if(children != null) {
+            Global.getCurrentSymbol().setDrawArea(children);
+        }
     }
 
     public void loadSymbol(File h) {
@@ -335,24 +327,20 @@ public class MenuController {
             height= helper;
             counter = counter + helper.length() + 2;
             System.out.println(shapes.toString());
-//            Global.setCurrentSymbol(new Symbol(tabArea.));
             Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
             pane.setStyle("-fx-background-color: white");
-            Tab tab = new Tab(h.getName() , pane);
             Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar);
-            //Global.addToArrayList(symbol)
-            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
-            Global.setCurrentSymbol(symbol);
-            Global.getCurrentSymbol().setShapes(shapes);
-            Global.getCurrentSymbol().setName(h.getName());
-            Global.addToMap(symbol.getName(), symbol);
+            Tab tab = new Tab(symbol.getName(), pane);
+            symbol.setShapes(shapes);
             System.out.println("I opened");
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);
             for(Shape s : shapes){
                 symbol.getDrawArea().getChildren().add(s);
             }
+            Global.setCurrentSymbol(symbol);
+            Global.addToMap(symbol.getName(), symbol);
 
         }catch(IOException e){
             System.out.println("Cant create file dude");
