@@ -70,8 +70,6 @@ public class NewSymbolController {
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab(name.getText() , pane);
             Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
-            //Global.addToArrayList(symbol)
-            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             Global.setCurrentSymbol(symbol);
             tabArea.getTabs().add(tab);
             addCoordinateListener(symbol, pane);

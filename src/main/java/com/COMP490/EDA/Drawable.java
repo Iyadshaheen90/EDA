@@ -1,5 +1,8 @@
 package com.COMP490.EDA;
 
+import com.COMP490.EDA.Memento.CareTaker;
+import com.COMP490.EDA.Memento.Originator;
+import com.COMP490.EDA.Memento.StateHandler;
 import javafx.event.EventHandler;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
@@ -25,11 +28,11 @@ public class Drawable {
     private double orgTranslateX;
     private double orgTranslateY;
     private boolean draggable;
+
     //the shapes
     private Line line;
     private Rectangle rectangle;
     private Circle circle;
-    private Magnetize mag;
 
 //    private MainAreaController mac = new MainAreaController();
 
@@ -38,7 +41,6 @@ public class Drawable {
         this.sidePanel = sidePanel;
         this.tool = tool;
         this.shapes = shapes;
-        this.mag = new Magnetize();
     }
 
     public void setStartPoint(double x, double y) {
@@ -197,8 +199,8 @@ public class Drawable {
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 shapes.add(line);
-                mag.add(line);
                 drawArea.getChildren().add(line);
+                Global.getCurrentStateHandler().save(drawArea);
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
@@ -219,8 +221,8 @@ public class Drawable {
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 shapes.add(rect);
-                mag.add(rect);
                 drawArea.getChildren().add(rect);
+                Global.getCurrentStateHandler().save(drawArea);
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
@@ -233,19 +235,12 @@ public class Drawable {
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 shapes.add(circle);
-                mag.add(circle);
                 drawArea.getChildren().add(circle);
+                Global.getCurrentStateHandler().save(drawArea);
                 break;
         }
 
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
-//        System.out.print("X Values: ");
-//        for(double d : mag.getXValues()) {System.out.print(d + " ");}
-//        System.out.print("\nY Values: ");
-//        for(double d : mag.getYValues()) {System.out.print(d + " ");}
-//        System.out.print("\n");
-        TreeItem item = new TreeItem(tool);
-//        tree.getRoot().getChildren().addAll(item);
     }
 
     public void shapePreview(MouseEvent me, Color color) {

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.yaml.snakeyaml.Yaml;
@@ -100,34 +101,6 @@ public class MenuController {
         Platform.exit();
     }
 
-    // Opens an existing file
-    // Bound to File>Open
-//    @FXML
-//    public void open()
-//    {
-//        Stage stage = new Stage();
-//        fileChooser.setTitle("Open Resource File");
-//        File file = fileChooser.showOpenDialog(stage);
-//        if(file!=null)
-//        {
-//            openFile(file);
-//            //logging the path to test if it is correct
-//            System.out.println(file.getAbsolutePath());
-//
-//        }
-//
-//    }
-//
-//    //helper function that opens the file that was chosen
-//    private void openFile(File file) {
-//        //
-//        try {
-//            desktop.open(file);//place holder for now, it opens the file but not with in the program
-//        } catch (IOException ex) {
-//
-//        }
-//    }
-
     @FXML
     public void open() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Open.fxml"));
@@ -185,5 +158,18 @@ public class MenuController {
             System.out.println("Cant create file dude");
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void undo() {
+        Pane pane = Global.getCurrentStateHandler().undo();
+        System.out.println("In undo " + pane.getChildren());
+        Global.getCurrentSymbol().setDrawArea(pane);
+    }
+
+    @FXML
+    public void redo() {
+        Pane pane = Global.getCurrentStateHandler().redo();
+        Global.getCurrentSymbol().setDrawArea(pane);
     }
 }

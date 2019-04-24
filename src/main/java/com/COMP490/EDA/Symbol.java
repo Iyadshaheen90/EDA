@@ -3,6 +3,7 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -25,7 +26,6 @@ public class Symbol {
     private Pane drawArea;
     private ToolBarController toolBar;
     private boolean clicked = false;
-    private String parentDir="";
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private Drawable draw;
@@ -34,7 +34,6 @@ public class Symbol {
         //Empty Symbol
     }
     public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
-        this.parentDir=Global.getLibraryLoc();
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
@@ -42,6 +41,12 @@ public class Symbol {
         shapes = new ArrayList<>();
         draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
         initialize();
+    }
+
+    public void setDrawArea(Pane pane) {
+        this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
+        System.out.println("In setDrawArea " + pane.getChildren());
+        this.drawArea.getChildren().addAll(pane.getChildren());
     }
 
     public String getName() {
@@ -76,7 +81,7 @@ public class Symbol {
     }
 
 
-    // draw function for the background
+    // draw function for the background grid
     private void drawBackground() {
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
@@ -121,7 +126,6 @@ public class Symbol {
 
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
-
         n.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent me) {
@@ -149,8 +153,7 @@ public class Symbol {
         });
     }
 
-
-    public void addDrawListeners() {
+    private void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -204,21 +207,7 @@ public class Symbol {
         });
     }
 
-    // Shape arraylist controls
-    public void addShape(Shape shape) {
-        shapes.add(shape);
-    }
-
-    // Might change depending on how we want to use
-    public Shape getShape(Shape shape) {
-        return shapes.get(shapes.indexOf(shape));
-    }
-
     public ArrayList<Shape> getShapes(){
         return shapes;
-    }
-
-    public void removeShape(Shape shape) {
-        shapes.remove(shape);
     }
 }
