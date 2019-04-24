@@ -8,6 +8,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -84,13 +85,13 @@ public class MenuController {
 //                System.out.println("The value is " + observable.getValue().toString());
 //                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
 //                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
-                if ((int)oldValue == -1){
+                if ((int)oldValue == -1 || (int)newValue == -1){
                     //This is the first tab thats opened, dont do anything.
                 }
                 else{
                     int index = Integer.parseInt(observable.getValue().toString());
                     String s = tabArea.getTabs().get(index).getText();
-                    Global.setCurrentSymbol(Global.retriveSymbol(s));
+                    Global.setCurrentSymbol(Global.retrieveSymbol(s));
 //                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
                     System.out.println("This is a test " + Global.getCurrentSymbol().getName());
                     System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
@@ -291,6 +292,19 @@ public class MenuController {
             System.out.println("Cant create file dude");
         }
     }
+
+    @FXML
+    public void undo() {
+        ArrayList<Node> pane = Global.getCurrentStateHandler().undo();
+        Global.getCurrentSymbol().setDrawArea(pane);
+    }
+
+    @FXML
+    public void redo() {
+        ArrayList<Node> pane = Global.getCurrentStateHandler().redo();
+        Global.getCurrentSymbol().setDrawArea(pane);
+    }
+
     public void loadSymbol(File h) {
 //        Yaml yaml = new Yaml();
         ArrayList<Shape> shapes = new ArrayList<Shape>();
@@ -345,7 +359,7 @@ public class MenuController {
             pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab(h.getName() , pane);
-            Symbol symbol = new Symbol(pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
+            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             Global.setCurrentSymbol(symbol);
@@ -365,19 +379,6 @@ public class MenuController {
         }
     }
 
-    @FXML
-    public void undo() {
-        Pane pane = Global.getCurrentStateHandler().undo();
-        System.out.println("In undo " + pane.getChildren());
-        Global.getCurrentSymbol().setDrawArea(pane);
-    }
-
-    @FXML
-    public void redo() {
-        Pane pane = Global.getCurrentStateHandler().redo();
-        Global.getCurrentSymbol().setDrawArea(pane);
-    }
-
     public Loadresult<Double> ExtractData(int counter, String currentLine){
         Loadresult<Double> a;
         Double val;
@@ -391,6 +392,7 @@ public class MenuController {
         a = new Loadresult<>(counter,val);
         return a;
     }
+
     public Loadresult<Paint> ExtractPaintData(int counter, String currentLine){
         Loadresult<Paint> a;
         Paint val;
@@ -404,6 +406,7 @@ public class MenuController {
         a = new Loadresult<>(counter,val);
         return a;
     }
+
     public int LoadLine(int counter, String currentLine,String helper,int temp,
                         List<Shape> shapes){
 //        Loadresult<Double> res = new Loadresult<Double>();
@@ -440,6 +443,7 @@ public class MenuController {
         shapes.add(l);
         return counter;
     }
+
     public int LoadCircle(int counter,String currentLine, String helper, int temp,
                           List<Shape> shapes){
 //        Loadresult<Double> res = ExtractData(counter,currentLine);
@@ -468,6 +472,7 @@ public class MenuController {
         shapes.add(c);
         return counter;
     }
+
     public int LoadRectangle(int counter,String currentLine, String helper, int temp,
                              List<Shape> shapes){
 //        Loadresult<Double> res = ExtractData(counter,currentLine);
@@ -500,6 +505,7 @@ public class MenuController {
         shapes.add(r);
         return counter;
     }
+
     public class Loadresult<A>{
         public int counter;
         public A result;
