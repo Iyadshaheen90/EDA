@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class Symbol {
     private double initialX;
     private double initialY;
 
-    private MainAreaController mac = new MainAreaController();
+//    MainAreaController mac = new MainAreaController();
 
     private AnchorPane properties;//this is to access the properties pane inside the sidepanel and be able to set its
     // content to true. this is used in drawListeners, the select part of the decision statement, for a better
@@ -165,6 +166,8 @@ public class Symbol {
         String shapeID = shape.getId();
         VBox vbox = (VBox) properties.getChildren().get(0);
         Label shapeLabel = new Label("Shape");
+        shapeLabel.setFont(Font.font(18));
+
         //edit the shape name label to the name of this shape
         switch (shapeID)
         {
@@ -172,6 +175,7 @@ public class Symbol {
                 //System.out.println(shapeID);
                 shapeLabel.setText("Shape: Circle");
                 vbox.getChildren().set(0,shapeLabel);
+//                mac.setShapeLabel("Shape: Circle");
                 break;
             case "Rectangle":
 //                System.out.println(shapeID);
@@ -196,7 +200,7 @@ public class Symbol {
                 //if select is the tool selected we capture the point where the user clicked and iterate through the
                 //shapes checking if it contains the point. if it does we break out of the loop and when delete is
                 //pressed we remove the shape from the arraylist and from the children of the pane
-                if(toolBar.getTool()=="select")
+                if(toolBar.getTool()=="select" && !event.isControlDown())
                 {
                     int x = (int)event.getX();
                     int y = (int)event.getY();
