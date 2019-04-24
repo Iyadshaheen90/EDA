@@ -3,10 +3,12 @@ package com.COMP490.EDA;
 
 import com.COMP490.EDA.Memento.StateHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Global {
+    private static Map<String, Symbol> aMap = new HashMap<String, Symbol>();
     private static SymbolLibrary currentSL= new SymbolLibrary("");
     private static String symbolLibLoc =(currentSL.getLocation());
     private static Symbol currentSymbol = new Symbol();
@@ -33,5 +35,12 @@ public final class Global {
 
     public static StateHandler getCurrentStateHandler() {
         return state.get(Global.currentSymbol);
+    }
+
+    public static void addToMap(String i , Symbol k){
+        aMap.put(i,k);
+    }
+    public static Symbol retriveSymbol(String i){
+        return aMap.get(i);
     }
 }
