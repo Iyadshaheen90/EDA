@@ -2,8 +2,6 @@ package com.COMP490.EDA;
 
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Tab;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -13,9 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Symbol {
 
@@ -35,20 +31,20 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
-    public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
+    public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar) {
+        this.name = name;
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
         this.toolBar = toolBar;
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
     }
 
-    public void setDrawArea(Pane pane) {
+    public void setDrawArea(ArrayList<Node> pane) {
         this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
-        System.out.println("In setDrawArea " + pane.getChildren());
-        this.drawArea.getChildren().addAll(pane.getChildren());
+        this.drawArea.getChildren().addAll(pane);
     }
 
     public String getName() {
@@ -67,7 +63,7 @@ public class Symbol {
         this.shapes=shapes;
     }
 
-    public Pane getDrawArea(){ return this.drawArea; };
+    public Pane getDrawArea(){ return this.drawArea; }
 
     public void setHeight(int height) {
         this.height = height;
@@ -134,83 +130,60 @@ public class Symbol {
 
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
-        n.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
-                        && toolBar.getTool()=="select")
-                {
-                    initialX = me.getX();
-                    initialY = me.getY();
-                }
-
+        n.setOnMousePressed(me -> {
+            if (me.getButton() != MouseButton.MIDDLE && me.isControlDown()
+                    && toolBar.getTool().equals("select")) {
+                initialX = me.getX();
+                initialY = me.getY();
             }
+
         });
 
-        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me)
-            {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
-                        && toolBar.getTool()=="select")
-                {
-                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
-                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
-                }
+        n.setOnMouseDragged(me -> {
+            if (me.getButton() != MouseButton.MIDDLE && me.isControlDown()
+                    && toolBar.getTool().equals("select")) {
+                n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
+                n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
             }
         });
     }
 
     private void addDrawListeners() {
-        drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
+        drawArea.setOnMouseClicked(event -> {
+            drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
 //                System.out.println(shapes.size());//testing if the shape is getting deleted when escape is pressed
-                draw.updateTool(toolBar.getTool());
-                if(clicked) {
-                    // add shape
-                    draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
-                    //remove onMouseMove handler
-                    clicked = false;
-                }
-
-                else if(toolBar.getTool() == "circle"||toolBar.getTool() == "line"
-                        ||toolBar.getTool() == "rectangle")
-                {
-                    //set shape start point
-                    draw.setStartPoint(event.getX(), event.getY());
-                    //add onMouseMove handler
+            draw.updateTool(toolBar.getTool());
+            if (clicked) {
+                // add shape
+                draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
+                //remove onMouseMove handler
+                clicked = false;
+            } else if (toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
+                    || toolBar.getTool().equals("rectangle")) {
+                //set shape start point
+                draw.setStartPoint(event.getX(), event.getY());
+                //add onMouseMove handler
 //                    drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
 //                        @Override
 //                        public void handle(MouseEvent event) {
 //                            drawShape(event.getX(), event.getY());
 //                        }
 //                    });
-                    clicked = true;
-                }
-
-                drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        if(clicked)
-                        {
-                            draw.shapePreview(mouseEvent, toolBar.getColor());
-                        }
-                    }
-                });
+                clicked = true;
             }
+
+            drawArea.setOnMouseMoved(mouseEvent -> {
+                if (clicked) {
+                    draw.shapePreview(mouseEvent, toolBar.getColor());
+                }
+            });
         });
 
-        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
-                {
-                    System.out.println("pressed");
-                    clicked=false;
-                    draw.exitDrawing();
-                }
+        drawArea.setOnKeyPressed(keyEvent -> {
+            if (clicked && keyEvent.getCode() == KeyCode.ESCAPE) {
+                System.out.println("pressed");
+                clicked = false;
+                draw.exitDrawing();
             }
         });
     }

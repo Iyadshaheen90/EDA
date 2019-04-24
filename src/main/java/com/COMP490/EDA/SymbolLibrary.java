@@ -18,8 +18,6 @@ public class SymbolLibrary {
 
     public String getLocation() {return dir;}
 
-    public void loadSymbols() {
-    }
 
     public static void showFiles(File[] files,SymbolLibrary sl) {
         for (File file : files) {
