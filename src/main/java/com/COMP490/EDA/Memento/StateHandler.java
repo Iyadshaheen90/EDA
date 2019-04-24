@@ -1,9 +1,6 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
-
-import java.util.ArrayList;
 
 public class StateHandler {
     private int stateNum = 0;
@@ -12,40 +9,32 @@ public class StateHandler {
 
     public StateHandler() {}
 
-    public int getStateNumber() {
-        return stateNum;
-    }
-
     // Saves the state of the Pane
     public void save(Pane pane) {
-        ArrayList<Node> temp = new ArrayList<>();
-        for(Node node : pane.getChildren()) {
-            temp.add(node);
-        }
+        Pane temp = new Pane();
+        temp.getChildren().addAll(pane.getChildren());
         originator.setState(temp);
         careTaker.add(originator.saveStateToMemento());
         stateNum++;
     }
 
-    public ArrayList<Node> undo() {
+    public Pane undo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum - 1));
             stateNum--;
-            return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't undo further");
         }
-        return null;
+        return originator.getState();
     }
 
-    public ArrayList<Node> redo() {
+    public Pane redo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum + 1));
             stateNum++;
-            return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't redo further");
         }
-        return null;
+        return originator.getState();
     }
 }

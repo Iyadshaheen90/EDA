@@ -15,42 +15,43 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <Pane prefHeight="400.0" prefWidth="401.0">
-      <ImageView fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
-         <rotationAxis>
-            <Point3D/>
-         </rotationAxis>
-         <Image url="@img/HomeBackground.jpg"/>
-      </ImageView>
-      <Label layoutX="104.0" prefHeight="39.0" prefWidth="251.0" text="New Library" textFill="#f8f5f5">
-         <font>
-            <Font size="36.0"/>
-         </font>
-         <padding>
-            <Insets top="10.0"/>
-         </padding>
-      </Label>
-      <Label alignment="CENTER" layoutY="65.0" prefHeight="27.0" prefWidth="90.0" text="Library Name"
-             textFill="#fcfcfc"/>
-      <TextField fx:id="fileName" layoutX="104.0" layoutY="65.0" prefHeight="27.0" prefWidth="278.0"/>
-      <Label alignment="CENTER" layoutY="102.0" prefHeight="27.0" prefWidth="107.0" text="Library Location"
-             textFill="#fffefe"/>
-      <TextField fx:id="filePath" layoutX="104.0" layoutY="102.0" prefHeight="27.0" prefWidth="208.0"/>
-      <Button layoutX="318.0" layoutY="102.0" mnemonicParsing="false" onAction="#browse" text="Browse"/>
-      <Button layoutX="104.0" layoutY="137.0" mnemonicParsing="false" onAction="#create" prefHeight="27.0"
-              prefWidth="63.0" text="Open"/>
-      <Button layoutX="180.0" layoutY="137.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0"
-              prefWidth="63.0" text="Cancel"/>
-      <Text fx:id="errorText" layoutX="263.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0"
-            text="Invalid Location" visible="false" wrappingWidth="97.10986328125">
-         <fill>
-            <LinearGradient>
-               <stops>
-                  <Stop color="#d70f0c"/>
-                  <Stop color="#bf7978" offset="1.0"/>
-               </stops>
-            </LinearGradient>
-         </fill>
-      </Text>
-   </Pane>
+   <children>
+      <Pane prefHeight="400.0" prefWidth="401.0">
+         <children>
+            <ImageView fitHeight="406.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/HomeBackground.jpg" />
+               </image>
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </ImageView>
+            <Label layoutX="104.0" prefHeight="39.0" prefWidth="251.0" text="New Library" textFill="#f8f5f5">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
+            <Label alignment="CENTER" layoutY="65.0" prefHeight="27.0" prefWidth="90.0" text="Library Name" textFill="#fcfcfc" />
+            <TextField fx:id="fileName" layoutX="104.0" layoutY="65.0" prefHeight="27.0" prefWidth="278.0" />
+            <Label alignment="CENTER" layoutY="102.0" prefHeight="27.0" prefWidth="107.0" text="Library Location" textFill="#fffefe" />
+            <TextField fx:id="filePath" layoutX="104.0" layoutY="102.0" prefHeight="27.0" prefWidth="208.0" />
+            <Button layoutX="318.0" layoutY="102.0" mnemonicParsing="false" onAction="#browse" text="Browse" />
+            <Button layoutX="104.0" layoutY="137.0" mnemonicParsing="false" onAction="#create" prefHeight="27.0" prefWidth="63.0" text="Open" />
+            <Button layoutX="180.0" layoutY="137.0" mnemonicParsing="false" onAction="#exit" prefHeight="27.0" prefWidth="63.0" text="Cancel" />
+            <Text fx:id="errorText" layoutX="263.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid Location" visible="false" wrappingWidth="97.10986328125">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#d70f0c" />
+                        <Stop color="#bf7978" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>

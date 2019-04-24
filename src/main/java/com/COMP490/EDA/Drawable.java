@@ -1,6 +1,11 @@
 package com.COMP490.EDA;
 
+import com.COMP490.EDA.Memento.CareTaker;
+import com.COMP490.EDA.Memento.Originator;
+import com.COMP490.EDA.Memento.StateHandler;
 import javafx.event.EventHandler;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
@@ -13,6 +18,7 @@ import java.util.ArrayList;
 
 public class Drawable {
     private Pane drawArea;
+    private Accordion sidePanel;
     private String tool;
     private ArrayList<Shape> shapes;
     private double startX;
@@ -22,6 +28,110 @@ public class Drawable {
     private double orgTranslateX;
     private double orgTranslateY;
 
+    public void setDrawArea(Pane drawArea) {
+        this.drawArea = drawArea;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
+    }
+
+    public void setShapes(ArrayList<Shape> shapes) {
+        this.shapes = shapes;
+    }
+
+    public void setStartX(double startX) {
+        this.startX = startX;
+    }
+
+    public void setStartY(double startY) {
+        this.startY = startY;
+    }
+
+    public void setOrgSceneX(double orgSceneX) {
+        this.orgSceneX = orgSceneX;
+    }
+
+    public void setOrgSceneY(double orgSceneY) {
+        this.orgSceneY = orgSceneY;
+    }
+
+    public void setOrgTranslateX(double orgTranslateX) {
+        this.orgTranslateX = orgTranslateX;
+    }
+
+    public void setOrgTranslateY(double orgTranslateY) {
+        this.orgTranslateY = orgTranslateY;
+    }
+
+    public void setDraggable(boolean draggable) {
+        this.draggable = draggable;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
+    public void setRectangle(Rectangle rectangle) {
+        this.rectangle = rectangle;
+    }
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
+    }
+
+    public Pane getDrawArea() {
+        return drawArea;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public ArrayList<Shape> getShapes() {
+        return shapes;
+    }
+
+    public double getStartX() {
+        return startX;
+    }
+
+    public double getStartY() {
+        return startY;
+    }
+
+    public double getOrgSceneX() {
+        return orgSceneX;
+    }
+
+    public double getOrgSceneY() {
+        return orgSceneY;
+    }
+
+    public double getOrgTranslateX() {
+        return orgTranslateX;
+    }
+
+    public double getOrgTranslateY() {
+        return orgTranslateY;
+    }
+
+    public boolean isDraggable() {
+        return draggable;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public Circle getCircle() {
+        return circle;
+    }
+
     private boolean draggable;
 
     //the shapes
@@ -29,10 +139,16 @@ public class Drawable {
     private Rectangle rectangle;
     private Circle circle;
 
-    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
+//    private MainAreaController mac = new MainAreaController();
+
+    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes, Accordion sidePanel) {
         this.drawArea = drawArea;
+        this.sidePanel = sidePanel;
         this.tool = tool;
         this.shapes = shapes;
+    }
+    public Drawable(){
+
     }
 
     public void setStartPoint(double x, double y) {
@@ -73,10 +189,10 @@ public class Drawable {
 
 
     private EventHandler<MouseEvent> circleOnMousePressedEventHandler =
-            new EventHandler<>() {
+            new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (tool.equals("move")) {
+                    if(tool=="move") {
                         orgSceneX = me.getSceneX();
                         orgSceneY = me.getSceneY();
                         orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
@@ -90,15 +206,15 @@ public class Drawable {
 //                        draggable=false;
 //                    }
                     else
-                        draggable = false;
+                        draggable =false;
                 }
             };
 
     private EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
-            new EventHandler<>() {
+            new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (draggable) {
+                    if(draggable) {
 
                         double offsetX = me.getSceneX() - orgSceneX;
                         double offsetY = me.getSceneY() - orgSceneY;
@@ -112,25 +228,26 @@ public class Drawable {
             };
 
     private EventHandler<MouseEvent> rectOnMousePressedEventHandler =
-            new EventHandler<>() {
+            new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (tool.equals("move")) {
+                    if(tool=="move") {
                         orgSceneX = me.getSceneX();
                         orgSceneY = me.getSceneY();
                         orgTranslateX = ((Rectangle) (me.getSource())).getTranslateX();
                         orgTranslateY = ((Rectangle) (me.getSource())).getTranslateY();
                         draggable = true;
-                    } else
-                        draggable = false;
+                    }
+                    else
+                        draggable =false;
                 }
             };
 
     private EventHandler<MouseEvent> rectOnMouseDraggedEventHandler =
-            new EventHandler<>() {
+            new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (draggable) {
+                    if(draggable) {
                         double offsetX = me.getSceneX() - orgSceneX;
                         double offsetY = me.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
@@ -143,25 +260,26 @@ public class Drawable {
             };
 
     private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
-            new EventHandler<>() {
-                @Override
-                public void handle(MouseEvent me) {
-                    if (tool.equals("move")) {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Line) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Line) (me.getSource())).getTranslateY();
-                        draggable = true;
-                    } else
-                        draggable = false;
+        new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent me) {
+                if(tool=="move") {
+                    orgSceneX = me.getSceneX();
+                    orgSceneY = me.getSceneY();
+                    orgTranslateX = ((Line) (me.getSource())).getTranslateX();
+                    orgTranslateY = ((Line) (me.getSource())).getTranslateY();
+                    draggable = true;
                 }
-            };
+                else
+                    draggable =false;
+            }
+        };
 
     private EventHandler<MouseEvent> lineOnMouseDraggedEventHandler =
-            new EventHandler<>() {
+            new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (draggable) {
+                    if(draggable) {
 
                         double offsetX = me.getSceneX() - orgSceneX;
                         double offsetY = me.getSceneY() - orgSceneY;
@@ -181,7 +299,7 @@ public class Drawable {
                 break;
             case "line":
                 //remove the preview line when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(line);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
                 Line line = new Line(startX, startY, x, y);
                 line.setStroke(color);
                 System.out.println("color: "+color);
@@ -191,10 +309,11 @@ public class Drawable {
                 shapes.add(line);
                 drawArea.getChildren().add(line);
                 Global.getCurrentStateHandler().save(drawArea);
+
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(rectangle);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
                 double width = x - startX;
                 double height = y - startY;
                 // If end point is less than start swap points and make width/height positive
@@ -213,10 +332,11 @@ public class Drawable {
                 shapes.add(rect);
                 drawArea.getChildren().add(rect);
                 Global.getCurrentStateHandler().save(drawArea);
+
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(circle);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
                 Circle circle = new Circle();
                 circle.setCenterX(Math.abs(startX+x)/2);
                 circle.setCenterY(Math.abs(startY+y)/2);
@@ -273,20 +393,19 @@ public class Drawable {
                 break;
         }
     }
-
     //a function to delete the shape being drawn while user is drawing it when the user hits escape
     public void exitDrawing() {
         System.out.println("exit drawing");
         switch (tool){
             case "line":
-                drawArea.getChildren().remove(line);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
                 break;
             case "rectangle":
-                drawArea.getChildren().remove(rectangle);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(rectangle));
                 break;
 
             case "circle":
-                drawArea.getChildren().remove(circle);
+                drawArea.getChildren().remove(drawArea.getChildren().indexOf(circle));
                 break;
         }
     }

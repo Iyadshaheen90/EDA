@@ -1,17 +1,15 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
-
-import java.util.ArrayList;
+import javafx.scene.layout.Pane;
 
 public class Memento {
-    private ArrayList<Node> state;
+    private Pane state;
 
-    public Memento(ArrayList<Node> state){
+    public Memento(Pane state){
         this.state = state;
     }
 
-    public ArrayList<Node> getState(){
+    public Pane getState(){
         return state;
     }
 }

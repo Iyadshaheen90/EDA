@@ -11,16 +11,18 @@ public class Controller {
     @FXML
     private VBox root;
 
+    // Instances of all component controllers
+    private MenuController menuController;
+    private ToolBarController toolBarController;
+    private MainAreaController mainAreaController;
+
+
     /*
     Initializes the main components of the program.  MainArea needs to be filly loaded first in order
     for the SplitPane to be initialized for the reset of the controllers.  This includes calling load()
     on the FXMLLoader.
      */
     public void initialize() {
-        MenuController menuController;
-        ToolBarController toolBarController;
-        MainAreaController mainAreaController;
-
         try {
             // Create main area
             FXMLLoader mainAreaLoader = new FXMLLoader(getClass().getResource("/MainArea.fxml"));

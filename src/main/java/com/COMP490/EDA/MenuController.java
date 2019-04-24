@@ -1,8 +1,10 @@
 package com.COMP490.EDA;
 
+import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,20 +12,26 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.Yaml;
 import javafx.scene.shape.Shape;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+
 
 public class MenuController {
     private TabPane tabArea;
@@ -66,23 +74,31 @@ public class MenuController {
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
 //      showFiles(rootDir);
-        tabArea.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+        tabArea.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 //                Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
-            System.out.println(Global.getCurrentSymbol().getName());
-            System.out.println(oldValue + " " + newValue);
+                System.out.println(Global.getCurrentSymbol().getName());
+                System.out.println(oldValue + " " + newValue);
 //                System.out.println(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())).getName());
 //                System.out.println("the symbol shapes are " + Global.getCurrentSymbol().getShapes().toString());
 //                System.out.println("The value is " + observable.getValue().toString());
 //                tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent();
 //                System.out.println(tabArea.getTabs().get(Integer.parseInt(observable.getValue().toString())).getContent().toString());
-            if ((int) oldValue != -1 || (int) newValue != -1) {
-                int index = Integer.parseInt(observable.getValue().toString());
-                String s = tabArea.getTabs().get(index).getText();
-                Global.setCurrentSymbol(Global.retrieveSymbol(s));
+                if ((int)oldValue == -1 || (int)newValue == -1){
+                    //This is the first tab thats opened, dont do anything.
+                }
+                else{
+                    int index = Integer.parseInt(observable.getValue().toString());
+                    String s = tabArea.getTabs().get(index).getText();
+                    Global.setCurrentSymbol(Global.retrieveSymbol(s));
 //                    Global.setCurrentSymbol(Global.retriveSymbol(Integer.parseInt(observable.getValue().toString())));
-                System.out.println("This is a test " + Global.getCurrentSymbol().getName());
-                System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getName());
+                    System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
+
+                }
             }
+
         });
 
     }
@@ -172,7 +188,12 @@ public class MenuController {
     // Add coordinate listeners
     private void addCoordinateListener(Symbol file, Pane pane) {
         // Coordinate listener
-        pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
+        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+            }
+        });
     }
 
     // Bound to File>Save As
@@ -184,17 +205,17 @@ public class MenuController {
         try {
             FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
             StringWriter writer = new StringWriter();
-            Map<String, Object> data = new HashMap<>();
+            Map<String, Object> data = new HashMap<String, Object>();
 
             ArrayList<Shape> fileShapes = Global.getCurrentSymbol().getShapes();
             ArrayList<Shape> shapes = new ArrayList<>();
 //            ArrayList<Shape> shapes = new ArrayList<Shape>();
 //            ArrayList<Shape> shapes = (ArrayList<Shape>)Global.getCurrentSymbol().getShapes().clone();
-            fileShapes.forEach((shape) -> {
-                if (shape instanceof Rectangle){
+            for ( int i = 0; i < fileShapes.size() ; i++){
+                if (fileShapes.get(i) instanceof Rectangle){
                     //X,Y,ScaleX,ScaleY,Width,Height,Fill
                     Rectangle r = new Rectangle();
-                    Rectangle s = (Rectangle) shape;
+                    Rectangle s = (Rectangle) fileShapes.get(i);
                     r.setX(s.getX());
                     r.setY(s.getY());
                     r.setScaleX(s.getScaleX());
@@ -205,9 +226,9 @@ public class MenuController {
                     System.out.println(s.getFill().toString());
                     shapes.add(r);
                 }
-                else if (shape instanceof Circle){
+                else if (fileShapes.get(i) instanceof Circle){
                     //centerx,centery, radius
-                    Circle s = (Circle) shape;
+                    Circle s = (Circle) fileShapes.get(i);
                     Circle r = new Circle();
                     r.setCenterX(s.getCenterX());
                     r.setCenterY(s.getCenterY());
@@ -216,9 +237,9 @@ public class MenuController {
                     System.out.println(s.getFill());
                     shapes.add(r);
                 }
-                else if (shape instanceof Line){
+                else if (fileShapes.get(i) instanceof Line){
                     //startX,startY,endX,endY
-                    Line s = (Line) shape;
+                    Line s = (Line) fileShapes.get(i);
                     Line r = new Line();
                     r.setStartX(s.getStartX());
                     r.setStartY(s.getStartY());
@@ -246,7 +267,7 @@ public class MenuController {
                 });
                 this.sidePanel.getPanes().get(0).setContent(symbols);
                 symbols.getRoot().setExpanded(true);
-            });
+            }
 //            Rectangle rectangle= new Rectangle();
 //            rectangle.setX(50);
 //            rectangle.setY(91);
@@ -275,47 +296,46 @@ public class MenuController {
     @FXML
     public void undo() {
         ArrayList<Node> pane = Global.getCurrentStateHandler().undo();
-        if(pane != null) {
-            Global.getCurrentSymbol().setDrawArea(pane);
-        }
+        Global.getCurrentSymbol().setDrawArea(pane);
     }
 
     @FXML
     public void redo() {
         ArrayList<Node> pane = Global.getCurrentStateHandler().redo();
-        if(pane != null) {
-            Global.getCurrentSymbol().setDrawArea(pane);
-        }
+        Global.getCurrentSymbol().setDrawArea(pane);
     }
 
     public void loadSymbol(File h) {
 //        Yaml yaml = new Yaml();
-        ArrayList<Shape> shapes = new ArrayList<>();
+        ArrayList<Shape> shapes = new ArrayList<Shape>();
         int counter = 7;
-        int temp;
-        String width;
-        String height;
-        String helper;
+        int temp = 0;
+        String width = null;
+        String height = null;
+        String helper= null;
         try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
             //shapes=[
 //            InputStream input = new FileInputStream(h);
 //            Map<String, Object> data = yaml.load(input);
 //            System.out.println(data);
             String currentLine = reader.readLine();
-            // if not empty
-            if(!currentLine.contains("[]")){
+            if (currentLine.contains("[]")){
+                //no shapes
+            }
+
+            else{
                 while(currentLine.charAt(counter) != ']'){
                     counter= counter+2;
                     if (currentLine.charAt(counter) == 'L'){
-                        counter = LoadLine(counter,currentLine,shapes);
+                        counter = LoadLine(counter,currentLine,helper,temp,shapes);
                         //END OF SHAPE LINE
                     }
                     else if (currentLine.charAt(counter) == 'C'){
-                        counter = LoadCircle(counter,currentLine,shapes);
+                        counter = LoadCircle(counter,currentLine,helper,temp,shapes);
                         //Circle
                     }
                     else if (currentLine.charAt(counter) == 'R'){
-                        counter = LoadRectangle(counter,currentLine,shapes);
+                        counter = LoadRectangle(counter,currentLine,helper,temp,shapes);
                         //Rectangle
 
                     }
@@ -339,7 +359,7 @@ public class MenuController {
             pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
             pane.setStyle("-fx-background-color: white");
             Tab tab = new Tab(h.getName() , pane);
-            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar);
+            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar,  sidePanel);
             //Global.addToArrayList(symbol)
             //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
             Global.setCurrentSymbol(symbol);
@@ -387,9 +407,8 @@ public class MenuController {
         return a;
     }
 
-    public int LoadLine(int counter, String currentLine, List<Shape> shapes){
-        int temp;
-        String helper;
+    public int LoadLine(int counter, String currentLine,String helper,int temp,
+                        List<Shape> shapes){
 //        Loadresult<Double> res = new Loadresult<Double>();
         counter = counter + 5;
         Line l = new Line();
@@ -425,9 +444,8 @@ public class MenuController {
         return counter;
     }
 
-    public int LoadCircle(int counter,String currentLine, List<Shape> shapes){
-        int temp;
-        String helper;
+    public int LoadCircle(int counter,String currentLine, String helper, int temp,
+                          List<Shape> shapes){
 //        Loadresult<Double> res = ExtractData(counter,currentLine);
         counter = counter +7;
         Circle c = new Circle();
@@ -455,9 +473,8 @@ public class MenuController {
         return counter;
     }
 
-    public int LoadRectangle(int counter,String currentLine, List<Shape> shapes){
-        int temp;
-        String helper;
+    public int LoadRectangle(int counter,String currentLine, String helper, int temp,
+                             List<Shape> shapes){
 //        Loadresult<Double> res = ExtractData(counter,currentLine);
         counter = counter +10;
         Rectangle r = new Rectangle();

@@ -1,17 +1,15 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
-
-import java.util.ArrayList;
+import javafx.scene.layout.Pane;
 
 public class Originator {
-    private ArrayList<Node> state;
+    private Pane state;
 
-    public void setState(ArrayList<Node> state){
+    public void setState(Pane state){
         this.state = state;
     }
 
-    public ArrayList<Node> getState(){
+    public Pane getState(){
         return state;
     }
 
