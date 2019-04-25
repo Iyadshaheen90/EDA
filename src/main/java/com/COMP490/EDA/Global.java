@@ -16,9 +16,11 @@ public final class Global {
     private Global(){}  // Private constructor to prevent instantiation
 
     public static void setCurrentSymbol(Symbol currentSymbol) {
+        System.out.println("Setting currentSymbol to " + currentSymbol.getName());
         Global.currentSymbol = currentSymbol;
         // If the name isn't already added add it
         if(!state.containsKey(currentSymbol.getName())) {
+            System.out.println("Creating new StateHandler for " + currentSymbol.getName());
             state.put(currentSymbol.getName(), new StateHandler(currentSymbol.getDrawArea()));
         }
     }
@@ -36,19 +38,23 @@ public final class Global {
     }
 
     public static StateHandler getCurrentStateHandler() {
+        System.out.println("Getting statelist for " + currentSymbol.getName());
         return state.get(currentSymbol.getName());
     }
 
     public static void removeSymbol(String name) {
+        System.out.println("Removing " + name + " from maps.");
         state.remove(name);
         aMap.remove(name);
     }
 
     public static void addToMap(String i , Symbol k){
+        System.out.println("Adding " + i + " to aMap.");
         aMap.put(i,k);
     }
 
     public static Symbol retrieveSymbol(String i){
+        System.out.println("Getting " + i + " from aMap.");
         return aMap.get(i);
     }
 }

@@ -27,13 +27,14 @@ public class SymbolLoader {
         Pane pane = new Pane();
         pane.setMaxSize(width, height);
         pane.setStyle("-fx-background-color: white");
-        Tab tab = new Tab(name , pane);
-        addTabListeners(tab);
         Symbol symbol = new Symbol(name, pane, width, height, toolBar);
-        tabArea.getTabs().add(tab);
-        addCoordinateListener(symbol, pane);
         Global.setCurrentSymbol(symbol);
         Global.addToMap(name, symbol);
+        Tab tab = new Tab(name , pane);
+        addTabListeners(tab);
+        tabArea.getTabs().add(tab);
+        tabArea.getSelectionModel().select(tab);
+        addCoordinateListener(symbol, pane);
     }
 
     // Add coordinate listeners

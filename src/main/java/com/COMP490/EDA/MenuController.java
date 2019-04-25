@@ -68,8 +68,8 @@ public class MenuController {
                 int index = Integer.parseInt(observable.getValue().toString());
                 String s = tabArea.getTabs().get(index).getText();
                 Global.setCurrentSymbol(Global.retrieveSymbol(s));
-                System.out.println("This is a test " + Global.getCurrentSymbol().getName());
-                System.out.println("This is a test " + Global.getCurrentSymbol().getShapes().toString());
+                System.out.println("Setting current Symbol to " + Global.getCurrentSymbol().getName());
+                System.out.println("Current symbol shapes: " + Global.getCurrentSymbol().getShapes().toString());
             }
         });
 
