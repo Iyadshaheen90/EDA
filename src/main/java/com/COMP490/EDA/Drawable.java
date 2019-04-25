@@ -3,6 +3,7 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -17,10 +18,10 @@ public class Drawable {
     private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
-    private double orgSceneX;
-    private double orgSceneY;
-    private double orgTranslateX;
-    private double orgTranslateY;
+    private double origSceneX;
+    private double origSceneY;
+    private double origTranslateX;
+    private double origTranslateY;
 
     private boolean draggable;
 
@@ -28,14 +29,18 @@ public class Drawable {
     private Line line;
     private Rectangle rectangle;
     private Circle circle;
-
-//    private MainAreaController mac = new MainAreaController();
+  
+    //moved shapes holder
+    private Line movedLine;
+    private Rectangle movedRectangle;
+    private Circle movedCircle;
 
     public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
         this.drawArea = drawArea;
         this.tool = tool;
         this.shapes = shapes;
     }
+  
     public Drawable(){
 
     }
@@ -87,12 +92,15 @@ public class Drawable {
                         orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
                         orgTranslateY = ((Circle) (me.getSource())).getTranslateY();
                         draggable = true;
-//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
                     }
-//                    else if(tool=="select")
+
+//                    if(tool=="select")
 //                    {
-//                        mac.getSidepanel().getPanes().get(1).getContent().setVisible(true);
-//                        draggable=false;
+//                        System.out.println("recognized");
+//                        sidePanel.requestFocus();
+//                        sidePanel.getPanes().get(1).getContent().setVisible(false);
+//
+//                        draggable = false;
 //                    }
                     else
                         draggable = false;
@@ -103,16 +111,25 @@ public class Drawable {
             new EventHandler<>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (draggable) {
-
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                    if(draggable && tool.equals("move")) {
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
 
                         ((Circle) (me.getSource())).setTranslateX(newTranslateX);
                         ((Circle) (me.getSource())).setTranslateY(newTranslateY);
                     }
+                }
+            };
+
+    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    System.out.println("drag over");
+//                    movedCircle.setCenterX(o);
+//                    draggable =false;
                 }
             };
 
@@ -140,12 +157,22 @@ public class Drawable {
                         double offsetY = me.getSceneY() - orgSceneY;
                         double newTranslateX = orgTranslateX + offsetX;
                         double newTranslateY = orgTranslateY + offsetY;
-
                         ((Rectangle) (me.getSource())).setTranslateX(newTranslateX);
                         ((Rectangle) (me.getSource())).setTranslateY(newTranslateY);
                     }
                 }
             };
+
+    private EventHandler<MouseEvent> rectOnMouseDraggedReleasedEventHandler =
+            new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    System.out.println("drag over");
+//                    movedCircle.setCenterX(o);
+//                    draggable =false;
+                }
+            };
+
 
     private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -157,8 +184,7 @@ public class Drawable {
                         orgTranslateX = ((Line) (me.getSource())).getTranslateX();
                         orgTranslateY = ((Line) (me.getSource())).getTranslateY();
                         draggable = true;
-                    } else
-                        draggable = false;
+                    } 
                 }
             };
 
@@ -166,19 +192,17 @@ public class Drawable {
             new EventHandler<>() {
                 @Override
                 public void handle(MouseEvent me) {
-                    if (draggable) {
-
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                    if(draggable && tool.equals("move")) {
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
 
                         ((Line) (me.getSource())).setTranslateX(newTranslateX);
                         ((Line) (me.getSource())).setTranslateY(newTranslateY);
                     }
                 }
             };
-
 
     public void drawShape(double x, double y, Color color) {
         switch (tool) {
@@ -188,11 +212,13 @@ public class Drawable {
                 //remove the preview line when the second click of the mouse happens and then draw the actual line
                 drawArea.getChildren().remove(line);
                 Line line = new Line(startX, startY, x, y);
+                line.setStartX(startX);
                 line.setStroke(color);
                 System.out.println("color: "+color);
                 System.out.println("line color: "+line.getFill());
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+                line.setId("Line");
                 shapes.add(line);
                 drawArea.getChildren().add(line);
                 Global.getCurrentStateHandler().save(drawArea);
@@ -216,6 +242,7 @@ public class Drawable {
                 rect.setFill(color);
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
+                rect.setId("Rectangle");
                 shapes.add(rect);
                 drawArea.getChildren().add(rect);
                 Global.getCurrentStateHandler().save(drawArea);
@@ -231,6 +258,9 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
+                circle.setId("Circle");
+//                circle.setStroke(Paint.valueOf("0"));
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
                 Global.getCurrentStateHandler().save(drawArea);

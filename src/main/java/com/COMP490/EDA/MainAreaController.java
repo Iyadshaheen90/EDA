@@ -14,9 +14,16 @@ public class MainAreaController {
     private Accordion sidepanel;
     @FXML
     private Label rightStatus;
-
+    @FXML
+    public VBox propertiesItems;
     @FXML
     private Label shapeLabel;
+
+//    public void setShapeLabel(String name)
+//    {
+//        shapeLabel = new Label();
+//        shapeLabel.setText(name);
+//    }
 
     public TabPane getTabArea() {
         return tabArea;
