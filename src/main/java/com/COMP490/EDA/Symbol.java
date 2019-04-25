@@ -44,6 +44,7 @@ public class Symbol {
     private Accordion sidePanel;
     private Pane drawArea;
     private Shape shape;
+    public int shapeIndexInShapes;
     private ToolBarController toolBar;
     private boolean clicked = false;
     private String parentDir="";
@@ -317,6 +318,8 @@ public class Symbol {
                     shape.setFill(colorPicker.getValue());
             }
         });
+
+
     }
 
     public void addDrawListeners() {
@@ -343,6 +346,7 @@ public class Symbol {
                             //set the vbox to true which will cause the properties to appear
                             properties.getChildren().get(0).setVisible(true);
                             setShapeProperties(shape);
+                            shapeIndexInShapes = i;
 //                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
                             break;
                         }
