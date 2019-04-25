@@ -2,6 +2,7 @@ package com.COMP490.EDA;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -298,6 +299,7 @@ public class Symbol {
     public void addPropertyListeners(){
         Slider strokeSlider =  (Slider)vbox.getChildren().get(4);
         TextField strokeTextField = (TextField)vbox.getChildren().get(3);
+        ColorPicker colorPicker = (ColorPicker)vbox.getChildren().get(6);
         strokeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -306,6 +308,15 @@ public class Symbol {
             }
         });
 
+        colorPicker.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if(shape.getId()=="Line")
+                    shape.setStroke(colorPicker.getValue());
+                if (shape.getId()=="Rectangle"||shape.getId()=="Circle")
+                    shape.setFill(colorPicker.getValue());
+            }
+        });
     }
 
     public void addDrawListeners() {
