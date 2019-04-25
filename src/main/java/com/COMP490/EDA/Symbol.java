@@ -1,18 +1,12 @@
 package com.COMP490.EDA;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.ScrollEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -52,7 +46,7 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
-    public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar) {
+    public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
         this.name = name;
         this.drawArea = drawArea;
         this.width = width;
@@ -307,138 +301,99 @@ public class Symbol {
         TextField endYTextField = (TextField) vbox.getChildren().get(15);
         TextField radiusTextField = (TextField) vbox.getChildren().get(18);
 
-        strokeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                strokeTextField.setText(String.format("%.2f", strokeSlider.getValue()));
-                shape.setStrokeWidth(strokeSlider.getValue());
+        strokeSlider.valueChangingProperty().addListener((observableValue, aBoolean, t1) -> {
+            strokeTextField.setText(String.format("%.2f", strokeSlider.getValue()));
+            shape.setStrokeWidth(strokeSlider.getValue());
+        });
+
+        colorPicker.setOnAction(actionEvent -> {
+            if (shape.getId().equals("Line"))
+                shape.setStroke(colorPicker.getValue());
+            if (shape.getId().equals("Rectangle") || shape.getId().equals("Circle"))
+                shape.setFill(colorPicker.getValue());
+        });
+
+        strokeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty() && !(Double.parseDouble(newValue) < 0)) {
+                shape.setStrokeWidth(Double.parseDouble(newValue));
+                strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
             }
         });
 
-        colorPicker.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(shape.getId()=="Line")
-                    shape.setStroke(colorPicker.getValue());
-                if (shape.getId()=="Rectangle"||shape.getId()=="Circle")
-                    shape.setFill(colorPicker.getValue());
-            }
+        startXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Line) shape).setStartX(Double.parseDouble(newValue));
+            if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
         });
 
-        strokeTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(!newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                {
-                    shape.setStrokeWidth(Double.parseDouble(newValue));
-                    strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
-                }
-            }
+        endXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Line) shape).setEndX(Double.parseDouble(newValue));
+            if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
         });
 
-        startXTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Line) shape).setStartX(Double.parseDouble(newValue));
-                if(shape.getId()=="Rectangle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
-            }
+        startYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Line) shape).setStartY(Double.parseDouble(newValue));
         });
 
-        endXTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Line) shape).setEndX(Double.parseDouble(newValue));
-                if(shape.getId()=="Rectangle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
-            }
+        endYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Line) shape).setEndY(Double.parseDouble(newValue));
         });
 
-        startYTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Line) shape).setStartY(Double.parseDouble(newValue));
-            }
-        });
-
-        endYTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Line) shape).setEndY(Double.parseDouble(newValue));
-            }
-        });
-
-        radiusTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
-                if(shape.getId()=="Circle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
-                    ((Circle) shape).setRadius(Double.parseDouble(newValue));
-            }
+        radiusTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (shape.getId().equals("Circle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
+                ((Circle) shape).setRadius(Double.parseDouble(newValue));
         });
     }
 
 
     public void addDrawListeners() {
-        drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
+        drawArea.setOnMouseClicked(event -> {
+            drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
 //                System.out.println(shapes.size());//testing if the shape is getting deleted when escape is pressed
-                draw.updateTool(toolBar.getTool());
+            draw.updateTool(toolBar.getTool());
 
-                //if select is the tool selected we capture the point where the user clicked and iterate through the
-                //shapes checking if it contains the point. if it does we break out of the loop and when delete is
-                //pressed we remove the shape from the arraylist and from the children of the pane
-                if(toolBar.getTool()=="select" && !event.isControlDown())
-                {
-                    int x = (int)event.getX();
-                    int y = (int)event.getY();
-                    for ( int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
-                        shape = shapes.get(i);
-                        if (shape.contains(x,y))
-                        {
-                            //expanding the pane of properties
-                            sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
-                            //set the vbox to true which will cause the properties to appear
-                            properties.getChildren().get(0).setVisible(true);
-                            setShapeProperties(shape);
-                            shapeIndexInShapes = i;
+            //if select is the tool selected we capture the point where the user clicked and iterate through the
+            //shapes checking if it contains the point. if it does we break out of the loop and when delete is
+            //pressed we remove the shape from the arraylist and from the children of the pane
+            if (toolBar.getTool().equals("select") && !event.isControlDown()) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                for (int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
+                    shape = shapes.get(i);
+                    if (shape.contains(x, y)) {
+                        //expanding the pane of properties
+                        sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
+                        //set the vbox to true which will cause the properties to appear
+                        properties.getChildren().get(0).setVisible(true);
+                        setShapeProperties(shape);
+                        shapeIndexInShapes = i;
 //                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
-                            break;
-                        }
-                        else {
-                            //if a shape is not selected then we set the shape to null because it is
-                            // currently set to some shape but we did not select a shape. therefore, if we press delete
-                            //then the last shape in the arraylist will be deleted, to dodge that bug, we set the shape
-                            // to null if the coordinates do not lie within any of the shapes
-                            shape = null;
-                            //if we used the select and clicked outside a shape, then the properties are set back to
-                            //invisible
-                            properties.getChildren().get(0).setVisible(false);
-                        }
+                        break;
+                    } else {
+                        //if a shape is not selected then we set the shape to null because it is
+                        // currently set to some shape but we did not select a shape. therefore, if we press delete
+                        //then the last shape in the arraylist will be deleted, to dodge that bug, we set the shape
+                        // to null if the coordinates do not lie within any of the shapes
+                        shape = null;
+                        //if we used the select and clicked outside a shape, then the properties are set back to
+                        //invisible
+                        properties.getChildren().get(0).setVisible(false);
                     }
-
-                }
-                if(clicked) {
-                    // add shape
-                    draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
-                    //remove onMouseMove handler
-                    clicked = false;
                 }
 
-            else if(toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
-                    || toolBar.getTool().equals("rectangle"))
-            {
+            }
+            if (clicked) {
+                // add shape
+                draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
+                //remove onMouseMove handler
+                clicked = false;
+            } else if (toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
+                    || toolBar.getTool().equals("rectangle")) {
                 //set shape start point
                 draw.setStartPoint(event.getX(), event.getY());
                 //add onMouseMove handler
@@ -451,28 +406,6 @@ public class Symbol {
                 clicked = true;
             }
 
-        drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(clicked&&keyEvent.getCode()==KeyCode.ESCAPE)
-                {
-                    System.out.println("escape pressed");
-                    clicked=false;
-                    draw.exitDrawing();
-                }
-                //
-                if(toolBar.getTool()=="select"&&keyEvent.getCode().equals(KeyCode.DELETE)&&shape!=null);
-                {
-                    if(!keyEvent.getCode().equals(KeyCode.ESCAPE) && !keyEvent.getCode().equals(KeyCode.CONTROL)) {
-                        System.out.println("delete pressed");
-                        drawArea.getChildren().remove(shape);
-                        shapes.remove(shape);
-                        properties.getChildren().get(0).setVisible(false);
-                    }
-                }
-
-            }
-
             drawArea.setOnMouseMoved(mouseEvent -> {
                 if (clicked) {
                     draw.shapePreview(mouseEvent, toolBar.getColor());
@@ -480,7 +413,41 @@ public class Symbol {
             });
         });
 
+        drawArea.setOnKeyPressed(keyEvent -> {
+            if (clicked && keyEvent.getCode() == KeyCode.ESCAPE) {
+                System.out.println("escape pressed");
+                clicked = false;
+                draw.exitDrawing();
+            }
+            //
+            if (toolBar.getTool().equals("select") && keyEvent.getCode().equals(KeyCode.DELETE) && shape != null);
+            {
+                if (!keyEvent.getCode().equals(KeyCode.ESCAPE) && !keyEvent.getCode().equals(KeyCode.CONTROL)) {
+                    System.out.println("delete pressed");
+                    drawArea.getChildren().remove(shape);
+                    shapes.remove(shape);
+                    properties.getChildren().get(0).setVisible(false);
+                }
+            }
+
+        });
+    }
+
+    // Shape arraylist controls
+    public void addShape(Shape shape) {
+        shapes.add(shape);
+    }
+
+    // Might change depending on how we want to use
+    public Shape getShape(Shape shape) {
+        return shapes.get(shapes.indexOf(shape));
+    }
+
     public ArrayList<Shape> getShapes(){
         return shapes;
+    }
+
+    public void removeShape(Shape shape) {
+        shapes.remove(shape);
     }
 }

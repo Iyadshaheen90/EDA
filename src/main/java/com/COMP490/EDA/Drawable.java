@@ -18,8 +18,8 @@ public class Drawable {
     private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
-    private double origSceneX;
     private double origSceneY;
+    private double origSceneX;
     private double origTranslateX;
     private double origTranslateY;
 
@@ -87,10 +87,10 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if (tool.equals("move")) {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Circle) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Circle) (me.getSource())).getTranslateY();
+                        origSceneX = me.getSceneX();
+                        origSceneY = me.getSceneY();
+                        origTranslateX = ((Circle) (me.getSource())).getTranslateX();
+                        origTranslateY = ((Circle) (me.getSource())).getTranslateY();
                         draggable = true;
                     }
 
@@ -138,10 +138,10 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if (tool.equals("move")) {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Rectangle) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Rectangle) (me.getSource())).getTranslateY();
+                        origSceneX = me.getSceneX();
+                        origSceneY = me.getSceneY();
+                        origTranslateX = ((Rectangle) (me.getSource())).getTranslateX();
+                        origTranslateY = ((Rectangle) (me.getSource())).getTranslateY();
                         draggable = true;
                     } else
                         draggable = false;
@@ -153,10 +153,10 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if (draggable) {
-                        double offsetX = me.getSceneX() - orgSceneX;
-                        double offsetY = me.getSceneY() - orgSceneY;
-                        double newTranslateX = orgTranslateX + offsetX;
-                        double newTranslateY = orgTranslateY + offsetY;
+                        double offsetX = me.getSceneX() - origSceneX;
+                        double offsetY = me.getSceneY() - origSceneY;
+                        double newTranslateX = origTranslateX + offsetX;
+                        double newTranslateY = origTranslateY + offsetY;
                         ((Rectangle) (me.getSource())).setTranslateX(newTranslateX);
                         ((Rectangle) (me.getSource())).setTranslateY(newTranslateY);
                     }
@@ -179,10 +179,10 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if (tool.equals("move")) {
-                        orgSceneX = me.getSceneX();
-                        orgSceneY = me.getSceneY();
-                        orgTranslateX = ((Line) (me.getSource())).getTranslateX();
-                        orgTranslateY = ((Line) (me.getSource())).getTranslateY();
+                        origSceneX = me.getSceneX();
+                        origSceneY = me.getSceneY();
+                        origTranslateX = ((Line) (me.getSource())).getTranslateX();
+                        origTranslateY = ((Line) (me.getSource())).getTranslateY();
                         draggable = true;
                     } 
                 }

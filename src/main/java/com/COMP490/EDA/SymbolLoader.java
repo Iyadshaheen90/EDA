@@ -16,18 +16,20 @@ public class SymbolLoader {
     private TabPane tabArea;
     private Label mouseCoordinates;
     private ToolBarController toolBar;
+    private Accordion sidePanel;
 
-    public SymbolLoader(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar) {
+    public SymbolLoader(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;
+        this.sidePanel = sidePanel;
     }
 
     public void loadSymbol(String name, int width, int height) {
         Pane pane = new Pane();
         pane.setMaxSize(width, height);
         pane.setStyle("-fx-background-color: white");
-        Symbol symbol = new Symbol(name, pane, width, height, toolBar);
+        Symbol symbol = new Symbol(name, pane, width, height, toolBar, sidePanel);
         Global.setCurrentSymbol(symbol);
         Global.addToMap(name, symbol);
         Tab tab = new Tab(name , pane);
