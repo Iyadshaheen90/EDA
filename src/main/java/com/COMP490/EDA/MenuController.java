@@ -75,7 +75,6 @@ public class MenuController {
 
     }
 
-
     private static void showFiles(File[] files) {
         for (File file : files) {
             if (file.isDirectory()) {
@@ -105,7 +104,7 @@ public class MenuController {
     @FXML
     public void newCanvas() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/NewSymbol.fxml"));
-        loader.setController(new NewSymbolController(tabArea, mouseCoordinates, toolBar, sidePanel));
+        loader.setController(new NewSymbolController(tabArea, mouseCoordinates, toolBar));
         Stage stage = new Stage();
         try {
             Parent page = loader.load();
@@ -122,6 +121,7 @@ public class MenuController {
     // Bound to File>Exit
     @FXML
     public void exit() {
+        // Add save confirmation
         Platform.exit();
     }
 
@@ -168,7 +168,6 @@ public class MenuController {
     public void newSave() {
         //dimensions of canvas x
         //array of shapes x
-//        Yaml yaml = new Yaml();
         try {
             FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
             StringWriter writer = new StringWriter();

@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 
 public class StateHandler {
-    private int stateNum = -1;
+    private int stateNum = -1;  // -1 takes care of the initial state of the pane
     private static Originator originator = new Originator();
     private static CareTaker careTaker = new CareTaker();
 

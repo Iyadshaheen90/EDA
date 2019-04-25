@@ -1,9 +1,17 @@
 package com.COMP490.EDA;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class NewSymbolController {
     @FXML
@@ -15,16 +23,12 @@ public class NewSymbolController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private TreeView tree;
-    private Accordion sidePanel;
     private ToolBarController toolBar;
 
-    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
+    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;
-        this.sidePanel = sidePanel;
-        this.tree = (TreeView) sidePanel.getPanes().get(2).getContent();
     }
 
     public void initialize() {
@@ -42,27 +46,11 @@ public class NewSymbolController {
         });
     }
 
-    // Add coordinate listeners
-    private void addCoordinateListener(Symbol file, Pane pane) {
-        // Coordinate listener
-        pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
-    }
-
     @FXML
     public void handleOK() {
         if(!name.getText().equals("") && !width.getText().equals("") && !height.getText().equals("")) {
-            name.setText(name.getText() + ".eda");
-            Pane pane = new Pane();
-            pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
-            pane.setStyle("-fx-background-color: white");
-            Tab tab = new Tab(name.getText() , pane);
-            Symbol symbol = new Symbol(name.getText(), pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar);
-            Global.setCurrentSymbol(symbol);
-            Global.getCurrentSymbol().setName(name.getText());
-            tabArea.getTabs().add(tab);
-            addCoordinateListener(symbol, pane);
-            System.out.println("Index of tab is " + tabArea.getTabs().indexOf(tab));
-            Global.addToMap(symbol.getName(), symbol);
+            SymbolLoader sl = new SymbolLoader(tabArea, mouseCoordinates, toolBar);
+            sl.loadSymbol(name.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }
