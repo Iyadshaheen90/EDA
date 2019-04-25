@@ -1,5 +1,7 @@
 package com.COMP490.EDA;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
@@ -94,6 +96,7 @@ public class Symbol {
         addMouseScrolling(drawArea);
         addDragListeners(drawArea);
         addDrawListeners();
+        addPropertyListeners();
     }
 
 
@@ -187,7 +190,7 @@ public class Symbol {
         vbox.getChildren().get(18).setDisable(flag);
     }
 
-    private void editShape(Shape shape)
+    private void setShapeProperties(Shape shape)
     {
         String shapeID = shape.getId();
         Label shapeLabel = new Label("Shape");
@@ -211,7 +214,7 @@ public class Symbol {
         radiusTextField.setText("");
         Slider strokeSlider = (Slider)vbox.getChildren().get(4);
         strokeSlider.setValue(shape.getStrokeWidth());
-        strokeTextField.setText(String.valueOf(shape.getStrokeWidth()));
+        strokeTextField.setText(String.format("%.2f",shape.getStrokeWidth()));
         ColorPicker colorPicker = (ColorPicker)vbox.getChildren().get(6);
 
 //        strokeTextField.setText(shape.getStroke().toString());
@@ -292,6 +295,19 @@ public class Symbol {
         }
     }
 
+    public void addPropertyListeners(){
+        Slider strokeSlider =  (Slider)vbox.getChildren().get(4);
+        TextField strokeTextField = (TextField)vbox.getChildren().get(3);
+        strokeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                strokeTextField.setText(String.format("%.2f", strokeSlider.getValue()));
+                shape.setStrokeWidth(strokeSlider.getValue());
+            }
+        });
+
+    }
+
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -315,7 +331,7 @@ public class Symbol {
                             sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
                             //set the vbox to true which will cause the properties to appear
                             properties.getChildren().get(0).setVisible(true);
-                            editShape(shape);
+                            setShapeProperties(shape);
 //                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
                             break;
                         }
