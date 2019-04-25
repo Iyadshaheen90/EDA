@@ -329,8 +329,11 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                shape.setStrokeWidth(Double.parseDouble(newValue));
-                strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
+                if(!newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
+                {
+                    shape.setStrokeWidth(Double.parseDouble(newValue));
+                    strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
+                }
             }
         });
 
@@ -338,9 +341,9 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                if(shape.getId()=="Line")
+                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Line) shape).setStartX(Double.parseDouble(newValue));
-                if(shape.getId()=="Rectangle")
+                if(shape.getId()=="Rectangle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
             }
         });
@@ -349,9 +352,9 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty())
+                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Line) shape).setEndX(Double.parseDouble(newValue));
-                if(shape.getId()=="Rectangle" && !newValue.isEmpty())
+                if(shape.getId()=="Rectangle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
             }
         });
@@ -360,7 +363,7 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty())
+                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Line) shape).setStartY(Double.parseDouble(newValue));
             }
         });
@@ -369,7 +372,7 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                if(shape.getId()=="Line" && !newValue.isEmpty())
+                if(shape.getId()=="Line" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Line) shape).setEndY(Double.parseDouble(newValue));
             }
         });
@@ -378,7 +381,7 @@ public class Symbol {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                                 String oldValue, String newValue) {
-                if(shape.getId()=="Circle" && !newValue.isEmpty())
+                if(shape.getId()=="Circle" && !newValue.isEmpty() && !(Double.parseDouble(newValue)<0))
                     ((Circle) shape).setRadius(Double.parseDouble(newValue));
             }
         });
