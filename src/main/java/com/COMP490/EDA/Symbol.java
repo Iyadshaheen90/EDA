@@ -301,6 +301,12 @@ public class Symbol {
         Slider strokeSlider =  (Slider)vbox.getChildren().get(4);
         TextField strokeTextField = (TextField)vbox.getChildren().get(3);
         ColorPicker colorPicker = (ColorPicker)vbox.getChildren().get(6);
+        TextField startXTextField = (TextField) vbox.getChildren().get(9);
+        TextField endXTextField = (TextField) vbox.getChildren().get(11);
+        TextField startYTextField = (TextField) vbox.getChildren().get(13);
+        TextField endYTextField = (TextField) vbox.getChildren().get(15);
+        TextField radiusTextField = (TextField) vbox.getChildren().get(18);
+
         strokeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
@@ -319,8 +325,65 @@ public class Symbol {
             }
         });
 
+        strokeTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                shape.setStrokeWidth(Double.parseDouble(newValue));
+                strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
+            }
+        });
 
+        startXTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if(shape.getId()=="Line")
+                    ((Line) shape).setStartX(Double.parseDouble(newValue));
+                if(shape.getId()=="Rectangle")
+                    ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
+            }
+        });
+
+        endXTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if(shape.getId()=="Line" && !newValue.isEmpty())
+                    ((Line) shape).setEndX(Double.parseDouble(newValue));
+                if(shape.getId()=="Rectangle" && !newValue.isEmpty())
+                    ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
+            }
+        });
+
+        startYTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if(shape.getId()=="Line" && !newValue.isEmpty())
+                    ((Line) shape).setStartY(Double.parseDouble(newValue));
+            }
+        });
+
+        endYTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if(shape.getId()=="Line" && !newValue.isEmpty())
+                    ((Line) shape).setEndY(Double.parseDouble(newValue));
+            }
+        });
+
+        radiusTextField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if(shape.getId()=="Circle" && !newValue.isEmpty())
+                    ((Circle) shape).setRadius(Double.parseDouble(newValue));
+            }
+        });
     }
+
 
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(new EventHandler<MouseEvent>() {
