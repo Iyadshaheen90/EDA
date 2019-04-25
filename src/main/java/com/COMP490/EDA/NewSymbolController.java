@@ -24,11 +24,13 @@ public class NewSymbolController {
     private TabPane tabArea;
     private Label mouseCoordinates;
     private ToolBarController toolBar;
+    private Accordion sidePanel;
 
-    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar) {
+    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;
+        this.sidePanel = sidePanel;
     }
 
     public void initialize() {
@@ -49,7 +51,7 @@ public class NewSymbolController {
     @FXML
     public void handleOK() {
         if(!name.getText().equals("") && !width.getText().equals("") && !height.getText().equals("")) {
-            SymbolLoader sl = new SymbolLoader(tabArea, mouseCoordinates, toolBar);
+            SymbolLoader sl = new SymbolLoader(tabArea, mouseCoordinates, toolBar, sidePanel);
             sl.loadSymbol(name.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();

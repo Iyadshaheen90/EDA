@@ -47,6 +47,10 @@ public class StateHandler {
         return null;
     }
 
+    public int getStateNum() {
+        return stateNum;
+    }
+
     @Override
     public String toString() {
         String temp = "State number: " + stateNum;
