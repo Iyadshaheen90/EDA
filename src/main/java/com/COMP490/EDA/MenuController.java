@@ -329,7 +329,9 @@ public class MenuController {
             Pane pane = new Pane();
             pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
             pane.setStyle("-fx-background-color: white");
-            Symbol symbol = new Symbol(h.getName(), pane, Integer.parseInt(width), Integer.parseInt(height), toolBar);
+            int helpIndex = h.getName().indexOf('.');
+            String fileName = h.getName().substring(0,helpIndex);
+            Symbol symbol = new Symbol(fileName, pane, Integer.parseInt(width), Integer.parseInt(height), toolBar);
             Tab tab = new Tab(symbol.getName(), pane);
             symbol.setShapes(shapes);
             System.out.println("I opened");
