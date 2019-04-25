@@ -193,7 +193,6 @@ public class MenuController {
                     r.setWidth(s.getWidth());
                     r.setHeight(s.getHeight());
                     r.setFill(s.getFill());
-                    r.setId(s.getId());
                     System.out.println(s.getFill().toString());
                     shapes.add(r);
                 }
@@ -205,7 +204,6 @@ public class MenuController {
                     r.setCenterY(s.getCenterY());
                     r.setRadius(s.getRadius());
                     r.setFill(s.getFill());
-                    r.setId(s.getId());
                     System.out.println(s.getFill());
                     shapes.add(r);
                 }
@@ -219,7 +217,6 @@ public class MenuController {
                     r.setEndY(s.getEndY());
                     System.out.println(s.getStroke());
                     r.setStroke(s.getStroke());
-                    r.setId(s.getId());
                     shapes.add(r);
                 }
                 else{
@@ -230,14 +227,6 @@ public class MenuController {
                 this.sidePanel.getPanes().get(0).setContent(symbols);
                 symbols.getRoot().setExpanded(true);
             });
-//            Rectangle rectangle= new Rectangle();
-//            rectangle.setX(50);
-//            rectangle.setY(91);
-//            rectangle.setWidth(113);
-//            rectangle.setHeight(110);
-//            rectangle.setFill(Color.rgb(1,0,0));
-//
-//            shapes.add(rectangle);
             System.out.println("The shapes are " + shapes.toString());
             for (Shape s :
                     shapes) {
@@ -414,6 +403,7 @@ public class MenuController {
         helper=currentLine.substring(counter,temp);
         counter = counter + 1 + helper.length();
         l.setStrokeWidth(Double.parseDouble(helper));
+        l.setId("Line");
         shapes.add(l);
         return counter;
     }
@@ -444,6 +434,7 @@ public class MenuController {
         counter = counter + 1 + helper.length();
         c.setFill(Color.valueOf(helper));
         shapes.add(c);
+        c.setId("Circle");
         return counter;
     }
 
@@ -476,6 +467,7 @@ public class MenuController {
         System.out.println(helper);
         counter=counter + 1 + helper.length();
         r.setFill(Color.valueOf(helper));
+        r.setId("Rectangle");
         shapes.add(r);
         return counter;
     }
