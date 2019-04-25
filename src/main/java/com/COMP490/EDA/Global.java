@@ -39,6 +39,11 @@ public final class Global {
         return state.get(currentSymbol.getName());
     }
 
+    public static void removeSymbol(String name) {
+        state.remove(name);
+        aMap.remove(name);
+    }
+
     public static void addToMap(String i , Symbol k){
         aMap.put(i,k);
     }
