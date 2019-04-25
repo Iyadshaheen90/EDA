@@ -16,7 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 
@@ -35,6 +37,7 @@ public class Symbol {
     private AnchorPane properties;//this is to access the properties pane inside the sidepanel and be able to set its
     // content to true. this is used in drawListeners, the select part of the decision statement, for a better
     // understanding visit that
+    private VBox vbox;
     private Accordion sidePanel;
     private Pane drawArea;
     private Shape shape;
@@ -56,6 +59,7 @@ public class Symbol {
         this.toolBar = toolBar;
         this.sidePanel = sidePanel;
         properties = (AnchorPane) sidePanel.getPanes().get(1).getContent();
+        vbox = (VBox) properties.getChildren().get(0);
         shapes = new ArrayList<>();
         draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
         initialize();
@@ -166,17 +170,45 @@ public class Symbol {
         });
     }
 
+    private void disableAllProperties(boolean flag)
+    {
+        vbox.getChildren().get(9).setDisable(flag);
+        vbox.getChildren().get(11).setDisable(flag);
+        vbox.getChildren().get(13).setDisable(flag);
+        vbox.getChildren().get(15).setDisable(flag);
+    }
+
+    private void disableSelectedProperties(boolean flag)
+    {
+        vbox.getChildren().get(9).setDisable(!flag);
+        vbox.getChildren().get(11).setDisable(!flag);
+        vbox.getChildren().get(13).setDisable(flag);
+        vbox.getChildren().get(15).setDisable(flag);
+        vbox.getChildren().get(18).setDisable(flag);
+    }
+
     private void editShape(Shape shape)
     {
         String shapeID = shape.getId();
-        VBox vbox = (VBox) properties.getChildren().get(0);
         Label shapeLabel = new Label("Shape");
+        //.......................
+        //for resetting the start x label to say width and the end X label to say height when rect is selected
+        Label label1 = new Label();
+        label1.setFont(Font.font(18));
+        Label label2 = new Label();
+        label2.setFont(Font.font(18));
+        //.....................
         TextField strokeTextField = (TextField) vbox.getChildren().get(3);
         TextField startXTextField = (TextField) vbox.getChildren().get(9);
+        startXTextField.setText("");
         TextField endXTextField = (TextField) vbox.getChildren().get(11);
+        endXTextField.setText("");
         TextField startYTextField = (TextField) vbox.getChildren().get(13);
+        startYTextField.setText("");
         TextField endYTextField = (TextField) vbox.getChildren().get(15);
+        endYTextField.setText("");
         TextField radiusTextField = (TextField) vbox.getChildren().get(18);
+        radiusTextField.setText("");
         Slider strokeSlider = (Slider)vbox.getChildren().get(4);
         strokeSlider.setValue(shape.getStrokeWidth());
         strokeTextField.setText(String.valueOf(shape.getStrokeWidth()));
@@ -189,49 +221,72 @@ public class Symbol {
         switch (shapeID)
         {
             case "Circle":
-                radiusTextField.setDisable(false);
-                vbox.getChildren().set(18,radiusTextField);
-                //System.out.println(shapeID);
                 shapeLabel.setText("Shape: Circle");
+
+                vbox.getChildren().get(18).setDisable(false);//enable radius field
+                disableAllProperties(true);//disable properties that are not useful like start x, etc
+
+                radiusTextField.setText(String.format("%.2f",((Circle) shape).getRadius()));
                 colorPicker.setValue((Color) shape.getFill());
+
                 vbox.getChildren().set(0,shapeLabel);
                 vbox.getChildren().set(3,strokeTextField);
                 vbox.getChildren().set(4,strokeSlider);
                 vbox.getChildren().set(6,colorPicker);
-
+                vbox.getChildren().set(18,radiusTextField);
                 break;
+
             case "Rectangle":
-                radiusTextField.setDisable(true);
-                vbox.getChildren().set(18,radiusTextField);
-//                System.out.println(shapeID);
                 shapeLabel.setText("Shape: Rectangle");
+
+                disableSelectedProperties(true);
+
                 colorPicker.setValue((Color) shape.getFill());
+                label1.setText("Width");
+                label2.setText("Height");
+                startXTextField.setPromptText("Width");
+                endXTextField.setPromptText("Height");
+                startXTextField.setText(String.format("%.2f",((Rectangle) shape).getWidth()));//techinicaly width
+                endXTextField.setText(String.format("%.2f",((Rectangle) shape).getHeight()));//techinicaly height
                 vbox.getChildren().set(0,shapeLabel);
                 vbox.getChildren().set(3,strokeTextField);
                 vbox.getChildren().set(4,strokeSlider);
                 vbox.getChildren().set(6,colorPicker);
+                vbox.getChildren().set(8, label1);
+                vbox.getChildren().set(10, label2);
+                vbox.getChildren().set(9,startXTextField);
+                vbox.getChildren().set(11,endXTextField);
+
 
                 break;
-            case "Line":
-                radiusTextField.setDisable(true);
-                vbox.getChildren().set(18,radiusTextField);
 
+            case "Line":
                 shapeLabel.setText("Shape: Line");
-                startXTextField.setText(String.valueOf(((Line) shape).getStartX()));
-                endXTextField.setText(String.valueOf(((Line) shape).getEndX()));
-                startYTextField.setText(String.valueOf(((Line) shape).getStartY()));
-                endYTextField.setText(String.valueOf(((Line) shape).getEndY()));
+
+                disableAllProperties(false);
+                vbox.getChildren().get(18).setDisable(true);//disable radius field
+                label1.setText("StartX");
+                label2.setText("EndX");
+                startXTextField.setPromptText("Start X Position");
+                endXTextField.setPromptText("End X Position");
+                startXTextField.setText(String.format("%.2f",((Line) shape).getStartX()));
+                endXTextField.setText(String.format("%.2f" ,((Line) shape).getEndX()));
+                startYTextField.setText(String.format("%.2f",((Line) shape).getStartY()));
+                endYTextField.setText(String.format("%.2f",((Line) shape).getEndY()));
                 colorPicker.setValue((Color) shape.getStroke());
+
                 vbox.getChildren().set(0,shapeLabel);
                 vbox.getChildren().set(3,strokeTextField);
                 vbox.getChildren().set(4,strokeSlider);
                 vbox.getChildren().set(6,colorPicker);
+                vbox.getChildren().set(8, label1);
+                vbox.getChildren().set(10, label2);
                 vbox.getChildren().set(9,startXTextField);
                 vbox.getChildren().set(11,endXTextField);
                 vbox.getChildren().set(13,startYTextField);
                 vbox.getChildren().set(15,endYTextField);
-
                 break;
+
                 default:
                     break;
         }
