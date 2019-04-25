@@ -5,6 +5,7 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -218,6 +219,7 @@ public class Drawable {
                 //remove the preview line when the second click of the mouse happens and then draw the actual line
                 drawArea.getChildren().remove(drawArea.getChildren().indexOf(line));
                 Line line = new Line(startX, startY, x, y);
+                line.setStartX(startX);
                 line.setStroke(color);
                 System.out.println("color: "+color);
                 System.out.println("line color: "+line.getFill());
@@ -263,6 +265,7 @@ public class Drawable {
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 circle.setId("Circle");
+//                circle.setStroke(Paint.valueOf("0"));
                 shapes.add(circle);
                 mag.add(circle);
                 drawArea.getChildren().add(circle);

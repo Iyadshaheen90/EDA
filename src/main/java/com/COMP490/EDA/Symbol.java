@@ -3,7 +3,10 @@ package com.COMP490.EDA;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -12,6 +15,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
@@ -167,25 +171,66 @@ public class Symbol {
         String shapeID = shape.getId();
         VBox vbox = (VBox) properties.getChildren().get(0);
         Label shapeLabel = new Label("Shape");
+        TextField strokeTextField = (TextField) vbox.getChildren().get(3);
+        TextField startXTextField = (TextField) vbox.getChildren().get(9);
+        TextField endXTextField = (TextField) vbox.getChildren().get(11);
+        TextField startYTextField = (TextField) vbox.getChildren().get(13);
+        TextField endYTextField = (TextField) vbox.getChildren().get(15);
+        TextField radiusTextField = (TextField) vbox.getChildren().get(18);
+        Slider strokeSlider = (Slider)vbox.getChildren().get(4);
+        strokeSlider.setValue(shape.getStrokeWidth());
+        strokeTextField.setText(String.valueOf(shape.getStrokeWidth()));
+        ColorPicker colorPicker = (ColorPicker)vbox.getChildren().get(6);
+
+//        strokeTextField.setText(shape.getStroke().toString());
         shapeLabel.setFont(Font.font(18));
 
         //edit the shape name label to the name of this shape
         switch (shapeID)
         {
             case "Circle":
+                radiusTextField.setDisable(false);
+                vbox.getChildren().set(18,radiusTextField);
                 //System.out.println(shapeID);
                 shapeLabel.setText("Shape: Circle");
+                colorPicker.setValue((Color) shape.getFill());
                 vbox.getChildren().set(0,shapeLabel);
-//                mac.setShapeLabel("Shape: Circle");
+                vbox.getChildren().set(3,strokeTextField);
+                vbox.getChildren().set(4,strokeSlider);
+                vbox.getChildren().set(6,colorPicker);
+
                 break;
             case "Rectangle":
+                radiusTextField.setDisable(true);
+                vbox.getChildren().set(18,radiusTextField);
 //                System.out.println(shapeID);
                 shapeLabel.setText("Shape: Rectangle");
+                colorPicker.setValue((Color) shape.getFill());
                 vbox.getChildren().set(0,shapeLabel);
+                vbox.getChildren().set(3,strokeTextField);
+                vbox.getChildren().set(4,strokeSlider);
+                vbox.getChildren().set(6,colorPicker);
+
                 break;
             case "Line":
+                radiusTextField.setDisable(true);
+                vbox.getChildren().set(18,radiusTextField);
+
                 shapeLabel.setText("Shape: Line");
+                startXTextField.setText(String.valueOf(((Line) shape).getStartX()));
+                endXTextField.setText(String.valueOf(((Line) shape).getEndX()));
+                startYTextField.setText(String.valueOf(((Line) shape).getStartY()));
+                endYTextField.setText(String.valueOf(((Line) shape).getEndY()));
+                colorPicker.setValue((Color) shape.getStroke());
                 vbox.getChildren().set(0,shapeLabel);
+                vbox.getChildren().set(3,strokeTextField);
+                vbox.getChildren().set(4,strokeSlider);
+                vbox.getChildren().set(6,colorPicker);
+                vbox.getChildren().set(9,startXTextField);
+                vbox.getChildren().set(11,endXTextField);
+                vbox.getChildren().set(13,startYTextField);
+                vbox.getChildren().set(15,endYTextField);
+
                 break;
                 default:
                     break;
@@ -282,6 +327,7 @@ public class Symbol {
                         System.out.println("delete pressed");
                         drawArea.getChildren().remove(shape);
                         shapes.remove(shape);
+                        properties.getChildren().get(0).setVisible(false);
                     }
                 }
 
