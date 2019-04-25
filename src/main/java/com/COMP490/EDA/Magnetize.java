@@ -4,19 +4,19 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 
 public class Magnetize {
     private final double PIXEL_SENSITIVITY = 2;
 
-    private ArrayList<Double> edgesX;
-    private ArrayList<Double> edgesY;
+    private ArrayList<Double> edgesX = new ArrayList<>();
+    private ArrayList<Double> edgesY = new ArrayList<>();
 
-    public Magnetize() {
-        this.edgesX = new ArrayList<>();
-        this.edgesY = new ArrayList<>();
+    public Magnetize(Symbol symbol) {
+        for(Shape shape : symbol.getShapes()) {
+            add(shape);
+        }
     }
 
     public ArrayList<Double> getXValues() {

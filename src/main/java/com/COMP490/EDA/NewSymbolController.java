@@ -1,12 +1,17 @@
 package com.COMP490.EDA;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class NewSymbolController {
     @FXML
@@ -18,63 +23,34 @@ public class NewSymbolController {
 
     private TabPane tabArea;
     private Label mouseCoordinates;
-    private TreeView tree;
-    private Accordion sidePanel;
     private ToolBarController toolBar;
 
-    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar, Accordion sidePanel) {
+    public NewSymbolController(TabPane tabArea, Label mouseCoordinates, ToolBarController toolBar) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.toolBar = toolBar;
-        this.sidePanel = sidePanel;
-        this.tree = (TreeView) sidePanel.getPanes().get(2).getContent();
     }
 
     public void initialize() {
         // force the field to be numeric only
-        width.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(!width.getText().matches("\\d*")) {
-                    width.setText(width.getText().replaceAll("[^\\d]", ""));
-                }
+        width.setOnKeyTyped(event -> {
+            if(!width.getText().matches("\\d*")) {
+                width.setText(width.getText().replaceAll("[^\\d]", ""));
             }
         });
         // force the field to be numeric only
-        height.setOnKeyTyped(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(!height.getText().matches("\\d*")) {
-                    height.setText(height.getText().replaceAll("[^\\d]", ""));
-                }
-            }
-        });
-    }
-
-    // Add coordinate listeners
-    private void addCoordinateListener(Symbol file, Pane pane) {
-        // Coordinate listener
-        pane.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY());
+        height.setOnKeyTyped(event -> {
+            if(!height.getText().matches("\\d*")) {
+                height.setText(height.getText().replaceAll("[^\\d]", ""));
             }
         });
     }
 
     @FXML
     public void handleOK() {
-        if(!width.getText().equals("") && !height.getText().equals("")) {
-            Pane pane = new Pane();
-            pane.setMaxSize(Double.parseDouble(width.getText()), Double.parseDouble(height.getText()));
-            pane.setStyle("-fx-background-color: white");
-            Tab tab = new Tab(name.getText() , pane);
-            Symbol symbol = new Symbol(pane, Integer.parseInt(width.getText()), Integer.parseInt(height.getText()), toolBar,  sidePanel);
-            //Global.addToArrayList(symbol)
-            //Global.getSymbolLib(Global.getSymbolLoc()).addSymbol(symbol);
-            Global.setCurrentSymbol(symbol);
-            tabArea.getTabs().add(tab);
-            addCoordinateListener(symbol, pane);
+        if(!name.getText().equals("") && !width.getText().equals("") && !height.getText().equals("")) {
+            SymbolLoader sl = new SymbolLoader(tabArea, mouseCoordinates, toolBar);
+            sl.loadSymbol(name.getText(), Integer.parseInt(width.getText()), Integer.parseInt(height.getText()));
             Stage stage = (Stage) width.getScene().getWindow();
             stage.close();
         }

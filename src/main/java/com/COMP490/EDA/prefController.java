@@ -1,21 +1,12 @@
 package com.COMP490.EDA;
 
-import javafx.application.HostServices;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.w3c.dom.Text;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,35 +45,45 @@ public class prefController {
         }
     }
 
-    private void addTreeListeners(TreeView<String> symbols) {
-        // Coordinate listener
-        symbols.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //TODO
-                //Help
-            }
-        });
-    }
     @FXML
     public void close(){
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
-        symbols.setEditable(true);
-        symbols.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
-            @Override
-            public TreeCell<String> call(TreeView<String> stringTreeView) {
-                return new TextFieldTreeCellImpl();
+        symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && newValue != oldValue){
+                System.out.println("Hello World");
             }
         });
-        addTreeListeners(symbols);
+//        symbols.setEditable(true);
+//        symbols.setCellFactory(new Callback<TreeView<String>, TreeCell<String>>() {
+//            @Override
+//            public TreeCell<String> call(TreeView<String> stringTreeView) {
+//                return new TextFieldTreeCellImpl();
+//            }
+//        });
         this.sidepanel.getPanes().get(0).setContent(symbols);
+//        symbols.getSelectionModel().selectedItemProperty().addListener( new ChangeListener() {
+//
+//            @Override
+//            public void changed(ObservableValue observable, Object oldValue,
+//                                Object newValue) {
+//
+//                TreeItem<String> selectedItem = (TreeItem<String>) newValue;
+//                System.out.println("Selected Text : " + selectedItem.getValue());
+//                // do what ever you want
+//            }
+//
+//        });
+//        symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handle(newValue));
         //This automatically sets the file explorer open by default
         this.sidepanel.setExpandedPane(this.sidepanel.getPanes().get(0));
         Stage stage = (Stage) symbolpath.getScene().getWindow();
         stage.close();
     }
+//    private void handle(Object newValue) {
+//        System.out.println(newValue);
+//    }
     public TreeItem<String> fillExplorer(File dir){
         TreeItem<String> root = new TreeItem<>(dir.getName());
         for (File f : dir.listFiles()){
@@ -118,7 +119,7 @@ public class prefController {
         @Override
         public void cancelEdit() {
             super.cancelEdit();
-            setText((String) getItem());
+            setText(getItem());
             setGraphic(getTreeItem().getGraphic());
         }
 
@@ -145,21 +146,17 @@ public class prefController {
 
         private void createTextField() {
             textField = new TextField(getString());
-            textField.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
-                @Override
-                public void handle(KeyEvent t) {
-                    if (t.getCode() == KeyCode.ENTER) {
-                        commitEdit(textField.getText());
-                    } else if (t.getCode() == KeyCode.ESCAPE) {
-                        cancelEdit();
-                    }
+            textField.setOnKeyReleased(t -> {
+                if (t.getCode() == KeyCode.ENTER) {
+                    commitEdit(textField.getText());
+                } else if (t.getCode() == KeyCode.ESCAPE) {
+                    cancelEdit();
                 }
             });
         }
 
         private String getString() {
-            return getItem() == null ? "" : getItem().toString();
+            return getItem() == null ? "" : getItem();
         }
 
     }

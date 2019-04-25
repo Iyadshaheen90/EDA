@@ -11,9 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -47,7 +45,6 @@ public class Symbol {
     public int shapeIndexInShapes;
     private ToolBarController toolBar;
     private boolean clicked = false;
-    private String parentDir="";
     //Keep track of all shapes on pane
     private ArrayList<Shape> shapes;
     private Drawable draw;
@@ -55,8 +52,8 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
-    public Symbol(Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
-        this.parentDir=Global.getLibraryLoc();
+    public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar) {
+        this.name = name;
         this.drawArea = drawArea;
         this.width = width;
         this.height = height;
@@ -65,8 +62,13 @@ public class Symbol {
         properties = (AnchorPane) sidePanel.getPanes().get(1).getContent();
         vbox = (VBox) properties.getChildren().get(0);
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), shapes, sidePanel);
+        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
         initialize();
+    }
+
+    public void setDrawArea(ArrayList<Node> children) {
+        this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
+        this.drawArea.getChildren().addAll(children);
     }
 
     public String getName() {
@@ -80,6 +82,12 @@ public class Symbol {
     public void setWidth(int width) {
         this.width = width;
     }
+
+    public void setShapes(ArrayList<Shape> shapes){
+        this.shapes=shapes;
+    }
+
+    public Pane getDrawArea(){ return this.drawArea; }
 
     public void setHeight(int height) {
         this.height = height;
@@ -102,7 +110,7 @@ public class Symbol {
     }
 
 
-    // draw function for the background
+    // draw function for the background grid
     private void drawBackground() {
         //Draw background rows
         for(int i=0; i<= height ; i=i+20){
@@ -147,30 +155,22 @@ public class Symbol {
 
     // function to allow dragging in the editable area
     private void addDragListeners(final Node n) {
-
-        n.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me) {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
-                        && toolBar.getTool()=="select")
-                {
-                    initialX = me.getX();
-                    initialY = me.getY();
-                }
-
+        n.setOnMousePressed(me -> {
+            if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
+                    && toolBar.getTool().equals("select"))
+            {
+                initialX = me.getX();
+                initialY = me.getY();
             }
+
         });
 
-        n.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent me)
+        n.setOnMouseDragged(me -> {
+            if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
+                    && toolBar.getTool().equals("select"))
             {
-                if(me.getButton()!=MouseButton.MIDDLE && me.isControlDown()
-                        && toolBar.getTool()=="select")
-                {
-                    n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
-                    n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
-                }
+                n.setTranslateX(me.getX() + n.getTranslateX() - initialX);
+                n.setTranslateY(me.getY() + n.getTranslateY() - initialY);
             }
         });
     }
@@ -436,32 +436,20 @@ public class Symbol {
                     clicked = false;
                 }
 
-                else if(toolBar.getTool() == "circle"||toolBar.getTool() == "line"
-                        ||toolBar.getTool() == "rectangle")
-                {
-                    //set shape start point
-                    draw.setStartPoint(event.getX(), event.getY());
-                    //add onMouseMove handler
+            else if(toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
+                    || toolBar.getTool().equals("rectangle"))
+            {
+                //set shape start point
+                draw.setStartPoint(event.getX(), event.getY());
+                //add onMouseMove handler
 //                    drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
 //                        @Override
 //                        public void handle(MouseEvent event) {
 //                            drawShape(event.getX(), event.getY());
 //                        }
 //                    });
-                    clicked = true;
-                }
-
-                drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        if(clicked)
-                        {
-                            draw.shapePreview(mouseEvent, toolBar.getColor());
-                        }
-                    }
-                });
+                clicked = true;
             }
-        });
 
         drawArea.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -484,24 +472,15 @@ public class Symbol {
                 }
 
             }
+
+            drawArea.setOnMouseMoved(mouseEvent -> {
+                if (clicked) {
+                    draw.shapePreview(mouseEvent, toolBar.getColor());
+                }
+            });
         });
-    }
-
-    // Shape arraylist controls
-    public void addShape(Shape shape) {
-        shapes.add(shape);
-    }
-
-    // Might change depending on how we want to use
-    public Shape getShape(Shape shape) {
-        return shapes.get(shapes.indexOf(shape));
-    }
 
     public ArrayList<Shape> getShapes(){
         return shapes;
-    }
-
-    public void removeShape(Shape shape) {
-        shapes.remove(shape);
     }
 }
