@@ -1,6 +1,7 @@
 package com.COMP490.EDA;
 
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -31,23 +32,20 @@ public class MenuController {
     private TreeView<String> symbols;
     private Map<String, File> listOfFiles;
 
+    public void treeListener(Observable observable, TreeItem<String> oldValue, TreeItem<String> newValue){
+
+    }
 
     public MenuController(TabPane tabArea, Label mouseCoordinates, TreeView tree, ToolBarController toolBar, Accordion sidePanel) {
         this.tabArea = tabArea;
         this.mouseCoordinates = mouseCoordinates;
         this.sidePanel=sidePanel;
-        //TODO
-        //1.Add a menu to input a file directory where symbols will be stored, this will
-        //be the default "rootDir" value. On first startup, this will be blank.
-        //2.Make items clickable to open that project. this is more complicated and
-        //in order to do this we need to get saving and loading down.
-//        rootDir =new File("/home/mrconfus3d/Desktop");
-//        System.out.println(rootDir.getAbsolutePath());
         this.toolBar = toolBar;
         listOfFiles = new HashMap<>(20);
         File f = new File(Global.getLibraryLoc());
         symbols = new TreeView<>();
         symbols.setRoot(fillExplorer(f));
+//        symbols.getSelectionModel().selectedItemProperty().addListener(this::treeListener);
         symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue != null && newValue != oldValue && newValue.isLeaf() && newValue.getValue().endsWith(".eda")){
                 System.out.println("Hello World");
@@ -55,7 +53,13 @@ public class MenuController {
                 System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
                 File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
                 System.out.println("loading " + h.getAbsolutePath());
-                loadSymbol(h);
+
+                try{
+                    loadSymbol(h);
+                }
+                catch (Exception e){
+                    System.out.println("There was an error loading your file");
+                }
 
             }
         });
@@ -165,16 +169,16 @@ public class MenuController {
 
     // Bound to File>Save As
     @FXML
-    public void newSave() {
+    public void newSave(){
         //dimensions of canvas x
         //array of shapes x
         try {
             FileWriter fw = new FileWriter(Global.getLibraryLoc() + "/" + Global.getCurrentSymbol().getName() + ".eda");
-            StringWriter writer = new StringWriter();
             Map<String, Object> data = new HashMap<>();
 
             ArrayList<Shape> fileShapes = Global.getCurrentSymbol().getShapes();
             ArrayList<Shape> shapes = new ArrayList<>();
+
 //            ArrayList<Shape> shapes = new ArrayList<Shape>();
 //            ArrayList<Shape> shapes = (ArrayList<Shape>)Global.getCurrentSymbol().getShapes().clone();
             fileShapes.forEach((shape) -> {
@@ -189,6 +193,7 @@ public class MenuController {
                     r.setWidth(s.getWidth());
                     r.setHeight(s.getHeight());
                     r.setFill(s.getFill());
+                    r.setId(s.getId());
                     System.out.println(s.getFill().toString());
                     shapes.add(r);
                 }
@@ -200,6 +205,7 @@ public class MenuController {
                     r.setCenterY(s.getCenterY());
                     r.setRadius(s.getRadius());
                     r.setFill(s.getFill());
+                    r.setId(s.getId());
                     System.out.println(s.getFill());
                     shapes.add(r);
                 }
@@ -213,6 +219,7 @@ public class MenuController {
                     r.setEndY(s.getEndY());
                     System.out.println(s.getStroke());
                     r.setStroke(s.getStroke());
+                    r.setId(s.getId());
                     shapes.add(r);
                 }
                 else{
@@ -220,17 +227,6 @@ public class MenuController {
                 }
                 File f = new File(Global.getLibraryLoc());
                 symbols.setRoot(fillExplorer(f));
-                symbols.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                    if(newValue != null && newValue != oldValue && newValue.isLeaf()){
-                        System.out.println("Hello World");
-//                System.out.println(newValue.getValue());
-                        System.out.println("new value is " + listOfFiles.get(newValue.getValue()));
-                        File h = new File(listOfFiles.get(newValue.getValue()).getAbsolutePath());
-                        System.out.println("loading " + h.getAbsolutePath());
-                        loadSymbol(h);
-
-                    }
-                });
                 this.sidePanel.getPanes().get(0).setContent(symbols);
                 symbols.getRoot().setExpanded(true);
             });
@@ -243,6 +239,10 @@ public class MenuController {
 //
 //            shapes.add(rectangle);
             System.out.println("The shapes are " + shapes.toString());
+            for (Shape s :
+                    shapes) {
+                System.out.println(s.getId());
+            }
             data.put("width" , Global.getCurrentSymbol().getWidth());
             data.put("height" , Global.getCurrentSymbol().getHeight());
             data.put("shapes" ,  shapes);
@@ -277,7 +277,7 @@ public class MenuController {
         }
     }
 
-    public void loadSymbol(File h) {
+    public void loadSymbol(File h) throws IOException{
 //        Yaml yaml = new Yaml();
         ArrayList<Shape> shapes = new ArrayList<>();
         int counter = 7;
@@ -285,7 +285,8 @@ public class MenuController {
         String width = null;
         String height = null;
         String helper= null;
-        try(BufferedReader reader = new BufferedReader(new FileReader(h))) {
+        BufferedReader reader = new BufferedReader(new FileReader(h));
+        try{
             //shapes=[
 //            InputStream input = new FileInputStream(h);
 //            Map<String, Object> data = yaml.load(input);
@@ -346,6 +347,9 @@ public class MenuController {
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
+        }
+        finally{
+            reader.close();
         }
     }
 
