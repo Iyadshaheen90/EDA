@@ -115,13 +115,6 @@ public class Drawable {
                 }
             };
 
-//    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
-//            new EventHandler<MouseEvent>() {
-//                @Override
-//                public void handle(MouseEvent mouseEvent) {
-//                    System.out.println("drag over");
-//                }
-//            };
 
     private EventHandler<MouseEvent> rectOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -152,17 +145,6 @@ public class Drawable {
                     }
                 }
             };
-
-    private EventHandler<MouseEvent> rectOnMouseDraggedReleasedEventHandler =
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("drag over");
-//                    movedCircle.setCenterX(o);
-//                    draggable =false;
-                }
-            };
-
 
     private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -248,7 +230,6 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-//                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 circle.setId("Circle");
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
