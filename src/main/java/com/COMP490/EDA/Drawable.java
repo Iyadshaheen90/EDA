@@ -94,14 +94,6 @@ public class Drawable {
                         draggable = true;
                     }
 
-//                    if(tool=="select")
-//                    {
-//                        System.out.println("recognized");
-//                        sidePanel.requestFocus();
-//                        sidePanel.getPanes().get(1).getContent().setVisible(false);
-//
-//                        draggable = false;
-//                    }
                     else
                         draggable = false;
                 }
@@ -123,15 +115,13 @@ public class Drawable {
                 }
             };
 
-    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("drag over");
-//                    movedCircle.setCenterX(o);
-//                    draggable =false;
-                }
-            };
+//    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
+//            new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent mouseEvent) {
+//                    System.out.println("drag over");
+//                }
+//            };
 
     private EventHandler<MouseEvent> rectOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -258,9 +248,8 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
+//                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 circle.setId("Circle");
-//                circle.setStroke(Paint.valueOf("0"));
                 shapes.add(circle);
                 drawArea.getChildren().add(circle);
                 Global.getCurrentStateHandler().save(drawArea);

@@ -365,14 +365,13 @@ public class Symbol {
                 int y = (int) event.getY();
                 for (int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
                     shape = shapes.get(i);
-                    if (shape.contains(x, y)) {
+                    if (shape.getBoundsInParent().contains(x, y)) {
                         //expanding the pane of properties
                         sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
                         //set the vbox to true which will cause the properties to appear
                         properties.getChildren().get(0).setVisible(true);
                         setShapeProperties(shape);
                         shapeIndexInShapes = i;
-//                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
                         break;
                     } else {
                         //if a shape is not selected then we set the shape to null because it is
