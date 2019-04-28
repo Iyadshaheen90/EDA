@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -61,6 +62,10 @@ public class SymbolLoader {
                 if (!ButtonType.OK.equals(closeResponse.get())) {
                     event.consume();
                 } else {
+                    sidePanel.setExpandedPane(sidePanel.getPanes().get(0));
+                    AnchorPane pane = (AnchorPane) sidePanel.getPanes().get(1).getContent();
+                    pane.getChildren().get(0).setVisible(false);
+
                     Global.removeSymbol(Global.getCurrentSymbol().getName());
                 }
             }
