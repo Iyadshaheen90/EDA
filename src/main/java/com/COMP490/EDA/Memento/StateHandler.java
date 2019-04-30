@@ -1,7 +1,6 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 
@@ -10,25 +9,23 @@ public class StateHandler {
     private static Originator originator = new Originator();
     private static CareTaker careTaker = new CareTaker();
 
-    public StateHandler(Pane pane) {
-        save(pane);
+    public StateHandler(ArrayList<Shape> shapes) {
+        save(shapes);
     }
 
     // Saves the state of the Pane
-    public void save(Pane pane) {
-        ArrayList<Node> temp = new ArrayList<>();
-        for(Node node : pane.getChildren()) {
-            temp.add(node);
-        }
+    public void save(ArrayList<Shape> shapes) {
+        ArrayList<Shape> temp = new ArrayList<>(shapes);
         originator.setState(temp);
         careTaker.add(originator.saveStateToMemento());
         stateNum++;
     }
 
-    public ArrayList<Node> undo() {
+    public ArrayList<Shape> undo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum - 1));
             stateNum--;
+//            System.out.println("In statehandler undo " + originator.getState());
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't undo further");
@@ -36,10 +33,11 @@ public class StateHandler {
         return null;
     }
 
-    public ArrayList<Node> redo() {
+    public ArrayList<Shape> redo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum + 1));
             stateNum++;
+//            System.out.println("In statehandler redo " + originator.getState());
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't redo further");

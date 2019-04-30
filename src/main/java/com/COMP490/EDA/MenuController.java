@@ -1,5 +1,6 @@
 package com.COMP490.EDA;
 
+import com.COMP490.EDA.Memento.StateHandler;
 import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
@@ -72,7 +73,6 @@ public class MenuController {
                 int index = Integer.parseInt(observable.getValue().toString());
                 String s = tabArea.getTabs().get(index).getText();
                 Global.setCurrentSymbol(Global.retrieveSymbol(s));
-                System.out.println("Setting current Symbol to " + Global.getCurrentSymbol().getName());
                 System.out.println("Current symbol shapes: " + Global.getCurrentSymbol().getShapes().toString());
             }
         });
@@ -250,19 +250,25 @@ public class MenuController {
 
     @FXML
     public void undo() {
-        ArrayList<Node> children = Global.getCurrentStateHandler().undo();
-        System.out.println(Global.getCurrentStateHandler());
-        if(children != null) {
-            Global.getCurrentSymbol().setDrawArea(children);
+        ArrayList<Shape> shapes = Global.getCurrentStateHandler().undo();
+//        System.out.println(Global.getCurrentStateHandler());
+//        System.out.println("In menu undo:" + shapes);
+        if(shapes != null) {
+            Symbol symbol = Global.getCurrentSymbol();
+            symbol.setDrawArea(shapes);
+            symbol.setShapes(shapes);
         }
     }
 
     @FXML
     public void redo() {
-        ArrayList<Node> children = Global.getCurrentStateHandler().redo();
-        System.out.println(Global.getCurrentStateHandler());
-        if(children != null) {
-            Global.getCurrentSymbol().setDrawArea(children);
+        ArrayList<Shape> shapes = Global.getCurrentStateHandler().redo();
+//        System.out.println(Global.getCurrentStateHandler());
+//        System.out.println("In menu undo:" + shapes);
+        if(shapes != null) {
+            Symbol symbol = Global.getCurrentSymbol();
+            symbol.setDrawArea(shapes);
+            symbol.setShapes(shapes);
         }
     }
 

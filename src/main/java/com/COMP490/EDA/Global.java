@@ -21,7 +21,7 @@ public final class Global {
         // If the name isn't already added add it
         if(!state.containsKey(currentSymbol.getName())) {
             System.out.println("Creating new StateHandler for " + currentSymbol.getName());
-            state.put(currentSymbol.getName(), new StateHandler(currentSymbol.getDrawArea()));
+            state.put(currentSymbol.getName(), new StateHandler(currentSymbol.getShapes()));
         }
     }
 

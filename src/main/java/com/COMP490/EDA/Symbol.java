@@ -46,6 +46,7 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
+
     public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
         this.name = name;
         this.drawArea = drawArea;
@@ -60,9 +61,11 @@ public class Symbol {
         initialize();
     }
 
-    public void setDrawArea(ArrayList<Node> children) {
-        this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
-        this.drawArea.getChildren().addAll(children);
+    public void setDrawArea(ArrayList<Shape> shapes) {
+//        System.out.println("In setDrawArea.  New shapes " + shapes);
+//        System.out.println("In Draw Area. Old shapes" + this.shapes);
+        this.drawArea.getChildren().removeAll(this.shapes);
+        this.drawArea.getChildren().addAll(shapes);
     }
 
     public String getName() {

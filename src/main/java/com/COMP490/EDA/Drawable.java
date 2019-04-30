@@ -192,8 +192,8 @@ public class Drawable {
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 line.setId("Line");
                 shapes.add(line);
+                Global.getCurrentStateHandler().save(shapes);
                 drawArea.getChildren().add(line);
-                Global.getCurrentStateHandler().save(drawArea);
 
                 break;
             case "rectangle":
@@ -216,8 +216,8 @@ public class Drawable {
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 rect.setId("Rectangle");
                 shapes.add(rect);
+                Global.getCurrentStateHandler().save(shapes);
                 drawArea.getChildren().add(rect);
-                Global.getCurrentStateHandler().save(drawArea);
 
                 break;
             case "circle":
@@ -232,8 +232,8 @@ public class Drawable {
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setId("Circle");
                 shapes.add(circle);
+                Global.getCurrentStateHandler().save(shapes);
                 drawArea.getChildren().add(circle);
-                Global.getCurrentStateHandler().save(drawArea);
                 break;
         }
 
