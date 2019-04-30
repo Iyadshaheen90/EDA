@@ -283,6 +283,30 @@ public class MenuController {
             String currentLine = reader.readLine();
             if (currentLine.contains("[]")){
                 //no shapes
+                counter = counter + 11;
+                temp = currentLine.indexOf(',', counter);
+                helper = currentLine.substring(counter,temp);
+                System.out.println("THis is the width" + helper);
+                width=helper;
+                counter = counter + helper.length() + 9;
+                temp = currentLine.indexOf('}', counter);
+                helper = currentLine.substring(counter,temp);
+                height= helper;
+                counter = counter + helper.length() + 2;
+                System.out.println(shapes.toString());
+                Pane pane = new Pane();
+                pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
+                pane.setStyle("-fx-background-color: white");
+                int helpIndex = h.getName().indexOf('.');
+                String fileName = h.getName().substring(0,helpIndex);
+                Symbol symbol = new Symbol(fileName, pane, Integer.parseInt(width), Integer.parseInt(height), toolBar, sidePanel);
+                Tab tab = new Tab(symbol.getName(), pane);
+                symbol.setShapes(shapes);
+                System.out.println("I opened");
+                tabArea.getTabs().add(tab);
+                addCoordinateListener(symbol, pane);
+                Global.setCurrentSymbol(symbol);
+                Global.addToMap(symbol.getName(), symbol);
             }
 
             else{
@@ -305,34 +329,33 @@ public class MenuController {
                         System.out.println("Your save file is corrupted Err:Menu307");
                     }
                 }
+                counter = counter + 9;
+                temp = currentLine.indexOf(',', counter);
+                helper = currentLine.substring(counter,temp);
+                width=helper;
+                counter = counter + helper.length() + 9;
+                temp = currentLine.indexOf('}', counter);
+                helper = currentLine.substring(counter,temp);
+                height= helper;
+                counter = counter + helper.length() + 2;
+                System.out.println(shapes.toString());
+                Pane pane = new Pane();
+                pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
+                pane.setStyle("-fx-background-color: white");
+                int helpIndex = h.getName().indexOf('.');
+                String fileName = h.getName().substring(0,helpIndex);
+                Symbol symbol = new Symbol(fileName, pane, Integer.parseInt(width), Integer.parseInt(height), toolBar, sidePanel);
+                Tab tab = new Tab(symbol.getName(), pane);
+                symbol.setShapes(shapes);
+                System.out.println("I opened");
+                tabArea.getTabs().add(tab);
+                addCoordinateListener(symbol, pane);
+                for(Shape s : shapes){
+                    symbol.getDrawArea().getChildren().add(s);
+                }
+                Global.setCurrentSymbol(symbol);
+                Global.addToMap(symbol.getName(), symbol);
             }
-            counter = counter + 9;
-            temp = currentLine.indexOf(',', counter);
-            helper = currentLine.substring(counter,temp);
-            width=helper;
-            counter = counter + helper.length() + 9;
-            temp = currentLine.indexOf('}', counter);
-            helper = currentLine.substring(counter,temp);
-            height= helper;
-            counter = counter + helper.length() + 2;
-            System.out.println(shapes.toString());
-            Pane pane = new Pane();
-            pane.setMaxSize(Double.parseDouble(width),Double.parseDouble(height));
-            pane.setStyle("-fx-background-color: white");
-            int helpIndex = h.getName().indexOf('.');
-            String fileName = h.getName().substring(0,helpIndex);
-            Symbol symbol = new Symbol(fileName, pane, Integer.parseInt(width), Integer.parseInt(height), toolBar, sidePanel);
-            Tab tab = new Tab(symbol.getName(), pane);
-            symbol.setShapes(shapes);
-            System.out.println("I opened");
-            tabArea.getTabs().add(tab);
-            addCoordinateListener(symbol, pane);
-            for(Shape s : shapes){
-                symbol.getDrawArea().getChildren().add(s);
-            }
-            Global.setCurrentSymbol(symbol);
-            Global.addToMap(symbol.getName(), symbol);
-
         }catch(IOException e){
             System.out.println("Cant create file dude");
             e.printStackTrace();
