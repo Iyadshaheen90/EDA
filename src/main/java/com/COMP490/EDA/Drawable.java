@@ -258,7 +258,7 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
+//                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 circle.setId("Circle");
 //                circle.setStroke(Paint.valueOf("0"));
                 shapes.add(circle);

@@ -1,15 +1,8 @@
 package com.COMP490.EDA;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.Optional;
 
 public class SymbolLoader {
@@ -36,11 +29,11 @@ public class SymbolLoader {
         addTabListeners(tab);
         tabArea.getTabs().add(tab);
         tabArea.getSelectionModel().select(tab);
-        addCoordinateListener(symbol, pane);
+        addCoordinateListener(pane);
     }
 
     // Add coordinate listeners
-    private void addCoordinateListener(Symbol file, Pane pane) {
+    private void addCoordinateListener(Pane pane) {
         // Coordinate listener
         pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
     }
