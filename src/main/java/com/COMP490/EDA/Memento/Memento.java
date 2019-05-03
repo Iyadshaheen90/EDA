@@ -14,4 +14,9 @@ public class Memento {
     public ArrayList<Shape> getState(){
         return state;
     }
+
+    @Override
+    public String toString() {
+        return state.toString();
+    }
 }

@@ -61,11 +61,11 @@ public class Symbol {
         initialize();
     }
 
-    public void setDrawArea(ArrayList<Shape> shapes) {
+    public void setDrawArea(ArrayList<Shape> newShapes) {
 //        System.out.println("In setDrawArea.  New shapes " + shapes);
 //        System.out.println("In Draw Area. Old shapes" + this.shapes);
         this.drawArea.getChildren().removeAll(this.shapes);
-        this.drawArea.getChildren().addAll(shapes);
+        this.drawArea.getChildren().addAll(newShapes);
     }
 
     public String getName() {
@@ -81,7 +81,8 @@ public class Symbol {
     }
 
     public void setShapes(ArrayList<Shape> shapes){
-        this.shapes=shapes;
+        this.shapes=new ArrayList<>(shapes);
+        System.out.println("Shapes is now " + this.shapes);
     }
 
     public Pane getDrawArea(){ return this.drawArea; }
@@ -172,16 +173,14 @@ public class Symbol {
         });
     }
 
-    private void disableAllProperties(boolean flag)
-    {
+    private void disableAllProperties(boolean flag) {
         vbox.getChildren().get(9).setDisable(flag);
         vbox.getChildren().get(11).setDisable(flag);
         vbox.getChildren().get(13).setDisable(flag);
         vbox.getChildren().get(15).setDisable(flag);
     }
 
-    private void disableSelectedProperties(boolean flag)
-    {
+    private void disableSelectedProperties(boolean flag) {
         vbox.getChildren().get(9).setDisable(!flag);
         vbox.getChildren().get(11).setDisable(!flag);
         vbox.getChildren().get(13).setDisable(flag);
@@ -189,8 +188,7 @@ public class Symbol {
         vbox.getChildren().get(18).setDisable(flag);
     }
 
-    private void setShapeProperties(Shape shape)
-    {
+    private void setShapeProperties(Shape shape) {
         String shapeID = shape.getId();
         Label shapeLabel = new Label("Shape");
         //.......................

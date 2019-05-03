@@ -38,7 +38,6 @@ public final class Global {
     }
 
     public static StateHandler getCurrentStateHandler() {
-        System.out.println("Getting statelist for " + currentSymbol.getName());
         return state.get(currentSymbol.getName());
     }
 

@@ -238,6 +238,9 @@ public class Drawable {
         }
 
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
+        System.out.println("Shapes is now: " + this.shapes);
+        System.out.println("Statelist for: " + Global.getCurrentSymbol().getName() + "\n"+
+                Global.getCurrentStateHandler());
     }
 
     public void shapePreview(MouseEvent me, Color color) {
