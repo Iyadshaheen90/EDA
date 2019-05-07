@@ -1,11 +1,13 @@
 package com.COMP490.EDA;
 
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -351,7 +353,6 @@ public class Symbol {
         });
     }
 
-
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(event -> {
             drawArea.requestFocus();//focusing on draw area so if the user hits escape it will operate
@@ -362,6 +363,8 @@ public class Symbol {
             //shapes checking if it contains the point. if it does we break out of the loop and when delete is
             //pressed we remove the shape from the arraylist and from the children of the pane
             if (toolBar.getTool().equals("select") && !event.isControlDown()) {
+                if(shape!=null)
+                    shape.setEffect(null);//removing the previously selected shape effect, if any
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 for (int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
@@ -373,6 +376,7 @@ public class Symbol {
                         properties.getChildren().get(0).setVisible(true);
                         setShapeProperties(shape);
                         shapeIndexInShapes = i;
+                        shape.setEffect(new DropShadow());// setting a shape effect to know what shape is selected
                         break;
                     } else {
                         //if a shape is not selected then we set the shape to null because it is
