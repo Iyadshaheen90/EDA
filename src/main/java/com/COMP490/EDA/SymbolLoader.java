@@ -1,6 +1,7 @@
 package com.COMP490.EDA;
 
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class SymbolLoader {
 
     private void addTabListeners(Tab tab) {
         tab.setOnCloseRequest(event -> {
-            if(Global.getCurrentStateHandler().getStateNum() > 0) {
+            if(Global.getCurrentStateHandler().getClose()) {
                 Alert closeConfirmation = new Alert(
                         Alert.AlertType.CONFIRMATION,
                         "You have unsaved changes.\nAre you sure you want to exit?"
@@ -54,6 +55,10 @@ public class SymbolLoader {
                 if (!ButtonType.OK.equals(closeResponse.get())) {
                     event.consume();
                 } else {
+                    sidePanel.setExpandedPane(sidePanel.getPanes().get(0));
+                    AnchorPane pane = (AnchorPane) sidePanel.getPanes().get(1).getContent();
+                    pane.getChildren().get(0).setVisible(false);
+
                     Global.removeSymbol(Global.getCurrentSymbol().getName());
                 }
             }

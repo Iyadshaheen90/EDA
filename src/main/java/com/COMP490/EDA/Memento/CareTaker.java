@@ -17,4 +17,8 @@ public class CareTaker {
     public List<Memento> getMementoList() {
         return mementoList;
     }
+
+    public void resetMementoList(int index) {
+        mementoList = new ArrayList<>(mementoList.subList(0, index + 1));
+    }
 }

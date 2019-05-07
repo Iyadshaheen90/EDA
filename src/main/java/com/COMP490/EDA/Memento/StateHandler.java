@@ -1,7 +1,6 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 
@@ -9,26 +8,30 @@ public class StateHandler {
     private int stateNum = -1;  // -1 takes care of the initial state of the pane
     private static Originator originator = new Originator();
     private static CareTaker careTaker = new CareTaker();
+    private boolean close = false;
 
-    public StateHandler(Pane pane) {
-        save(pane);
+    public StateHandler(ArrayList<Shape> shapes) {
+        save(shapes);
     }
 
     // Saves the state of the Pane
-    public void save(Pane pane) {
-        ArrayList<Node> temp = new ArrayList<>();
-        for(Node node : pane.getChildren()) {
-            temp.add(node);
-        }
+    public void save(ArrayList<Shape> shapes) {
+        checkNewPath();
+        ArrayList<Shape> temp = new ArrayList<>(shapes);
         originator.setState(temp);
         careTaker.add(originator.saveStateToMemento());
         stateNum++;
+        System.out.println("Statenum: " + stateNum);
+        this.close = checkClose();
     }
 
-    public ArrayList<Node> undo() {
+    public ArrayList<Shape> undo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum - 1));
             stateNum--;
+//            System.out.println("In statehandler undo " + originator.getState());
+            System.out.println("Statenum: " + stateNum);
+            this.close = checkClose();
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't undo further");
@@ -36,10 +39,13 @@ public class StateHandler {
         return null;
     }
 
-    public ArrayList<Node> redo() {
+    public ArrayList<Shape> redo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum + 1));
             stateNum++;
+//            System.out.println("In statehandler redo " + originator.getState());
+            System.out.println("Statenum: " + stateNum);
+            this.close = checkClose();
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't redo further");
@@ -47,13 +53,33 @@ public class StateHandler {
         return null;
     }
 
-    public int getStateNum() {
-        return stateNum;
+    // checks to see if a shape was drawn after undo/redo
+    // This results in a new state path which discards all state after the current state
+    private void checkNewPath() {
+        if(stateNum + 1 != careTaker.getMementoList().size()) {
+            careTaker.resetMementoList(stateNum);
+        }
+    }
+
+    private boolean checkClose() {
+        return stateNum != 0;
+    }
+
+    public boolean getClose() {
+        return close;
     }
 
     @Override
     public String toString() {
-        String temp = "State number: " + stateNum;
-        return temp;
+        StringBuilder stringBuilder = new StringBuilder();
+        int index = 0;
+        for(Memento m : careTaker.getMementoList()) {
+            stringBuilder.append(index);
+            stringBuilder.append(" ");
+            stringBuilder.append(m.toString());
+            stringBuilder.append("\n");
+            index++;
+        }
+        return stringBuilder.toString();
     }
 }

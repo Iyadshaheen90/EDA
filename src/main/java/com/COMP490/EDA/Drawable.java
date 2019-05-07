@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Drawable {
     private Pane drawArea;
     private String tool;
-    private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
     private double origSceneY;
@@ -35,10 +34,9 @@ public class Drawable {
     private Rectangle movedRectangle;
     private Circle movedCircle;
 
-    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
+    public Drawable(Pane drawArea, String tool) {
         this.drawArea = drawArea;
         this.tool = tool;
-        this.shapes = shapes;
     }
   
     public Drawable(){
@@ -94,14 +92,6 @@ public class Drawable {
                         draggable = true;
                     }
 
-//                    if(tool=="select")
-//                    {
-//                        System.out.println("recognized");
-//                        sidePanel.requestFocus();
-//                        sidePanel.getPanes().get(1).getContent().setVisible(false);
-//
-//                        draggable = false;
-//                    }
                     else
                         draggable = false;
                 }
@@ -123,15 +113,6 @@ public class Drawable {
                 }
             };
 
-    private EventHandler<MouseEvent> circleOnMouseDraggedReleasedEventHandler =
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("drag over");
-//                    movedCircle.setCenterX(o);
-//                    draggable =false;
-                }
-            };
 
     private EventHandler<MouseEvent> rectOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -162,17 +143,6 @@ public class Drawable {
                     }
                 }
             };
-
-    private EventHandler<MouseEvent> rectOnMouseDraggedReleasedEventHandler =
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    System.out.println("drag over");
-//                    movedCircle.setCenterX(o);
-//                    draggable =false;
-                }
-            };
-
 
     private EventHandler<MouseEvent> lineOnMousePressedEventHandler =
             new EventHandler<>() {
@@ -219,9 +189,9 @@ public class Drawable {
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 line.setId("Line");
-                shapes.add(line);
+                Global.getCurrentSymbol().getShapes().add(line);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(line);
-                Global.getCurrentStateHandler().save(drawArea);
 
                 break;
             case "rectangle":
@@ -243,9 +213,9 @@ public class Drawable {
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 rect.setId("Rectangle");
-                shapes.add(rect);
+                Global.getCurrentSymbol().getShapes().add(rect);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(rect);
-                Global.getCurrentStateHandler().save(drawArea);
 
                 break;
             case "circle":
@@ -258,16 +228,17 @@ public class Drawable {
                 circle.setFill(color);
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-//                circle.setOnMouseReleased(circleOnMouseDraggedReleasedEventHandler);
                 circle.setId("Circle");
-//                circle.setStroke(Paint.valueOf("0"));
-                shapes.add(circle);
+                Global.getCurrentSymbol().getShapes().add(circle);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(circle);
-                Global.getCurrentStateHandler().save(drawArea);
                 break;
         }
 
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
+        System.out.println("Shapes is now: " + Global.getCurrentSymbol().getShapes());
+        System.out.println("Statelist for: " + Global.getCurrentSymbol().getName() + "\n"+
+                Global.getCurrentStateHandler());
     }
 
     public void shapePreview(MouseEvent me, Color color) {

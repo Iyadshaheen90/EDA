@@ -20,11 +20,7 @@ public class MainAreaController {
     @FXML
     private Label shapeLabel;
 
-//    public void setShapeLabel(String name)
-//    {
-//        shapeLabel = new Label();
-//        shapeLabel.setText(name);
-//    }
+
 
     public TabPane getTabArea() {
         return tabArea;
