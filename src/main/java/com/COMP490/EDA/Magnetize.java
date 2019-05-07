@@ -136,7 +136,9 @@ public class Magnetize {
     private void handleRemoveCircle(Shape s) {
         edgesX.remove(((Circle) s).getCenterX() + ((Circle) s).getRadius());
         edgesX.remove(((Circle) s).getCenterX() - ((Circle) s).getRadius());
+        edgesX.remove(((Circle) s).getCenterX());
         edgesY.remove(((Circle) s).getCenterY() + ((Circle) s).getRadius());
         edgesY.remove(((Circle) s).getCenterY() - ((Circle) s).getRadius());
+        edgesY.remove(((Circle) s).getCenterY());
     }
 }
