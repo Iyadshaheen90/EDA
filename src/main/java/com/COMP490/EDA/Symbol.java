@@ -46,6 +46,7 @@ public class Symbol {
     public Symbol(){
         //Empty Symbol
     }
+
     public Symbol(String name, Pane drawArea, int width, int height , ToolBarController toolBar, Accordion sidePanel) {
         this.name = name;
         this.drawArea = drawArea;
@@ -60,9 +61,11 @@ public class Symbol {
         initialize();
     }
 
-    public void setDrawArea(ArrayList<Node> children) {
-        this.drawArea.getChildren().removeAll(this.drawArea.getChildren());
-        this.drawArea.getChildren().addAll(children);
+    public void setDrawArea(ArrayList<Shape> newShapes) {
+//        System.out.println("In setDrawArea.  New shapes " + shapes);
+//        System.out.println("In Draw Area. Old shapes" + this.shapes);
+        this.drawArea.getChildren().removeAll(this.shapes);
+        this.drawArea.getChildren().addAll(newShapes);
     }
 
     public String getName() {
@@ -78,7 +81,8 @@ public class Symbol {
     }
 
     public void setShapes(ArrayList<Shape> shapes){
-        this.shapes=shapes;
+        this.shapes=new ArrayList<>(shapes);
+        System.out.println("Shapes is now " + this.shapes);
     }
 
     public Pane getDrawArea(){ return this.drawArea; }
@@ -169,16 +173,14 @@ public class Symbol {
         });
     }
 
-    private void disableAllProperties(boolean flag)
-    {
+    private void disableAllProperties(boolean flag) {
         vbox.getChildren().get(9).setDisable(flag);
         vbox.getChildren().get(11).setDisable(flag);
         vbox.getChildren().get(13).setDisable(flag);
         vbox.getChildren().get(15).setDisable(flag);
     }
 
-    private void disableSelectedProperties(boolean flag)
-    {
+    private void disableSelectedProperties(boolean flag) {
         vbox.getChildren().get(9).setDisable(!flag);
         vbox.getChildren().get(11).setDisable(!flag);
         vbox.getChildren().get(13).setDisable(flag);
@@ -186,8 +188,7 @@ public class Symbol {
         vbox.getChildren().get(18).setDisable(flag);
     }
 
-    private void setShapeProperties(Shape shape)
-    {
+    private void setShapeProperties(Shape shape) {
         String shapeID = shape.getId();
         Label shapeLabel = new Label("Shape");
         //.......................
@@ -365,14 +366,13 @@ public class Symbol {
                 int y = (int) event.getY();
                 for (int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
                     shape = shapes.get(i);
-                    if (shape.contains(x, y)) {
+                    if (shape.getBoundsInParent().contains(x, y)) {
                         //expanding the pane of properties
                         sidePanel.setExpandedPane(sidePanel.getPanes().get(1));
                         //set the vbox to true which will cause the properties to appear
                         properties.getChildren().get(0).setVisible(true);
                         setShapeProperties(shape);
                         shapeIndexInShapes = i;
-//                            System.out.println(temp.getChildren()); //just to check if we are inside the correct node
                         break;
                     } else {
                         //if a shape is not selected then we set the shape to null because it is

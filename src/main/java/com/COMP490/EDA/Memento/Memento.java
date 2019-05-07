@@ -1,17 +1,22 @@
 package com.COMP490.EDA.Memento;
 
-import javafx.scene.Node;
+import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
 
 public class Memento {
-    private ArrayList<Node> state;
+    private ArrayList<Shape> state;
 
-    public Memento(ArrayList<Node> state){
+    public Memento(ArrayList<Shape> state){
         this.state = state;
     }
 
-    public ArrayList<Node> getState(){
+    public ArrayList<Shape> getState(){
         return state;
+    }
+
+    @Override
+    public String toString() {
+        return state.toString();
     }
 }
