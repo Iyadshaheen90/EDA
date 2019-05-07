@@ -68,12 +68,15 @@ public class MenuController {
         symbols.getRoot().setExpanded(true);
         //This automatically sets the file explorer open by default
         this.sidePanel.setExpandedPane(this.sidePanel.getPanes().get(0));
+
+        // Tab switching handler
         tabArea.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if ((int)oldValue != -1 && (int)newValue != -1){
                 int index = Integer.parseInt(observable.getValue().toString());
                 String s = tabArea.getTabs().get(index).getText();
                 Global.setCurrentSymbol(Global.retrieveSymbol(s));
                 System.out.println("Current symbol shapes: " + Global.getCurrentSymbol().getShapes().toString());
+                System.out.println("Current symbol's statehandler " + Global.getCurrentStateHandler());
             }
         });
 
@@ -359,7 +362,7 @@ public class MenuController {
                 for(Shape s : shapes){
                     symbol.getDrawArea().getChildren().add(s);
                 }
-                Global.setCurrentSymbol(symbol);
+//                Global.setCurrentSymbol(symbol);
                 Global.addToMap(symbol.getName(), symbol);
             }
         }catch(IOException e){

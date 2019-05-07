@@ -22,6 +22,7 @@ public final class Global {
         if(!state.containsKey(currentSymbol.getName())) {
             System.out.println("Creating new StateHandler for " + currentSymbol.getName());
             state.put(currentSymbol.getName(), new StateHandler(currentSymbol.getShapes()));
+            // statenum is correct but the list is wrong
         }
     }
 

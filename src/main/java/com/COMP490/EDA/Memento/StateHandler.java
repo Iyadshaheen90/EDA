@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class StateHandler {
     private int stateNum = -1;  // -1 takes care of the initial state of the pane
     private static Originator originator = new Originator();
-    private static CareTaker careTaker = new CareTaker();
+    private CareTaker careTaker = new CareTaker();
     private boolean close = false;
 
     public StateHandler(ArrayList<Shape> shapes) {
@@ -73,6 +73,7 @@ public class StateHandler {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         int index = 0;
+        stringBuilder.append("Statenum is: " + stateNum + "\n");
         for(Memento m : careTaker.getMementoList()) {
             stringBuilder.append(index);
             stringBuilder.append(" ");
