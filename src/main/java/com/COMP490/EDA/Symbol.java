@@ -57,7 +57,7 @@ public class Symbol {
         properties = (AnchorPane) sidePanel.getPanes().get(1).getContent();
         vbox = (VBox) properties.getChildren().get(0);
         shapes = new ArrayList<>();
-        draw = new Drawable(drawArea, toolBar.getTool(), shapes);
+        draw = new Drawable(drawArea, toolBar.getTool());
         initialize();
     }
 

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class Drawable {
     private Pane drawArea;
     private String tool;
-    private ArrayList<Shape> shapes;
     private double startX;
     private double startY;
     private double origSceneY;
@@ -35,10 +34,9 @@ public class Drawable {
     private Rectangle movedRectangle;
     private Circle movedCircle;
 
-    public Drawable(Pane drawArea, String tool, ArrayList<Shape> shapes) {
+    public Drawable(Pane drawArea, String tool) {
         this.drawArea = drawArea;
         this.tool = tool;
-        this.shapes = shapes;
     }
   
     public Drawable(){
@@ -191,8 +189,8 @@ public class Drawable {
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 line.setId("Line");
-                shapes.add(line);
-                Global.getCurrentStateHandler().save(shapes);
+                Global.getCurrentSymbol().getShapes().add(line);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(line);
 
                 break;
@@ -215,8 +213,8 @@ public class Drawable {
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 rect.setId("Rectangle");
-                shapes.add(rect);
-                Global.getCurrentStateHandler().save(shapes);
+                Global.getCurrentSymbol().getShapes().add(rect);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(rect);
 
                 break;
@@ -231,14 +229,14 @@ public class Drawable {
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setId("Circle");
-                shapes.add(circle);
-                Global.getCurrentStateHandler().save(shapes);
+                Global.getCurrentSymbol().getShapes().add(circle);
+                Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(circle);
                 break;
         }
 
         System.out.println(tool + " end point set to X: " + x + " Y: " + y);
-        System.out.println("Shapes is now: " + this.shapes);
+        System.out.println("Shapes is now: " + Global.getCurrentSymbol().getShapes());
         System.out.println("Statelist for: " + Global.getCurrentSymbol().getName() + "\n"+
                 Global.getCurrentStateHandler());
     }

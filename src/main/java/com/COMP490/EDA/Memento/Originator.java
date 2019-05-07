@@ -9,7 +9,7 @@ public class Originator {
     private ArrayList<Shape> state;
 
     public void setState(ArrayList<Shape> state){
-        this.state = state;
+        this.state = new ArrayList<>(state);
     }
 
     public ArrayList<Shape> getState(){
