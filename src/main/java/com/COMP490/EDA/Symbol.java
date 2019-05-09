@@ -1,11 +1,13 @@
 package com.COMP490.EDA;
 
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -67,7 +69,7 @@ public class Symbol {
         this.drawArea.getChildren().removeAll(this.shapes);
         this.drawArea.getChildren().addAll(newShapes);
     }
-
+    public Drawable getDraw(){ return this.draw;}
     public String getName() {
         return name;
     }
@@ -323,34 +325,33 @@ public class Symbol {
 
         startXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setStartX(Double.parseDouble(newValue));
+                ((Line) shape).setStartX(20*Math.round(Double.parseDouble(newValue)/20));
             if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
+                ((Rectangle) shape).setWidth(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         endXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setEndX(Double.parseDouble(newValue));
+                ((Line) shape).setEndX(20*Math.round(Double.parseDouble(newValue)/20));
             if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
+                ((Rectangle) shape).setHeight(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         startYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setStartY(Double.parseDouble(newValue));
+                ((Line) shape).setStartY(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         endYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setEndY(Double.parseDouble(newValue));
+                ((Line) shape).setEndY(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         radiusTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Circle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Circle) shape).setRadius(Double.parseDouble(newValue));
+                ((Circle) shape).setRadius(20*Math.round(Double.parseDouble(newValue)/20));
         });
     }
-
 
     public void addDrawListeners() {
         drawArea.setOnMouseClicked(event -> {
@@ -362,6 +363,8 @@ public class Symbol {
             //shapes checking if it contains the point. if it does we break out of the loop and when delete is
             //pressed we remove the shape from the arraylist and from the children of the pane
             if (toolBar.getTool().equals("select") && !event.isControlDown()) {
+                if(shape!=null)//if the shape is not null then a shape is selected and therefore...
+                    shape.setEffect(null);//removing the previously selected shape effect, if any
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 for (int i = 0; i < shapes.size(); i++) {  // check shapes from front to back
@@ -373,6 +376,7 @@ public class Symbol {
                         properties.getChildren().get(0).setVisible(true);
                         setShapeProperties(shape);
                         shapeIndexInShapes = i;
+                        shape.setEffect(new DropShadow());// setting a shape effect to know what shape is selected
                         break;
                     } else {
                         //if a shape is not selected then we set the shape to null because it is
@@ -389,13 +393,13 @@ public class Symbol {
             }
             if (clicked) {
                 // add shape
-                draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
+                draw.drawShape(20*(Math.round(event.getX()/20)), 20*(Math.round(event.getY()/20)), toolBar.getColor());
                 //remove onMouseMove handler
                 clicked = false;
             } else if (toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
                     || toolBar.getTool().equals("rectangle")) {
                 //set shape start point
-                draw.setStartPoint(event.getX(), event.getY());
+                draw.setStartPoint(20*(Math.round(event.getX()/20)), 20*(Math.round(event.getY()/20)));
                 //add onMouseMove handler
 //                    drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
 //                        @Override

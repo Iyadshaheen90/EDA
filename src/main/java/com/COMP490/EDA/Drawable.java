@@ -107,8 +107,8 @@ public class Drawable {
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
 
-                        ((Circle) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Circle) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Circle) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Circle) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
@@ -138,8 +138,8 @@ public class Drawable {
                         double offsetY = me.getSceneY() - origSceneY;
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
-                        ((Rectangle) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Rectangle) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Rectangle) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Rectangle) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
@@ -168,8 +168,8 @@ public class Drawable {
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
 
-                        ((Line) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Line) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Line) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Line) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
@@ -180,15 +180,13 @@ public class Drawable {
                 break;
             case "line":
                 //remove the preview line when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(line);
-                Line line = new Line(startX, startY, x, y);
-                line.setStartX(startX);
-                line.setStroke(color);
+                Line line = this.line;
                 System.out.println("color: "+color);
                 System.out.println("line color: "+line.getFill());
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 line.setId("Line");
+                drawArea.getChildren().remove(this.line);
                 Global.getCurrentSymbol().getShapes().add(line);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(line);
@@ -196,23 +194,12 @@ public class Drawable {
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(rectangle);
-                double width = x - startX;
-                double height = y - startY;
-                // If end point is less than start swap points and make width/height positive
-                if(width < 0) {
-                    startX = x;
-                    width = Math.abs(width);
-                }
-                if(height < 0) {
-                    startY = y;
-                    height = Math.abs(height);
-                }
-                Rectangle rect = new Rectangle(startX, startY, width, height);
-                rect.setFill(color);
+                drawArea.getChildren().remove(this.rectangle);
+                Rectangle rect = this.rectangle;
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 rect.setId("Rectangle");
+                drawArea.getChildren().remove(this.rectangle);
                 Global.getCurrentSymbol().getShapes().add(rect);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(rect);
@@ -220,15 +207,11 @@ public class Drawable {
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(circle);
-                Circle circle = new Circle();
-                circle.setCenterX(Math.abs(startX+x)/2);
-                circle.setCenterY(Math.abs(startY+y)/2);
-                circle.setRadius(distance(x, y)/2);
-                circle.setFill(color);
+                Circle circle = this.circle;
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setId("Circle");
+                drawArea.getChildren().remove(this.circle);
                 Global.getCurrentSymbol().getShapes().add(circle);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(circle);
@@ -240,23 +223,40 @@ public class Drawable {
         System.out.println("Statelist for: " + Global.getCurrentSymbol().getName() + "\n"+
                 Global.getCurrentStateHandler());
     }
+    public void addExist(Shape s){
+        if (s instanceof Line){
+            System.out.println("Hello");
+            s.setOnMouseClicked(lineOnMousePressedEventHandler);
+            s.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+        }
+        else if (s instanceof Rectangle){
+            System.out.println("Hello");
 
+            s.setOnMouseClicked(rectOnMousePressedEventHandler);
+            s.setOnMouseDragged(rectOnMouseDraggedEventHandler);
+        }
+        else{
+            System.out.println("Hello");
+
+            s.setOnMouseClicked(circleOnMousePressedEventHandler);
+            s.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        }
+    }
     public void shapePreview(MouseEvent me, Color color) {
-        //System.out.println("accessed");
         switch (tool)
         {
             case "line":
                 line.setStroke(color);
                 line.setStartX(startX);
-                line.setEndX(me.getX());
+                line.setEndX(20*(Math.round(me.getX()/20)));
                 line.setStartY(startY);
-                line.setEndY(me.getY());
+                line.setEndY(20*(Math.round(me.getY()/20)));
                 break;
 
             case "rectangle":
                 rectangle.setFill(color);
-                double width = me.getX() - startX;
-                double height = me.getY() - startY;
+                double width = 20*(Math.round(me.getX()/20)) - startX;
+                double height = 20*(Math.round(me.getY()/20)) - startY;
 
                 if(width<0)
                 {
@@ -274,10 +274,16 @@ public class Drawable {
                 break;
 
             case "circle":
-                circle.setFill(color);
-                circle.setCenterX(Math.abs(startX+me.getX())/2);
-                circle.setCenterY(Math.abs(startY+me.getY())/2);
-                circle.setRadius(distance(me.getX(), me.getY())/2);
+//                if(drawArea.getLayoutBounds().contains(circle.getBoundsInParent())) {
+                    circle.setFill(color);
+                    double centerX = 20 * Math.round((Math.abs(startX + me.getX()) / 2) / 20);
+                    circle.setCenterX(centerX);
+                    double centerY = 20 * Math.round((Math.abs(startY + me.getY()) / 2) / 20);
+                    circle.setCenterY(centerY);
+                    double distance = 20 * Math.round((distance(me.getX(), me.getY()) / 2) / 20);
+                    circle.setRadius(distance);
+                    System.out.println(centerY);
+//                }
                 break;
         }
     }
