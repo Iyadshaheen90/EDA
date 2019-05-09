@@ -220,15 +220,12 @@ public class Drawable {
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(circle);
-                Circle circle = new Circle();
-                circle.setCenterX(Math.abs(startX+x)/2);
-                circle.setCenterY(Math.abs(startY+y)/2);
-                circle.setRadius(distance(x, y)/2);
-                circle.setFill(color);
+                //drawArea.getChildren().remove(circle);
+                Circle circle = this.circle;
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
                 circle.setId("Circle");
+                drawArea.getChildren().remove(this.circle);
                 Global.getCurrentSymbol().getShapes().add(circle);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(circle);
