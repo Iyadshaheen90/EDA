@@ -267,6 +267,7 @@ public class SymbolIO {
             fw.close();
 //            String output= yaml.dump(data);
 //            System.out.println(output);
+            Global.getCurrentStateHandler().reset();
         }catch(IOException e){
             System.out.println("Cant create file dude");
         }

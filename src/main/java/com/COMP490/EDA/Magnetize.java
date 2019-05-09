@@ -18,6 +18,9 @@ public class Magnetize {
             add(shape);
         }
     }
+    public Magnetize(){
+        //do nothing
+    }
 
     public ArrayList<Double> getXValues() {
         return edgesX;

@@ -33,10 +33,12 @@ public class Drawable {
     private Line movedLine;
     private Rectangle movedRectangle;
     private Circle movedCircle;
+    private Magnetize mag;
 
     public Drawable(Pane drawArea, String tool) {
         this.drawArea = drawArea;
         this.tool = tool;
+        this.mag = new Magnetize();
     }
   
     public Drawable(){
@@ -140,6 +142,7 @@ public class Drawable {
                         double newTranslateY = origTranslateY + offsetY;
                         ((Rectangle) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
                         ((Rectangle) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
+
                     }
                 }
             };

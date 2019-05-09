@@ -38,7 +38,9 @@ public class StateHandler {
         }
         return null;
     }
-
+    public void reset(){
+        this.close=false;
+    }
     public ArrayList<Shape> redo() {
         try {
             originator.getStateFromMemento(careTaker.get(stateNum + 1));
