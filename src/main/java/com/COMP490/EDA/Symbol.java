@@ -325,31 +325,31 @@ public class Symbol {
 
         startXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setStartX(Double.parseDouble(newValue));
+                ((Line) shape).setStartX(20*Math.round(Double.parseDouble(newValue)/20));
             if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Rectangle) shape).setWidth(Double.parseDouble(newValue));
+                ((Rectangle) shape).setWidth(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         endXTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setEndX(Double.parseDouble(newValue));
+                ((Line) shape).setEndX(20*Math.round(Double.parseDouble(newValue)/20));
             if (shape.getId().equals("Rectangle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Rectangle) shape).setHeight(Double.parseDouble(newValue));
+                ((Rectangle) shape).setHeight(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         startYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setStartY(Double.parseDouble(newValue));
+                ((Line) shape).setStartY(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         endYTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Line") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Line) shape).setEndY(Double.parseDouble(newValue));
+                ((Line) shape).setEndY(20*Math.round(Double.parseDouble(newValue)/20));
         });
 
         radiusTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (shape.getId().equals("Circle") && !newValue.isEmpty() && !(Double.parseDouble(newValue) < 0))
-                ((Circle) shape).setRadius(Double.parseDouble(newValue));
+                ((Circle) shape).setRadius(20*Math.round(Double.parseDouble(newValue)/20));
         });
     }
 
