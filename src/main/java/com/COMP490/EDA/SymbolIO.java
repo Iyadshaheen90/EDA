@@ -241,6 +241,7 @@ public class SymbolIO {
                     r.setEndY(s.getEndY());
                     System.out.println(s.getStroke());
                     r.setStroke(s.getStroke());
+                    r.setStrokeWidth(s.getStrokeWidth());
                     shapes.add(r);
                 }
                 else{
