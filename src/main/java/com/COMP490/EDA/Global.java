@@ -52,6 +52,10 @@ public final class Global {
         System.out.println("Adding " + i + " to aMap.");
         aMap.put(i,k);
     }
+    public static void removeFromMap(String i){
+        System.out.println("removing " + i );
+        aMap.remove(i);
+    }
 
     public static Symbol retrieveSymbol(String i){
         System.out.println("Getting " + i + " from aMap.");

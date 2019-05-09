@@ -62,6 +62,7 @@ public class SymbolLoader {
                     Global.removeSymbol(Global.getCurrentSymbol().getName());
                 }
             }
+            Global.removeSymbol(Global.getCurrentSymbol().getName());
         });
     }
 }
