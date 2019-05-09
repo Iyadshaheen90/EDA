@@ -107,8 +107,8 @@ public class Drawable {
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
 
-                        ((Circle) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Circle) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Circle) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Circle) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
@@ -138,8 +138,8 @@ public class Drawable {
                         double offsetY = me.getSceneY() - origSceneY;
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
-                        ((Rectangle) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Rectangle) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Rectangle) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Rectangle) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
@@ -168,8 +168,8 @@ public class Drawable {
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
 
-                        ((Line) (me.getSource())).setTranslateX(newTranslateX);
-                        ((Line) (me.getSource())).setTranslateY(newTranslateY);
+                        ((Line) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
+                        ((Line) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
                     }
                 }
             };
