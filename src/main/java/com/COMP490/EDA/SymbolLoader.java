@@ -54,6 +54,7 @@ public class SymbolLoader {
                 Optional<ButtonType> closeResponse = closeConfirmation.showAndWait();
                 if (!ButtonType.OK.equals(closeResponse.get())) {
                     event.consume();
+                    return;
                 } else {
                     sidePanel.setExpandedPane(sidePanel.getPanes().get(0));
                     AnchorPane pane = (AnchorPane) sidePanel.getPanes().get(1).getContent();
