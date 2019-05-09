@@ -247,15 +247,15 @@ public class Drawable {
             case "line":
                 line.setStroke(color);
                 line.setStartX(startX);
-                line.setEndX(me.getX());
+                line.setEndX(20*(Math.round(me.getX()/20)));
                 line.setStartY(startY);
-                line.setEndY(me.getY());
+                line.setEndY(20*(Math.round(me.getY()/20)));
                 break;
 
             case "rectangle":
                 rectangle.setFill(color);
-                double width = me.getX() - startX;
-                double height = me.getY() - startY;
+                double width = 20*(Math.round(me.getX()/20)) - startX;
+                double height = 20*(Math.round(me.getY()/20)) - startY;
 
                 if(width<0)
                 {
