@@ -39,6 +39,12 @@ public class SymbolLoader {
         pane.setOnMouseMoved(event -> mouseCoordinates.setText((int) event.getX() + ", " + (int) event.getY()));
     }
 
+    private void closeProperties()
+    {
+        sidePanel.setExpandedPane(sidePanel.getPanes().get(0));
+        AnchorPane pane = (AnchorPane) sidePanel.getPanes().get(1).getContent();
+        pane.getChildren().get(0).setVisible(false);
+    }
     private void addTabListeners(Tab tab) {
         tab.setOnCloseRequest(event -> {
             if(Global.getCurrentStateHandler().checkClose()) {
@@ -56,13 +62,13 @@ public class SymbolLoader {
                     event.consume();
                     return;
                 } else {
-                    sidePanel.setExpandedPane(sidePanel.getPanes().get(0));
-                    AnchorPane pane = (AnchorPane) sidePanel.getPanes().get(1).getContent();
-                    pane.getChildren().get(0).setVisible(false);
-
+                    closeProperties();
                     Global.removeSymbol(Global.getCurrentSymbol().getName());
                 }
             }
+
+            else
+                closeProperties();
             Global.removeSymbol(Global.getCurrentSymbol().getName());
         });
     }
