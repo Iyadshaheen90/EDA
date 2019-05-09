@@ -8,7 +8,7 @@ public class StateHandler {
     private int stateNum = -1;  // -1 takes care of the initial state of the pane
     private static Originator originator = new Originator();
     private CareTaker careTaker = new CareTaker();
-    private boolean close = false;
+    private int savedStateNum = 0;
 
     public StateHandler(ArrayList<Shape> shapes) {
         save(shapes);
@@ -22,7 +22,7 @@ public class StateHandler {
         careTaker.add(originator.saveStateToMemento());
         stateNum++;
         System.out.println("Statenum: " + stateNum);
-        this.close = checkClose();
+        checkClose();
     }
 
     public ArrayList<Shape> undo() {
@@ -31,7 +31,7 @@ public class StateHandler {
             stateNum--;
 //            System.out.println("In statehandler undo " + originator.getState());
             System.out.println("Statenum: " + stateNum);
-            this.close = checkClose();
+            checkClose();
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't undo further");
@@ -39,7 +39,7 @@ public class StateHandler {
         return null;
     }
     public void reset(){
-        this.close=false;
+        this.savedStateNum=stateNum;
     }
     public ArrayList<Shape> redo() {
         try {
@@ -47,7 +47,7 @@ public class StateHandler {
             stateNum++;
 //            System.out.println("In statehandler redo " + originator.getState());
             System.out.println("Statenum: " + stateNum);
-            this.close = checkClose();
+            checkClose();
             return originator.getState();
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Can't redo further");
@@ -63,12 +63,8 @@ public class StateHandler {
         }
     }
 
-    private boolean checkClose() {
-        return stateNum != 0;
-    }
-
-    public boolean getClose() {
-        return close;
+    public boolean checkClose() {
+        return stateNum != savedStateNum;
     }
 
     @Override

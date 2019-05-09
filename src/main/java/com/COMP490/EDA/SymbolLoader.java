@@ -41,7 +41,7 @@ public class SymbolLoader {
 
     private void addTabListeners(Tab tab) {
         tab.setOnCloseRequest(event -> {
-            if(Global.getCurrentStateHandler().getClose()) {
+            if(Global.getCurrentStateHandler().checkClose()) {
                 Alert closeConfirmation = new Alert(
                         Alert.AlertType.CONFIRMATION,
                         "You have unsaved changes.\nAre you sure you want to exit?"
