@@ -363,7 +363,7 @@ public class Symbol {
             //shapes checking if it contains the point. if it does we break out of the loop and when delete is
             //pressed we remove the shape from the arraylist and from the children of the pane
             if (toolBar.getTool().equals("select") && !event.isControlDown()) {
-                if(shape!=null)
+                if(shape!=null)//if the shape is not null then a shape is selected and therefore...
                     shape.setEffect(null);//removing the previously selected shape effect, if any
                 int x = (int) event.getX();
                 int y = (int) event.getY();
@@ -393,13 +393,13 @@ public class Symbol {
             }
             if (clicked) {
                 // add shape
-                draw.drawShape(event.getX(), event.getY(), toolBar.getColor());
+                draw.drawShape(20*(Math.round(event.getX()/20)), 20*(Math.round(event.getY()/20)), toolBar.getColor());
                 //remove onMouseMove handler
                 clicked = false;
             } else if (toolBar.getTool().equals("circle") || toolBar.getTool().equals("line")
                     || toolBar.getTool().equals("rectangle")) {
                 //set shape start point
-                draw.setStartPoint(event.getX(), event.getY());
+                draw.setStartPoint(20*(Math.round(event.getX()/20)), 20*(Math.round(event.getY()/20)));
                 //add onMouseMove handler
 //                    drawArea.setOnMouseMoved(new EventHandler<MouseEvent>() {
 //                        @Override

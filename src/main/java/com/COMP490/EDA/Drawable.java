@@ -242,7 +242,6 @@ public class Drawable {
     }
 
     public void shapePreview(MouseEvent me, Color color) {
-        //System.out.println("accessed");
         switch (tool)
         {
             case "line":
@@ -274,10 +273,12 @@ public class Drawable {
                 break;
 
             case "circle":
-                circle.setFill(color);
-                circle.setCenterX(Math.abs(startX+me.getX())/2);
-                circle.setCenterY(Math.abs(startY+me.getY())/2);
-                circle.setRadius(distance(me.getX(), me.getY())/2);
+//                if(drawArea.getLayoutBounds().contains(circle.getBoundsInParent())) {
+                    circle.setFill(color);
+                    circle.setCenterX(Math.abs(startX + me.getX()) / 2);
+                    circle.setCenterY(Math.abs(startY + me.getY()) / 2);
+                    circle.setRadius(distance(me.getX(), me.getY()) / 2);
+//                }
                 break;
         }
     }
