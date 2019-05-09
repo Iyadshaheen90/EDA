@@ -436,6 +436,27 @@ public class Symbol {
                 }
             }
 
+            if(keyEvent.getCode().equals(KeyCode.Z) && keyEvent.isControlDown()) {
+                ArrayList<Shape> shapes = Global.getCurrentStateHandler().undo();
+//        System.out.println(Global.getCurrentStateHandler());
+//        System.out.println("In menu undo:" + shapes);
+                if(shapes != null) {
+                    Symbol symbol = Global.getCurrentSymbol();
+                    symbol.setDrawArea(shapes);
+                    symbol.setShapes(shapes);
+                }
+            }
+
+            if(keyEvent.getCode().equals(KeyCode.Y) && keyEvent.isControlDown()) {
+                ArrayList<Shape> shapes = Global.getCurrentStateHandler().redo();
+//        System.out.println(Global.getCurrentStateHandler());
+//        System.out.println("In menu undo:" + shapes);
+                if(shapes != null) {
+                    Symbol symbol = Global.getCurrentSymbol();
+                    symbol.setDrawArea(shapes);
+                    symbol.setShapes(shapes);
+                }
+            }
         });
     }
 
