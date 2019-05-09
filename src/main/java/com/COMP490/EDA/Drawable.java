@@ -180,15 +180,13 @@ public class Drawable {
                 break;
             case "line":
                 //remove the preview line when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(line);
-                Line line = new Line(startX, startY, x, y);
-                line.setStartX(startX);
-                line.setStroke(color);
+                Line line = this.line;
                 System.out.println("color: "+color);
                 System.out.println("line color: "+line.getFill());
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
                 line.setId("Line");
+                drawArea.getChildren().remove(this.line);
                 Global.getCurrentSymbol().getShapes().add(line);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(line);
@@ -196,23 +194,12 @@ public class Drawable {
                 break;
             case "rectangle":
                 //remove the preview rectangle when the second click of the mouse happens and then draw the actual line
-                drawArea.getChildren().remove(rectangle);
-                double width = x - startX;
-                double height = y - startY;
-                // If end point is less than start swap points and make width/height positive
-                if(width < 0) {
-                    startX = x;
-                    width = Math.abs(width);
-                }
-                if(height < 0) {
-                    startY = y;
-                    height = Math.abs(height);
-                }
-                Rectangle rect = new Rectangle(startX, startY, width, height);
-                rect.setFill(color);
+                drawArea.getChildren().remove(this.rectangle);
+                Rectangle rect = this.rectangle;
                 rect.setOnMouseClicked(rectOnMousePressedEventHandler);
                 rect.setOnMouseDragged(rectOnMouseDraggedEventHandler);
                 rect.setId("Rectangle");
+                drawArea.getChildren().remove(this.rectangle);
                 Global.getCurrentSymbol().getShapes().add(rect);
                 Global.getCurrentStateHandler().save(Global.getCurrentSymbol().getShapes());
                 drawArea.getChildren().add(rect);
@@ -220,7 +207,6 @@ public class Drawable {
                 break;
             case "circle":
                 //remove the preview circle when the second click of the mouse happens and then draw the actual line
-                //drawArea.getChildren().remove(circle);
                 Circle circle = this.circle;
                 circle.setOnMouseClicked(circleOnMousePressedEventHandler);
                 circle.setOnMouseDragged(circleOnMouseDraggedEventHandler);
