@@ -320,6 +320,7 @@ public class Symbol {
             if (!newValue.isEmpty() && !(Double.parseDouble(newValue) < 0)) {
                 shape.setStrokeWidth(Double.parseDouble(newValue));
                 strokeSlider.setValue(Double.parseDouble(strokeTextField.getText()));
+
             }
         });
 
@@ -377,6 +378,7 @@ public class Symbol {
                         setShapeProperties(shape);
                         shapeIndexInShapes = i;
                         shape.setEffect(new DropShadow());// setting a shape effect to know what shape is selected
+                        System.out.println("Stroke width is: "+shapes.get(shapeIndexInShapes).getStrokeWidth());
                         break;
                     } else {
                         //if a shape is not selected then we set the shape to null because it is

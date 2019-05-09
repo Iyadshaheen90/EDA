@@ -28,7 +28,8 @@ public class Drawable {
     private Line line;
     private Rectangle rectangle;
     private Circle circle;
-  
+    private double OFFSETX;
+    private double OFFSETY;
     //moved shapes holder
     private Line movedLine;
     private Rectangle movedRectangle;
@@ -168,11 +169,24 @@ public class Drawable {
                     if(draggable && tool.equals("move")) {
                         double offsetX = me.getSceneX() - origSceneX;
                         double offsetY = me.getSceneY() - origSceneY;
+                        OFFSETX = offsetX;
+                        OFFSETY = offsetY;
                         double newTranslateX = origTranslateX + offsetX;
                         double newTranslateY = origTranslateY + offsetY;
 
                         ((Line) (me.getSource())).setTranslateX(20*Math.round(newTranslateX/20));
                         ((Line) (me.getSource())).setTranslateY(20*Math.round(newTranslateY/20));
+                    }
+                }
+            };
+
+    private EventHandler<MouseEvent> lineOnMouseReleasedEventHandler =
+            new EventHandler<>() {
+                @Override
+                public void handle(MouseEvent me) {
+                    if(draggable && tool.equals("move")) {
+                        line.setStartX(OFFSETX);
+                        line.setStartY(OFFSETY);
                     }
                 }
             };
