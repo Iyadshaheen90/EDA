@@ -69,7 +69,7 @@ public class Symbol {
         this.drawArea.getChildren().removeAll(this.shapes);
         this.drawArea.getChildren().addAll(newShapes);
     }
-
+    public Drawable getDraw(){ return this.draw;}
     public String getName() {
         return name;
     }

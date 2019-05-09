@@ -136,6 +136,8 @@ public class SymbolIO {
                 SymbolLoader sl = new SymbolLoader(tabArea,mouseCoordinates,toolBar,sidePanel);
                 sl.loadSymbol(fileName,Integer.parseInt(width), Integer.parseInt(height));
                 Global.getCurrentSymbol().setShapes(shapes);
+                System.out.println("Hello");
+
                 System.out.println("I opened");
 
             }
@@ -178,6 +180,8 @@ public class SymbolIO {
                 System.out.println("I opened");
                 for(Shape s : shapes){
                     Global.getCurrentSymbol().getDrawArea().getChildren().add(s);
+                    Global.getCurrentSymbol().getDraw().addExist(s);
+                    System.out.println("Hello");
                 }
             }
         }catch(IOException e){

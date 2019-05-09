@@ -223,7 +223,25 @@ public class Drawable {
         System.out.println("Statelist for: " + Global.getCurrentSymbol().getName() + "\n"+
                 Global.getCurrentStateHandler());
     }
+    public void addExist(Shape s){
+        if (s instanceof Line){
+            System.out.println("Hello");
+            s.setOnMouseClicked(lineOnMousePressedEventHandler);
+            s.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+        }
+        else if (s instanceof Rectangle){
+            System.out.println("Hello");
 
+            s.setOnMouseClicked(rectOnMousePressedEventHandler);
+            s.setOnMouseDragged(rectOnMouseDraggedEventHandler);
+        }
+        else{
+            System.out.println("Hello");
+
+            s.setOnMouseClicked(circleOnMousePressedEventHandler);
+            s.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+        }
+    }
     public void shapePreview(MouseEvent me, Color color) {
         switch (tool)
         {
