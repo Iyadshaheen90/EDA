@@ -5,32 +5,19 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 
-<MenuBar prefHeight="29.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/10.0.1"
->
+<MenuBar prefHeight="29.0" prefWidth="260.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <Menu mnemonicParsing="false" text="File">
-        <MenuItem mnemonicParsing="false" onAction="#newCanvas" text="New Symbol"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" text="Close"/>
-        <MenuItem mnemonicParsing="false" text="Save"/>
-        <MenuItem mnemonicParsing="false" onAction="#newSave" text="Save As…"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" text="Preferences…"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" onAction="#exit" text="Quit"/>
+        <MenuItem mnemonicParsing="false" onAction="#newCanvas" text="New Symbol" />
+        <MenuItem mnemonicParsing="false" onAction="#newSave" text="Save" />
+        <MenuItem mnemonicParsing="false" text="Preferences…" />
+        <SeparatorMenuItem mnemonicParsing="false" />
+        <MenuItem mnemonicParsing="false" onAction="#exit" text="Quit" />
     </Menu>
     <Menu mnemonicParsing="false" text="Edit">
-        <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo"/>
-        <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" text="Cut"/>
-        <MenuItem mnemonicParsing="false" text="Copy"/>
-        <MenuItem mnemonicParsing="false" text="Paste"/>
-        <MenuItem mnemonicParsing="false" text="Delete"/>
-        <SeparatorMenuItem mnemonicParsing="false"/>
-        <MenuItem mnemonicParsing="false" text="Select All"/>
-        <MenuItem mnemonicParsing="false" text="Unselect All"/>
+        <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" />
+        <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo" />
     </Menu>
     <Menu mnemonicParsing="false" text="Help">
-        <MenuItem mnemonicParsing="false" onAction="#about" text="About"/>
+        <MenuItem mnemonicParsing="false" onAction="#about" text="About" />
     </Menu>
 </MenuBar>

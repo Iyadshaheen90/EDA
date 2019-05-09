@@ -49,8 +49,8 @@ public class MenuController {
         Stage stage = new Stage();
         try {
             Parent page = loader.load();
-            stage.setTitle("New");
-            stage.setScene(new Scene(page, 450, 450));
+            stage.setTitle("New Symbol");
+            stage.setScene(new Scene(page));
             stage.show();
         }
         catch (IOException e) {
