@@ -242,21 +242,20 @@ public class Drawable {
     }
 
     public void shapePreview(MouseEvent me, Color color) {
-        //System.out.println("accessed");
         switch (tool)
         {
             case "line":
                 line.setStroke(color);
                 line.setStartX(startX);
-                line.setEndX(me.getX());
+                line.setEndX(20*(Math.round(me.getX()/20)));
                 line.setStartY(startY);
-                line.setEndY(me.getY());
+                line.setEndY(20*(Math.round(me.getY()/20)));
                 break;
 
             case "rectangle":
                 rectangle.setFill(color);
-                double width = me.getX() - startX;
-                double height = me.getY() - startY;
+                double width = 20*(Math.round(me.getX()/20)) - startX;
+                double height = 20*(Math.round(me.getY()/20)) - startY;
 
                 if(width<0)
                 {
@@ -274,10 +273,12 @@ public class Drawable {
                 break;
 
             case "circle":
-                circle.setFill(color);
-                circle.setCenterX(Math.abs(startX+me.getX())/2);
-                circle.setCenterY(Math.abs(startY+me.getY())/2);
-                circle.setRadius(distance(me.getX(), me.getY())/2);
+//                if(drawArea.getLayoutBounds().contains(circle.getBoundsInParent())) {
+                    circle.setFill(color);
+                    circle.setCenterX(Math.abs(startX + me.getX()) / 2);
+                    circle.setCenterY(Math.abs(startY + me.getY()) / 2);
+                    circle.setRadius(distance(me.getX(), me.getY()) / 2);
+//                }
                 break;
         }
     }
