@@ -275,9 +275,13 @@ public class Drawable {
             case "circle":
 //                if(drawArea.getLayoutBounds().contains(circle.getBoundsInParent())) {
                     circle.setFill(color);
-                    circle.setCenterX(Math.abs(startX + 20*(Math.round(me.getX()/20))) / 2);
-                    circle.setCenterY(Math.abs(startY + 20*(Math.round(me.getY()/20))) / 2);
-                    circle.setRadius(distance(20*(Math.round(me.getX()/20)), 20*(Math.round(me.getY()/20))) / 2);
+                    double centerX = 20 * Math.round((Math.abs(startX + me.getX()) / 2) / 20);
+                    circle.setCenterX(centerX);
+                    double centerY = 20 * Math.round((Math.abs(startY + me.getY()) / 2) / 20);
+                    circle.setCenterY(centerY);
+                    double distance = 20 * Math.round((distance(me.getX(), me.getY()) / 2) / 20);
+                    circle.setRadius(distance);
+                    System.out.println(centerY);
 //                }
                 break;
         }
