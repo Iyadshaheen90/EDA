@@ -185,8 +185,13 @@ public class Drawable {
                 @Override
                 public void handle(MouseEvent me) {
                     if(draggable && tool.equals("move")) {
-                        line.setStartX(OFFSETX);
-                        line.setStartY(OFFSETY);
+                        line.setStartX(OFFSETX + line.getTranslateX());
+                        line.setStartY(OFFSETY + line.getTranslateY());
+                        line.setEndX(OFFSETX + line.getTranslateX());
+                        line.setEndY(OFFSETY + line.getTranslateY());
+                        line.setTranslateX(0);
+                        line.setTranslateY(0);
+                        System.out.println("Mouse released " + line.getStartX() + " " + line.getStartY());
                     }
                 }
             };
@@ -202,6 +207,7 @@ public class Drawable {
                 System.out.println("line color: "+line.getFill());
                 line.setOnMouseClicked(lineOnMousePressedEventHandler);
                 line.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+                line.setOnMouseDragReleased(lineOnMouseReleasedEventHandler);  // Not executing ofr some reason
                 line.setId("Line");
                 drawArea.getChildren().remove(this.line);
                 Global.getCurrentSymbol().getShapes().add(line);
